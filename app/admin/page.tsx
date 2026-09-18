@@ -11,7 +11,8 @@ import {
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
-import { toggleAvailability, toggleFeatured, deleteProduct } from './actions'
+import { toggleAvailability, toggleFeatured } from './actions'
+import { DeleteProductButton } from '@/components/admin/DeleteProductButton'
 
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
@@ -83,11 +84,7 @@ export default async function AdminDashboard() {
                       <Link href={`/admin/productos/${product.id}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
                         Editar
                       </Link>
-                      <form action={deleteProduct.bind(null, product.id)}>
-                        <Button type="submit" variant="destructive" size="sm">
-                          Eliminar
-                        </Button>
-                      </form>
+                      <DeleteProductButton id={product.id} />
                     </div>
                   </TableCell>
                 </TableRow>

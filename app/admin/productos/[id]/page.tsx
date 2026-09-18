@@ -1,7 +1,7 @@
 import { ProductForm } from '@/components/admin/ProductForm'
 import { getBrands, getCategories } from '@/lib/data/products'
 import { createClient } from '@/lib/supabase/server'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 export const revalidate = 0
 

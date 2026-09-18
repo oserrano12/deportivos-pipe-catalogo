@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { saveProduct } from '@/app/admin/productos/actions'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 interface ProductFormProps {
   product?: any
@@ -12,10 +14,17 @@ interface ProductFormProps {
   categories: any[]
 }
 
+const COLOMBIA_SIZES = ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45']
+
 export function ProductForm({ product, brands, categories }: ProductFormProps) {
+  const router = useRouter()
   const [name, setName] = useState(product?.name || '')
   const [slug, setSlug] = useState(product?.slug || '')
-  
+  const [priceStr, setPriceStr] = useState(product?.price?.toString() || '')
+  const [selectedSizes, setSelectedSizes] = useState<string[]>(product?.sizes || [])
+  const [previewImages, setPreviewImages] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
+
   const generateSlug = (val: string) => {
     setName(val)
     if (!product) {
@@ -23,10 +32,52 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
     }
   }
 
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value.replace(/\D/g, '')
+    setPriceStr(rawValue)
+  }
+
+  const formatPrice = (val: string) => {
+    if (!val) return ''
+    return parseInt(val, 10).toLocaleString('es-CO')
+  }
+
+  const toggleSize = (size: string) => {
+    setSelectedSizes(prev => 
+      prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
+    )
+  }
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files)
+      const urls = filesArray.map(file => URL.createObjectURL(file))
+      setPreviewImages(urls)
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    const formData = new FormData(e.currentTarget)
+    
+    try {
+      await saveProduct(formData)
+      toast.success('Producto guardado correctamente')
+      router.push('/admin')
+      router.refresh()
+    } catch (error) {
+      toast.error('Ocurrió un error al guardar')
+      setLoading(false)
+    }
+  }
+
   return (
-    <form action={saveProduct} className="space-y-6 max-w-2xl bg-card p-6 rounded-xl border">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-card p-6 rounded-xl border shadow-sm">
       {product && <input type="hidden" name="id" value={product.id} />}
       <input type="hidden" name="existing_images" value={JSON.stringify(product?.images || [])} />
+      <input type="hidden" name="sizes" value={selectedSizes.join(',')} />
+      <input type="hidden" name="price" value={priceStr} />
 
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">
@@ -49,14 +100,41 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
         />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="price">Precio (COP)</Label>
-          <Input id="price" name="price" type="number" defaultValue={product?.price || ''} required />
+      <div className="space-y-2">
+        <Label htmlFor="price_display">Precio (COP)</Label>
+        <div className="relative">
+          <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
+          <Input 
+            id="price_display" 
+            type="text" 
+            className="pl-7 font-bold"
+            value={formatPrice(priceStr)} 
+            onChange={handlePriceChange} 
+            required 
+          />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="sizes">Tallas (separadas por coma)</Label>
-          <Input id="sizes" name="sizes" placeholder="Ej: 38, 39, 40" defaultValue={product?.sizes?.join(', ') || ''} />
+      </div>
+
+      <div className="space-y-3">
+        <Label>Tallas Disponibles (EUR/COL)</Label>
+        <div className="grid grid-cols-5 md:grid-cols-8 gap-2">
+          {COLOMBIA_SIZES.map(size => {
+            const isSelected = selectedSizes.includes(size)
+            return (
+              <button
+                key={size}
+                type="button"
+                onClick={() => toggleSize(size)}
+                className={`h-10 rounded-md border text-sm font-bold transition-colors ${
+                  isSelected 
+                    ? 'bg-primary text-primary-foreground border-primary' 
+                    : 'bg-background hover:bg-muted text-muted-foreground'
+                }`}
+              >
+                {size}
+              </button>
+            )
+          })}
         </div>
       </div>
 
@@ -83,30 +161,50 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
 
       <div className="space-y-2">
         <Label htmlFor="images">Nuevas Imágenes</Label>
-        <Input id="images" name="images" type="file" multiple accept="image/*" />
-        {product?.images && product.images.length > 0 && (
-          <div className="flex gap-2 mt-2">
-            {product.images.map((img: string, idx: number) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={idx} src={img} alt="Preview" className="w-16 h-16 object-cover rounded-md border" />
-            ))}
+        <Input id="images" name="images" type="file" multiple accept="image/*" onChange={handleImageSelect} />
+        
+        {/* Previews of newly selected images */}
+        {previewImages.length > 0 && (
+          <div className="mt-2 space-y-1">
+            <p className="text-xs text-muted-foreground">Archivos por subir:</p>
+            <div className="flex gap-2 flex-wrap">
+              {previewImages.map((img, idx) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={idx} src={img} alt="Preview" className="w-16 h-16 object-cover rounded-md border border-primary/50" />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Existing Images */}
+        {product?.images && product.images.length > 0 && previewImages.length === 0 && (
+          <div className="mt-2 space-y-1">
+            <p className="text-xs text-muted-foreground">Imágenes actuales:</p>
+            <div className="flex gap-2 flex-wrap">
+              {product.images.map((img: string, idx: number) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={idx} src={img} alt="Current" className="w-16 h-16 object-cover rounded-md border opacity-80" />
+              ))}
+            </div>
           </div>
         )}
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 pt-2">
         <label className="flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" name="is_available" defaultChecked={product ? product.is_available : true} className="w-4 h-4" />
-          <span className="text-sm font-medium">Disponible</span>
+          <input type="checkbox" name="is_available" defaultChecked={product ? product.is_available : true} className="w-4 h-4 rounded border-primary text-primary focus:ring-primary" />
+          <span className="text-sm font-medium">Disponible (En Stock)</span>
         </label>
         <label className="flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" name="is_featured" defaultChecked={product ? product.is_featured : false} className="w-4 h-4" />
-          <span className="text-sm font-medium">Destacado</span>
+          <input type="checkbox" name="is_featured" defaultChecked={product ? product.is_featured : false} className="w-4 h-4 rounded border-primary text-primary focus:ring-primary" />
+          <span className="text-sm font-medium">Destacado (Home)</span>
         </label>
       </div>
 
       <div className="pt-4 flex justify-end">
-        <Button type="submit">Guardar Producto</Button>
+        <Button type="submit" disabled={loading} className="px-8 font-bold">
+          {loading ? 'Guardando...' : 'Guardar Producto'}
+        </Button>
       </div>
     </form>
   )

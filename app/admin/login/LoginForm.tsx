@@ -11,35 +11,46 @@ export function LoginForm() {
   const [state, formAction, pending] = useActionState(login, { error: '' })
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
-      <Card className="w-full max-w-sm shadow-xl">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">Admin Login</CardTitle>
-          <CardDescription className="text-center">
-            Acceso exclusivo para administradores
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form action={formAction} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" name="email" type="email" placeholder="admin@deportivospipe.com" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
-              <Input id="password" name="password" type="password" required />
-            </div>
-            {state?.error && (
-              <p className="text-sm font-medium text-destructive text-center bg-destructive/10 p-2 rounded-md">
-                {state.error}
-              </p>
-            )}
-            <Button type="submit" disabled={pending} className="w-full">
-              {pending ? 'Iniciando sesión...' : 'Ingresar'}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
+      {/* Sneakerhead abstract background element */}
+      <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+      
+      <div className="w-full max-w-sm relative z-10 space-y-6">
+        <div className="text-center space-y-2">
+          <h1 className="text-4xl font-black tracking-tighter uppercase text-foreground">
+            Deportivos <span className="text-primary">Pipe</span>
+          </h1>
+          <p className="text-sm text-muted-foreground font-medium uppercase tracking-widest">
+            Portal de Administración
+          </p>
+        </div>
+        
+        <Card className="border-border/50 shadow-2xl bg-card/80 backdrop-blur-xl">
+          <CardContent className="pt-6">
+            <form action={formAction} className="space-y-5">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-xs uppercase tracking-wider font-bold">Email</Label>
+                <Input id="email" name="email" type="email" placeholder="admin@deportivospipe.com" required className="h-12 bg-background border-input focus-visible:ring-primary focus-visible:border-primary" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-xs uppercase tracking-wider font-bold">Contraseña</Label>
+                <Input id="password" name="password" type="password" required className="h-12 bg-background border-input focus-visible:ring-primary focus-visible:border-primary" />
+              </div>
+              
+              {state?.error && (
+                <div className="bg-destructive/15 border border-destructive/30 text-destructive text-sm font-bold p-3 rounded-md text-center">
+                  {state.error}
+                </div>
+              )}
+              
+              <Button type="submit" disabled={pending} className="w-full h-12 text-base font-black uppercase tracking-widest hover:scale-[1.02] transition-transform">
+                {pending ? 'Autorizando...' : 'Entrar'}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
