@@ -47,7 +47,7 @@ export async function saveProduct(formData: FormData) {
         
         uploadedUrls.push(publicUrl)
       } else {
-        console.error("Upload error", uploadError)
+        console.error('Storage error:', uploadError)
       }
     }
   }
@@ -68,12 +68,14 @@ export async function saveProduct(formData: FormData) {
   }
 
   if (id) {
-    await supabase.from('products').update(payload).eq('id', id)
+    const { error } = await supabase.from('products').update(payload).eq('id', id)
+    if (error) return { success: false, error: error.message }
   } else {
-    await supabase.from('products').insert(payload)
+    const { error } = await supabase.from('products').insert(payload)
+    if (error) return { success: false, error: error.message }
   }
 
   revalidatePath('/admin')
   revalidatePath('/')
-  redirect('/admin')
+  return { success: true }
 }

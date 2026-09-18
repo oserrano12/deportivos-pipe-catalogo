@@ -62,12 +62,17 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
     const formData = new FormData(e.currentTarget)
     
     try {
-      await saveProduct(formData)
-      toast.success('Producto guardado correctamente')
-      router.push('/admin')
-      router.refresh()
+      const result = await saveProduct(formData)
+      if (result?.success) {
+        toast.success('Producto guardado correctamente')
+        router.push('/admin')
+        router.refresh()
+      } else {
+        toast.error(result?.error || 'Ocurrió un error al guardar')
+        setLoading(false)
+      }
     } catch (error) {
-      toast.error('Ocurrió un error al guardar')
+      toast.error('Error inesperado al guardar')
       setLoading(false)
     }
   }
@@ -103,11 +108,11 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
       <div className="space-y-2">
         <Label htmlFor="price_display">Precio (COP)</Label>
         <div className="relative">
-          <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">$</span>
           <Input 
             id="price_display" 
             type="text" 
-            className="pl-7 font-bold"
+            className="pl-8 font-bold"
             value={formatPrice(priceStr)} 
             onChange={handlePriceChange} 
             required 
@@ -141,19 +146,19 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="brand_id">Marca</Label>
-          <select id="brand_id" name="brand_id" className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" defaultValue={product?.brand_id || ''}>
-            <option value="">Ninguna</option>
+          <select id="brand_id" name="brand_id" className="flex h-10 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" defaultValue={product?.brand_id || ''}>
+            <option value="" className="bg-background text-foreground">Ninguna</option>
             {brands.map(b => (
-              <option key={b.id} value={b.id}>{b.name}</option>
+              <option key={b.id} value={b.id} className="bg-background text-foreground">{b.name}</option>
             ))}
           </select>
         </div>
         <div className="space-y-2">
           <Label htmlFor="category_id">Categoría</Label>
-          <select id="category_id" name="category_id" className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm" defaultValue={product?.category_id || ''}>
-            <option value="">Ninguna</option>
+          <select id="category_id" name="category_id" className="flex h-10 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" defaultValue={product?.category_id || ''}>
+            <option value="" className="bg-background text-foreground">Ninguna</option>
             {categories.map(c => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+              <option key={c.id} value={c.id} className="bg-background text-foreground">{c.name}</option>
             ))}
           </select>
         </div>
