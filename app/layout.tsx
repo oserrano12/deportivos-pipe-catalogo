@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { MobileHeader } from "@/components/layout/MobileHeader"
 import { BottomNav } from "@/components/layout/BottomNav"
+import { ThemeProvider } from "@/components/ThemeProvider"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -25,13 +26,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen flex flex-col bg-background font-sans antialiased pb-16">
-        <MobileHeader />
-        <main className="flex-1">
-          {children}
-        </main>
-        <BottomNav />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <MobileHeader />
+          <main className="flex-1">
+            {children}
+          </main>
+          <BottomNav />
+        </ThemeProvider>
       </body>
     </html>
   )

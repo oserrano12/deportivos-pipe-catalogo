@@ -5,20 +5,21 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
-export async function login(formData: FormData) {
+export async function login(prevState: any, formData: FormData) {
   const supabase = await createClient()
 
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
+
+  if (!email || !password) {
+    return { error: 'Por favor, ingresa email y contraseña.' }
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const { error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
     console.error('Error logging in:', error)
-    // Here we'd normally return an error state to the form
-    redirect('/admin/login?error=true')
+    return { error: 'Credenciales inválidas.' }
   }
 
   revalidatePath('/admin', 'layout')

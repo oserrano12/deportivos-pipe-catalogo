@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Search } from 'lucide-react'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export function MobileHeader() {
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
@@ -10,15 +10,13 @@ export function MobileHeader() {
         <Link href="/" className="flex items-center gap-2">
           <span className="font-bold text-xl tracking-tight uppercase">Deportivos Pipe</span>
         </Link>
-        <div className="flex items-center gap-4">
-          <button className="text-muted-foreground hover:text-foreground transition-colors" aria-label="Buscar">
-            <Search className="h-5 w-5" />
-          </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
           <a
             href={`https://instagram.com/${instagramUser}`}
             target="_blank"
             rel="noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center justify-center p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors rounded-md outline-none"
             aria-label="Instagram"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
