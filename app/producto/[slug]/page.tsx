@@ -15,9 +15,23 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     return { title: 'Producto no encontrado' }
   }
 
+  const images = product.images && product.images.length > 0 ? [product.images[0]] : []
+
   return {
     title: `${product.name} | Deportivos Pipe`,
     description: product.description || `Compra ${product.name} en Deportivos Pipe`,
+    openGraph: {
+      title: `${product.name} | Deportivos Pipe`,
+      description: product.description || `Compra ${product.name} en Deportivos Pipe`,
+      images: images,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} | Deportivos Pipe`,
+      description: product.description || `Compra ${product.name} en Deportivos Pipe`,
+      images: images,
+    }
   }
 }
 

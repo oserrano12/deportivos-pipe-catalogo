@@ -19,6 +19,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Deportivos Pipe | Catálogo",
   description: "Catálogo digital de calzado deportivo y streetwear en Colombia.",
+  openGraph: {
+    title: "Deportivos Pipe | Catálogo",
+    description: "Catálogo digital de calzado deportivo y streetwear en Colombia.",
+    type: "website",
+    locale: "es_CO",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Deportivos Pipe | Catálogo",
+    description: "Catálogo digital de calzado deportivo y streetwear en Colombia.",
+  }
 }
 
 export default function RootLayout({
