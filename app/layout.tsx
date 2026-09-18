@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen flex flex-col bg-background font-sans antialiased pb-16">
+      <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 font-sans antialiased pb-16">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

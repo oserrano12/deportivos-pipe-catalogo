@@ -1,7 +1,15 @@
 import { logout } from './login/actions'
 import { Button } from '@/components/ui/button'
+import { createClient } from '@/lib/supabase/server'
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return <>{children}</>
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-muted/20">
       <header className="sticky top-0 z-40 w-full border-b bg-background">
