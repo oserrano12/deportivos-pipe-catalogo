@@ -14,13 +14,13 @@ export function FloatingWhatsAppButton({ productName, price, selectedSize, isAva
   const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
   
   // Format price
-  const formattedPrice = price.toLocaleString('es-CO')
+  const priceText = price > 0 ? `por $${price.toLocaleString('es-CO')}` : 'del cual quisiera consultar el precio'
   
   // Handle URL creation (client side)
   const productUrl = typeof window !== 'undefined' ? window.location.href : ''
   
   // Build message
-  const message = `¡Hola! Me interesa comprar las ${productName} (Talla: ${selectedSize || 'Por definir'}) por $${formattedPrice}. ¿Están disponibles? ${productUrl}`
+  const message = `¡Hola! Me interesa comprar las ${productName} (Talla: ${selectedSize || 'Por definir'}) ${priceText}. ¿Están disponibles? ${productUrl}`
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`
 
   if (!isAvailable) {

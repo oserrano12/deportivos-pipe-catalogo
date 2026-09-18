@@ -115,7 +115,7 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
             className="pl-8 font-bold"
             value={formatPrice(priceStr)} 
             onChange={handlePriceChange} 
-            required 
+            placeholder="Opcional"
           />
         </div>
       </div>

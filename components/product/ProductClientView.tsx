@@ -32,7 +32,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
           
           <h1 className="text-2xl font-bold leading-tight">{product.name}</h1>
           <p className="text-2xl font-black text-primary">
-            ${product.price.toLocaleString('es-CO')}
+            {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
           </p>
         </div>
 

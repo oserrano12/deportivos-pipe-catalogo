@@ -39,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.brand?.name || 'Marca'}
           </span>
           <span className="text-sm font-bold text-foreground">
-            ${product.price.toLocaleString('es-CO')}
+            {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
           </span>
         </div>
         <h3 className="text-sm font-medium leading-tight text-foreground line-clamp-2">

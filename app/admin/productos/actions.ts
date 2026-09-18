@@ -15,7 +15,10 @@ export async function saveProduct(formData: FormData) {
   const name = formData.get('name') as string
   const slug = formData.get('slug') as string
   const description = formData.get('description') as string
-  const price = parseInt(formData.get('price') as string, 10)
+  
+  const priceRaw = formData.get('price') as string
+  const price = priceRaw ? parseInt(priceRaw, 10) : 0
+
   const category_id = formData.get('category_id') as string || null
   const brand_id = formData.get('brand_id') as string || null
   const is_available = formData.get('is_available') === 'on'
