@@ -47,6 +47,12 @@ export function ProductGallery({ images }: { images: string[] | null }) {
             </CarouselItem>
           ))}
         </CarouselContent>
+        {validImages.length > 1 && (
+          <>
+            <CarouselPrevious className="hidden md:flex absolute left-4 shadow-md bg-background/80 hover:bg-background border-0" />
+            <CarouselNext className="hidden md:flex absolute right-4 shadow-md bg-background/80 hover:bg-background border-0" />
+          </>
+        )}
       </Carousel>
       
       {validImages.length > 1 && (

@@ -36,7 +36,7 @@ export function SizeSelector({ sizes, selectedSize, onSizeChange }: SizeSelector
               }`}
               onClick={() => onSizeChange(sizeId)}
             >
-              {info.eur}
+              {info.eur} EUR
             </Button>
           )
         })}
