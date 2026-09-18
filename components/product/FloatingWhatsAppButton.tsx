@@ -7,20 +7,23 @@ interface FloatingWhatsAppButtonProps {
   productName: string
   price: number
   selectedSize: string | null
+  selectedGender?: 'Caballero' | 'Dama' | null
   isAvailable: boolean
 }
 
-export function FloatingWhatsAppButton({ productName, price, selectedSize, isAvailable }: FloatingWhatsAppButtonProps) {
+export function FloatingWhatsAppButton({ productName, price, selectedSize, selectedGender, isAvailable }: FloatingWhatsAppButtonProps) {
   const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
-  
-  // Format price
-  const priceText = price > 0 ? `por $${price.toLocaleString('es-CO')}` : 'del cual quisiera consultar el precio'
   
   // Handle URL creation (client side)
   const productUrl = typeof window !== 'undefined' ? window.location.href : ''
   
-  // Build message
-  const message = `¡Hola! Me interesa comprar las ${productName} (Talla: ${selectedSize || 'Por definir'}) ${priceText}. ¿Están disponibles? ${productUrl}`
+  // Build message: "quiero estos [modelo del zapato], seguido de para y el genero caballero o dama y en la talla que se introduzca el valor de la talla que se seleccionó"
+  const genderText = selectedGender ? `para ${selectedGender}` : ''
+  const sizeText = selectedSize ? `en la talla ${selectedSize}` : ''
+  const spaceOrEmpty = genderText || sizeText ? ' ' : ''
+  const comboText = [genderText, sizeText].filter(Boolean).join(' y ')
+
+  const message = `¡Hola! Quiero estos ${productName}${spaceOrEmpty}${comboText}. ${productUrl}`
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`
 
   if (!isAvailable) {

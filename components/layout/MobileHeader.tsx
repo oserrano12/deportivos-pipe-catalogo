@@ -3,14 +3,25 @@ import { ThemeToggle } from '@/components/ThemeToggle'
 
 export function MobileHeader() {
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
+  const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
+  const whatsappMessage = encodeURIComponent('¡Hola! Quiero hacer una consulta sobre el catálogo.')
+  const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${whatsappMessage}`
   
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center justify-between px-4">
+      <div className="container max-w-6xl mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <span className="font-bold text-xl tracking-tight uppercase">Deportivos Pipe</span>
+          <span className="font-bold text-xl md:text-2xl tracking-tight uppercase">Deportivos Pipe</span>
         </Link>
-        <div className="flex items-center gap-2">
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-wider">
+          <Link href="/" className="hover:text-primary transition-colors">Inicio</Link>
+          <Link href="/categorias" className="hover:text-primary transition-colors">Categorías</Link>
+          <a href={whatsappUrl} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Contacto</a>
+        </nav>
+
+        <div className="flex items-center gap-2 md:gap-4">
           <ThemeToggle />
           <a
             href={`https://instagram.com/${instagramUser}`}

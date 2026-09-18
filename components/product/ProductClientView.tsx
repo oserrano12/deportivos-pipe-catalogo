@@ -13,6 +13,7 @@ interface ProductClientViewProps {
 
 export function ProductClientView({ product }: ProductClientViewProps) {
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const [selectedGender, setSelectedGender] = useState<'Caballero' | 'Dama' | null>(null)
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
 
   return (
@@ -51,6 +52,32 @@ export function ProductClientView({ product }: ProductClientViewProps) {
           )}
 
           <div className="space-y-6">
+            <div className="space-y-3">
+              <h3 className="font-semibold text-sm uppercase tracking-wider">Género</h3>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setSelectedGender('Caballero')}
+                  className={`flex-1 h-12 rounded-xl border text-sm font-bold transition-all ${
+                    selectedGender === 'Caballero'
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'bg-background hover:bg-muted text-muted-foreground'
+                  }`}
+                >
+                  Caballero
+                </button>
+                <button
+                  onClick={() => setSelectedGender('Dama')}
+                  className={`flex-1 h-12 rounded-xl border text-sm font-bold transition-all ${
+                    selectedGender === 'Dama'
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'bg-background hover:bg-muted text-muted-foreground'
+                  }`}
+                >
+                  Dama
+                </button>
+              </div>
+            </div>
+
             <SizeSelector 
               sizes={product.sizes} 
               selectedSize={selectedSize} 
@@ -80,6 +107,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
         productName={product.name}
         price={product.price}
         selectedSize={selectedSize}
+        selectedGender={selectedGender}
         isAvailable={product.is_available}
       />
     </div>
