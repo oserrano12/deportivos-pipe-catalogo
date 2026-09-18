@@ -52,31 +52,26 @@ export function ProductClientView({ product }: ProductClientViewProps) {
           )}
 
           <div className="space-y-6">
-            <div className="space-y-3">
-              <h3 className="font-semibold text-sm uppercase tracking-wider">Género</h3>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setSelectedGender('Caballero')}
-                  className={`flex-1 h-12 rounded-xl border text-sm font-bold transition-all ${
-                    selectedGender === 'Caballero'
-                      ? 'border-primary bg-primary text-primary-foreground'
-                      : 'bg-background hover:bg-muted text-muted-foreground'
-                  }`}
-                >
-                  Caballero
-                </button>
-                <button
-                  onClick={() => setSelectedGender('Dama')}
-                  className={`flex-1 h-12 rounded-xl border text-sm font-bold transition-all ${
-                    selectedGender === 'Dama'
-                      ? 'border-primary bg-primary text-primary-foreground'
-                      : 'bg-background hover:bg-muted text-muted-foreground'
-                  }`}
-                >
-                  Dama
-                </button>
+            {product.genders && product.genders.length > 0 && (
+              <div className="space-y-3">
+                <h3 className="font-semibold text-sm uppercase tracking-wider">Género</h3>
+                <div className="flex gap-4">
+                  {product.genders.map(gender => (
+                    <button
+                      key={gender}
+                      onClick={() => setSelectedGender(gender as any)}
+                      className={`flex-1 h-12 rounded-xl border text-sm font-bold transition-all ${
+                        selectedGender === gender
+                          ? 'border-primary bg-primary text-primary-foreground'
+                          : 'bg-background hover:bg-muted text-muted-foreground'
+                      }`}
+                    >
+                      {gender}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <SizeSelector 
               sizes={product.sizes} 
@@ -109,6 +104,8 @@ export function ProductClientView({ product }: ProductClientViewProps) {
         selectedSize={selectedSize}
         selectedGender={selectedGender}
         isAvailable={product.is_available}
+        needsSize={!!(product.sizes && product.sizes.length > 0 && !selectedSize)}
+        needsGender={!!(product.genders && product.genders.length > 0 && !selectedGender)}
       />
     </div>
   )

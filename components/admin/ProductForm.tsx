@@ -22,6 +22,7 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
   const [slug, setSlug] = useState(product?.slug || '')
   const [priceStr, setPriceStr] = useState(product?.price?.toString() || '')
   const [selectedSizes, setSelectedSizes] = useState<string[]>(product?.sizes || [])
+  const [selectedGenders, setSelectedGenders] = useState<string[]>(product?.genders || [])
   const [previewImages, setPreviewImages] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -45,6 +46,12 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
   const toggleSize = (size: string) => {
     setSelectedSizes(prev => 
       prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
+    )
+  }
+
+  const toggleGender = (gender: string) => {
+    setSelectedGenders(prev => 
+      prev.includes(gender) ? prev.filter(g => g !== gender) : [...prev, gender]
     )
   }
 
@@ -82,6 +89,7 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
       {product && <input type="hidden" name="id" value={product.id} />}
       <input type="hidden" name="existing_images" value={JSON.stringify(product?.images || [])} />
       <input type="hidden" name="sizes" value={selectedSizes.join(',')} />
+      <input type="hidden" name="genders" value={selectedGenders.join(',')} />
       <input type="hidden" name="price" value={priceStr} />
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -117,6 +125,29 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
             onChange={handlePriceChange} 
             placeholder="Opcional"
           />
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <Label>Géneros Disponibles</Label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          {['Caballero', 'Dama'].map(gender => {
+            const isSelected = selectedGenders.includes(gender)
+            return (
+              <button
+                key={gender}
+                type="button"
+                onClick={() => toggleGender(gender)}
+                className={`h-10 rounded-md border text-sm font-bold transition-colors ${
+                  isSelected 
+                    ? 'bg-primary text-primary-foreground border-primary' 
+                    : 'bg-background hover:bg-muted text-muted-foreground'
+                }`}
+              >
+                {gender}
+              </button>
+            )
+          })}
         </div>
       </div>
 

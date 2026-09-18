@@ -9,9 +9,19 @@ interface FloatingWhatsAppButtonProps {
   selectedSize: string | null
   selectedGender?: 'Caballero' | 'Dama' | null
   isAvailable: boolean
+  needsSize?: boolean
+  needsGender?: boolean
 }
 
-export function FloatingWhatsAppButton({ productName, price, selectedSize, selectedGender, isAvailable }: FloatingWhatsAppButtonProps) {
+export function FloatingWhatsAppButton({ 
+  productName, 
+  price, 
+  selectedSize, 
+  selectedGender, 
+  isAvailable,
+  needsSize,
+  needsGender
+}: FloatingWhatsAppButtonProps) {
   const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
   
   // Handle URL creation (client side)
@@ -38,18 +48,35 @@ export function FloatingWhatsAppButton({ productName, price, selectedSize, selec
     )
   }
 
+  const isDisabled = needsSize || needsGender
+  let buttonText = "Quiero Estos"
+  if (needsGender && needsSize) buttonText = "Elige Género y Talla"
+  else if (needsGender) buttonText = "Elige el Género"
+  else if (needsSize) buttonText = "Elige tu Talla"
+
   return (
     <div className="fixed bottom-[4.5rem] left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t z-30 flex justify-center">
       <div className="w-full max-w-6xl mx-auto flex md:justify-end">
-        <a 
-          href={whatsappUrl} 
-          target="_blank" 
-          rel="noreferrer"
-          className="w-full md:w-auto md:px-12 h-14 rounded-full font-bold text-lg gap-2 shadow-lg hover:scale-[1.02] transition-transform bg-[#25D366] hover:bg-[#25D366]/90 text-white inline-flex items-center justify-center whitespace-nowrap"
-        >
-          <MessageCircle className="w-6 h-6" />
-          Comprar por WhatsApp
-        </a>
+        {isDisabled ? (
+          <Button 
+            disabled 
+            className="w-full md:w-auto md:px-12 h-14 rounded-full font-bold text-lg gap-2 shadow-sm transition-all"
+            variant="secondary"
+          >
+            <MessageCircle className="w-6 h-6 opacity-50" />
+            {buttonText}
+          </Button>
+        ) : (
+          <a 
+            href={whatsappUrl} 
+            target="_blank" 
+            rel="noreferrer"
+            className="w-full md:w-auto md:px-12 h-14 rounded-full font-bold text-lg gap-2 shadow-lg hover:scale-[1.02] transition-transform bg-[#25D366] hover:bg-[#25D366]/90 text-white inline-flex items-center justify-center whitespace-nowrap"
+          >
+            <MessageCircle className="w-6 h-6" />
+            {buttonText}
+          </a>
+        )}
       </div>
     </div>
   )

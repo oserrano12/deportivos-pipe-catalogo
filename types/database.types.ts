@@ -67,6 +67,7 @@ export interface Database {
           category_id: string | null
           images: string[] | null
           sizes: string[] | null
+          genders: string[] | null
           is_featured: boolean
         }
         Insert: {
@@ -81,6 +82,7 @@ export interface Database {
           category_id?: string | null
           images?: string[] | null
           sizes?: string[] | null
+          genders?: string[] | null
           is_featured?: boolean
         }
         Update: {
@@ -95,6 +97,7 @@ export interface Database {
           category_id?: string | null
           images?: string[] | null
           sizes?: string[] | null
+          genders?: string[] | null
           is_featured?: boolean
         }
         Relationships: [

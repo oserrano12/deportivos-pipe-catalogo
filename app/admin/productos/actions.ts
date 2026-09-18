@@ -24,20 +24,23 @@ export async function saveProduct(formData: FormData) {
   const is_available = formData.get('is_available') === 'on'
   const is_featured = formData.get('is_featured') === 'on'
   
-  const sizesString = formData.get('sizes') as string
-  const sizes = sizesString ? sizesString.split(',').map(s => s.trim()) : []
+  const sizesRaw = formData.get('sizes') as string
+  const sizes = sizesRaw ? sizesRaw.split(',').map(s => s.trim()).filter(Boolean) : []
 
-  // Images handling
-  const existingImages = JSON.parse((formData.get('existing_images') as string) || '[]')
-  
-  const files = formData.getAll('images') as File[]
-  const uploadedUrls: string[] = []
+  const gendersRaw = formData.get('genders') as string
+  const genders = gendersRaw ? gendersRaw.split(',').map(g => g.trim()).filter(Boolean) : []
 
-  for (const file of files) {
-    if (file.size > 0 && file.name !== 'undefined') {
+  const existingImages = JSON.parse(formData.get('existing_images') as string || '[]')
+
+  // Handle image uploads
+  const imageFiles = formData.getAll('images') as File[]
+  const uploadedUrls: string[] = [...existingImages]
+
+  for (const file of imageFiles) {
+    if (file.size > 0) {
       const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random()}.${fileExt}`
-      const filePath = `sneakers/${fileName}`
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
+      const filePath = `${fileName}`
 
       const { error: uploadError } = await supabase.storage
         .from('product-images')
@@ -55,8 +58,6 @@ export async function saveProduct(formData: FormData) {
     }
   }
 
-  const finalImages = [...existingImages, ...uploadedUrls]
-
   const payload = {
     name,
     slug,
@@ -67,7 +68,8 @@ export async function saveProduct(formData: FormData) {
     is_available,
     is_featured,
     sizes,
-    images: finalImages
+    genders,
+    images: uploadedUrls
   }
 
   if (id) {
