@@ -125,7 +125,7 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
 
       <div className="space-y-4">
         <Label className="text-base">Tallas de Dama (EUR)</Label>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+        <div className="grid grid-cols-5 gap-2">
           {WOMEN_SIZES.map(size => {
             const isSelected = selectedSizes.includes(size.id)
             return (
@@ -133,14 +133,13 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
                 key={size.id}
                 type="button"
                 onClick={() => toggleSize(size.id)}
-                className={`flex flex-col items-center justify-center h-14 rounded-md border transition-colors ${
+                className={`h-10 rounded-md border text-sm font-bold transition-colors ${
                   isSelected 
                     ? 'bg-primary text-primary-foreground border-primary' 
                     : 'bg-background hover:bg-muted text-muted-foreground'
                 }`}
               >
-                <span className="text-sm font-bold">{size.eur}</span>
-                <span className="text-[10px] opacity-70">COL {size.col} | US {size.us}</span>
+                {size.eur}
               </button>
             )
           })}
@@ -149,7 +148,7 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
 
       <div className="space-y-4">
         <Label className="text-base">Tallas de Caballero (EUR)</Label>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+        <div className="grid grid-cols-5 gap-2">
           {MEN_SIZES.map(size => {
             const isSelected = selectedSizes.includes(size.id)
             return (
@@ -157,14 +156,13 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
                 key={size.id}
                 type="button"
                 onClick={() => toggleSize(size.id)}
-                className={`flex flex-col items-center justify-center h-14 rounded-md border transition-colors ${
+                className={`h-10 rounded-md border text-sm font-bold transition-colors ${
                   isSelected 
                     ? 'bg-primary text-primary-foreground border-primary' 
                     : 'bg-background hover:bg-muted text-muted-foreground'
                 }`}
               >
-                <span className="text-sm font-bold">{size.eur}</span>
-                <span className="text-[10px] opacity-70">COL {size.col} | US {size.us}</span>
+                {size.eur}
               </button>
             )
           })}

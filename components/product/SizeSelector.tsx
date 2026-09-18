@@ -25,19 +25,19 @@ export function SizeSelector({ sizes, selectedSize, onSizeChange }: SizeSelector
           if (!info) return null
           
           return (
-            <button
+            <Button
               key={sizeId}
               type="button"
-              className={`flex flex-col items-center justify-center h-14 rounded-xl border transition-all ${
+              variant={selectedSize === sizeId ? "default" : "outline"}
+              className={`rounded-xl font-bold transition-all ${
                 selectedSize === sizeId 
-                  ? "bg-primary text-primary-foreground border-primary shadow-md scale-105" 
-                  : "bg-background hover:border-primary text-foreground"
+                  ? "shadow-md scale-105" 
+                  : "hover:border-primary"
               }`}
               onClick={() => onSizeChange(sizeId)}
             >
-              <span className="text-sm font-bold">{info.eur} EUR</span>
-              <span className="text-[10px] opacity-70 leading-none mt-0.5">COL {info.col} | US {info.us}</span>
-            </button>
+              {info.eur}
+            </Button>
           )
         })}
       </div>
