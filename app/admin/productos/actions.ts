@@ -8,6 +8,9 @@ import { createClient } from '@/lib/supabase/server'
 export async function saveProduct(formData: FormData) {
   const supabase = await createClient()
   
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Unauthorized')
+
   const id = formData.get('id') as string
   const name = formData.get('name') as string
   const slug = formData.get('slug') as string

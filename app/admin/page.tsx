@@ -13,9 +13,16 @@ import Link from 'next/link'
 import { Plus } from 'lucide-react'
 import { toggleAvailability, toggleFeatured, deleteProduct } from './actions'
 
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
+
 export const revalidate = 0
 
 export default async function AdminDashboard() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/admin/login')
+
   const products = await getProducts()
 
   return (

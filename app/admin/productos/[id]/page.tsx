@@ -6,9 +6,12 @@ import { notFound } from 'next/navigation'
 export const revalidate = 0
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/admin/login')
+
   const resolvedParams = await params
   
-  const supabase = await createClient()
   const { data: product } = await supabase.from('products').select('*').eq('id', resolvedParams.id).single()
   
   if (!product) {
