@@ -36,7 +36,7 @@ export function ProductGallery({ images }: { images: string[] | null }) {
         <CarouselContent>
           {validImages.map((src, index) => (
             <CarouselItem key={index}>
-              <div className="aspect-[4/3] sm:aspect-square relative bg-secondary/30">
+              <div className="aspect-[4/3] sm:aspect-square relative bg-secondary/30 md:rounded-2xl overflow-hidden border border-border/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={src}

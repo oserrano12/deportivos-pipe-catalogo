@@ -25,25 +25,29 @@ export function FloatingWhatsAppButton({ productName, price, selectedSize, isAva
 
   if (!isAvailable) {
     return (
-      <div className="fixed bottom-[4.5rem] left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t z-30">
-        <Button disabled className="w-full h-14 rounded-full font-bold text-lg" variant="secondary">
-          Producto Agotado
-        </Button>
+      <div className="fixed bottom-[4.5rem] left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t z-30 flex justify-center">
+        <div className="w-full max-w-6xl mx-auto">
+          <Button disabled className="w-full md:w-auto md:px-12 md:float-right h-14 rounded-full font-bold text-lg" variant="secondary">
+            Producto Agotado
+          </Button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="fixed bottom-[4.5rem] left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t z-30 flex gap-2">
-      <a 
-        href={whatsappUrl} 
-        target="_blank" 
-        rel="noreferrer"
-        className="w-full h-14 rounded-full font-bold text-lg gap-2 shadow-lg hover:scale-[1.02] transition-transform bg-[#25D366] hover:bg-[#25D366]/90 text-white inline-flex items-center justify-center whitespace-nowrap"
-      >
-        <MessageCircle className="w-6 h-6" />
-        Comprar por WhatsApp
-      </a>
+    <div className="fixed bottom-[4.5rem] left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t z-30 flex justify-center">
+      <div className="w-full max-w-6xl mx-auto flex md:justify-end">
+        <a 
+          href={whatsappUrl} 
+          target="_blank" 
+          rel="noreferrer"
+          className="w-full md:w-auto md:px-12 h-14 rounded-full font-bold text-lg gap-2 shadow-lg hover:scale-[1.02] transition-transform bg-[#25D366] hover:bg-[#25D366]/90 text-white inline-flex items-center justify-center whitespace-nowrap"
+        >
+          <MessageCircle className="w-6 h-6" />
+          Comprar por WhatsApp
+        </a>
+      </div>
     </div>
   )
 }
