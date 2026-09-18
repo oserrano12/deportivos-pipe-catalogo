@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ProductWithRelations } from '@/lib/data/products'
+import { Database } from '@/types/database.types'
+import { WOMEN_SIZES, MEN_SIZES } from '@/lib/sizing'
 import { saveProduct } from '@/app/admin/productos/actions'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
@@ -22,7 +25,6 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
   const [slug, setSlug] = useState(product?.slug || '')
   const [priceStr, setPriceStr] = useState(product?.price?.toString() || '')
   const [selectedSizes, setSelectedSizes] = useState<string[]>(product?.sizes || [])
-  const [selectedGenders, setSelectedGenders] = useState<string[]>(product?.genders || [])
   const [previewImages, setPreviewImages] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -46,12 +48,6 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
   const toggleSize = (size: string) => {
     setSelectedSizes(prev => 
       prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
-    )
-  }
-
-  const toggleGender = (gender: string) => {
-    setSelectedGenders(prev => 
-      prev.includes(gender) ? prev.filter(g => g !== gender) : [...prev, gender]
     )
   }
 
@@ -89,7 +85,6 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
       {product && <input type="hidden" name="id" value={product.id} />}
       <input type="hidden" name="existing_images" value={JSON.stringify(product?.images || [])} />
       <input type="hidden" name="sizes" value={selectedSizes.join(',')} />
-      <input type="hidden" name="genders" value={selectedGenders.join(',')} />
       <input type="hidden" name="price" value={priceStr} />
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -128,46 +123,48 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
         </div>
       </div>
 
-      <div className="space-y-3">
-        <Label>Géneros Disponibles</Label>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {['Caballero', 'Dama'].map(gender => {
-            const isSelected = selectedGenders.includes(gender)
+      <div className="space-y-4">
+        <Label className="text-base">Tallas de Dama (EUR)</Label>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+          {WOMEN_SIZES.map(size => {
+            const isSelected = selectedSizes.includes(size.id)
             return (
               <button
-                key={gender}
+                key={size.id}
                 type="button"
-                onClick={() => toggleGender(gender)}
-                className={`h-10 rounded-md border text-sm font-bold transition-colors ${
+                onClick={() => toggleSize(size.id)}
+                className={`flex flex-col items-center justify-center h-14 rounded-md border transition-colors ${
                   isSelected 
                     ? 'bg-primary text-primary-foreground border-primary' 
                     : 'bg-background hover:bg-muted text-muted-foreground'
                 }`}
               >
-                {gender}
+                <span className="text-sm font-bold">{size.eur}</span>
+                <span className="text-[10px] opacity-70">COL {size.col} | US {size.us}</span>
               </button>
             )
           })}
         </div>
       </div>
 
-      <div className="space-y-3">
-        <Label>Tallas Disponibles (EUR/COL)</Label>
-        <div className="grid grid-cols-5 md:grid-cols-8 gap-2">
-          {COLOMBIA_SIZES.map(size => {
-            const isSelected = selectedSizes.includes(size)
+      <div className="space-y-4">
+        <Label className="text-base">Tallas de Caballero (EUR)</Label>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+          {MEN_SIZES.map(size => {
+            const isSelected = selectedSizes.includes(size.id)
             return (
               <button
-                key={size}
+                key={size.id}
                 type="button"
-                onClick={() => toggleSize(size)}
-                className={`h-10 rounded-md border text-sm font-bold transition-colors ${
+                onClick={() => toggleSize(size.id)}
+                className={`flex flex-col items-center justify-center h-14 rounded-md border transition-colors ${
                   isSelected 
                     ? 'bg-primary text-primary-foreground border-primary' 
                     : 'bg-background hover:bg-muted text-muted-foreground'
                 }`}
               >
-                {size}
+                <span className="text-sm font-bold">{size.eur}</span>
+                <span className="text-[10px] opacity-70">COL {size.col} | US {size.us}</span>
               </button>
             )
           })}

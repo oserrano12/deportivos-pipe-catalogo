@@ -11,20 +11,36 @@ interface ProductClientViewProps {
   product: ProductWithRelations
 }
 
+import { getSizeInfo } from '@/lib/sizing'
+
 export function ProductClientView({ product }: ProductClientViewProps) {
-  const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const [selectedSizeId, setSelectedSizeId] = useState<string | null>(null)
   const [selectedGender, setSelectedGender] = useState<'Caballero' | 'Dama' | null>(null)
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
+
+  const hasDama = product.sizes?.some(s => s.startsWith('D-'))
+  const hasCaballero = product.sizes?.some(s => s.startsWith('C-'))
+  
+  const availableGenders = []
+  if (hasCaballero) availableGenders.push('Caballero')
+  if (hasDama) availableGenders.push('Dama')
+
+  const currentPrefix = selectedGender === 'Caballero' ? 'C-' : selectedGender === 'Dama' ? 'D-' : null
+  const sizesForGender = currentPrefix 
+    ? product.sizes?.filter(s => s.startsWith(currentPrefix)) 
+    : []
+
+  // Clean size display for WhatsApp message
+  const sizeInfo = selectedSizeId ? getSizeInfo(selectedSizeId) : null
+  const displaySize = sizeInfo ? sizeInfo.eur : null
 
   return (
     <div className="pb-32 md:pb-16 container max-w-6xl mx-auto px-4 md:py-8">
       <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
-        {/* Left Column: Image Gallery (Sticky on Desktop) */}
         <div className="md:sticky md:top-24 h-fit">
           <ProductGallery images={product.images} />
         </div>
         
-        {/* Right Column: Product Details */}
         <div className="mt-6 md:mt-0 space-y-8">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -52,14 +68,17 @@ export function ProductClientView({ product }: ProductClientViewProps) {
           )}
 
           <div className="space-y-6">
-            {product.genders && product.genders.length > 0 && (
+            {availableGenders.length > 0 && (
               <div className="space-y-3">
                 <h3 className="font-semibold text-sm uppercase tracking-wider">Género</h3>
                 <div className="flex gap-4">
-                  {product.genders.map(gender => (
+                  {availableGenders.map(gender => (
                     <button
                       key={gender}
-                      onClick={() => setSelectedGender(gender as any)}
+                      onClick={() => {
+                        setSelectedGender(gender as any)
+                        setSelectedSizeId(null) // reset size when changing gender
+                      }}
                       className={`flex-1 h-12 rounded-xl border text-sm font-bold transition-all ${
                         selectedGender === gender
                           ? 'border-primary bg-primary text-primary-foreground'
@@ -73,11 +92,13 @@ export function ProductClientView({ product }: ProductClientViewProps) {
               </div>
             )}
 
-            <SizeSelector 
-              sizes={product.sizes} 
-              selectedSize={selectedSize} 
-              onSizeChange={setSelectedSize} 
-            />
+            {selectedGender && (
+              <SizeSelector 
+                sizes={sizesForGender || []} 
+                selectedSize={selectedSizeId} 
+                onSizeChange={setSelectedSizeId} 
+              />
+            )}
             
             <div className="pt-6 border-t border-border/50">
               <a
@@ -101,11 +122,11 @@ export function ProductClientView({ product }: ProductClientViewProps) {
       <FloatingWhatsAppButton 
         productName={product.name}
         price={product.price}
-        selectedSize={selectedSize}
+        selectedSize={displaySize}
         selectedGender={selectedGender}
         isAvailable={product.is_available}
-        needsSize={!!(product.sizes && product.sizes.length > 0 && !selectedSize)}
-        needsGender={!!(product.genders && product.genders.length > 0 && !selectedGender)}
+        needsSize={!!(sizesForGender && sizesForGender.length > 0 && !selectedSizeId)}
+        needsGender={!!(availableGenders.length > 0 && !selectedGender)}
       />
     </div>
   )

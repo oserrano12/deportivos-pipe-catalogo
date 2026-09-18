@@ -27,9 +27,6 @@ export async function saveProduct(formData: FormData) {
   const sizesRaw = formData.get('sizes') as string
   const sizes = sizesRaw ? sizesRaw.split(',').map(s => s.trim()).filter(Boolean) : []
 
-  const gendersRaw = formData.get('genders') as string
-  const genders = gendersRaw ? gendersRaw.split(',').map(g => g.trim()).filter(Boolean) : []
-
   const existingImages = JSON.parse(formData.get('existing_images') as string || '[]')
 
   // Handle image uploads
@@ -68,7 +65,6 @@ export async function saveProduct(formData: FormData) {
     is_available,
     is_featured,
     sizes,
-    genders,
     images: uploadedUrls
   }
 
