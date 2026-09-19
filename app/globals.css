@@ -41,68 +41,37 @@
   }
 }
 
-:root {
-  /* Minimalist light theme: Clean white with classic blue accent */
-  --background: oklch(0.99 0.01 260);
-  --foreground: #0D1B3E; /* Deep Navy text */
+:root, .dark {
+  /* Force Dark Neon Theme */
+  --background: oklch(0.12 0.05 270); /* Very Deep Blue/Black */
+  --foreground: oklch(0.98 0 0); /* Pure White */
   
-  --card: oklch(1 0 0);
-  --card-foreground: #0D1B3E;
+  --card: oklch(0.98 0 0 / 0.05); /* Glass card */
+  --card-foreground: oklch(0.98 0 0);
   
-  --popover: oklch(1 0 0);
-  --popover-foreground: #0D1B3E;
+  --popover: oklch(0.15 0.05 270);
+  --popover-foreground: oklch(0.98 0 0);
   
-  --primary: #0047AB; /* Classic Blue */
-  --primary-foreground: oklch(0.98 0 0);
+  --primary: #FFD700; /* Vibrant Yellow Accent */
+  --primary-foreground: #000000;
   
-  --secondary: oklch(0.95 0.02 260);
-  --secondary-foreground: #0047AB;
-  
-  --muted: oklch(0.95 0.02 260);
-  --muted-foreground: oklch(0.5 0.02 260);
-  
-  --accent: oklch(0.92 0.03 260);
-  --accent-foreground: #0D1B3E;
-  
-  --destructive: oklch(0.6 0.2 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  
-  --border: oklch(0.9 0.02 260);
-  --input: oklch(0.9 0.02 260);
-  --ring: #007FFF; /* Bright Blue */
-  
-  --radius: 1rem; /* More rounded, softer feel for Aurora */
-}
-
-.dark {
-  /* Stealth dark theme: Deep Navy with Bright Blue */
-  --background: #0D1B3E; /* Deep Navy */
-  --foreground: oklch(0.98 0.01 260);
-  
-  --card: oklch(0.2 0.05 260); /* Slightly lighter navy */
-  --card-foreground: oklch(0.98 0.01 260);
-  
-  --popover: oklch(0.2 0.05 260);
-  --popover-foreground: oklch(0.98 0.01 260);
-  
-  --primary: #007FFF; /* Bright Blue */
-  --primary-foreground: #0D1B3E;
-  
-  --secondary: #0047AB; /* Classic Blue */
+  --secondary: oklch(0.98 0 0 / 0.1); /* Glassy Secondary */
   --secondary-foreground: oklch(0.98 0 0);
   
-  --muted: oklch(0.25 0.05 260);
-  --muted-foreground: oklch(0.7 0.02 260);
+  --muted: oklch(0.98 0 0 / 0.1);
+  --muted-foreground: oklch(0.7 0 0);
   
-  --accent: #0047AB;
-  --accent-foreground: oklch(0.98 0 0);
+  --accent: #FFD700;
+  --accent-foreground: #000000;
   
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
   
-  --border: oklch(0.25 0.05 260);
-  --input: oklch(0.25 0.05 260);
-  --ring: #007FFF;
+  --border: oklch(0.98 0 0 / 0.1); /* Subtle white borders for glass */
+  --input: oklch(0.98 0 0 / 0.1);
+  --ring: #FFD700;
+  
+  --radius: 1.5rem; /* Super rounded corners for cards */
 }
 
 @layer base {
@@ -113,48 +82,49 @@
     @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
   }
   
-  /* Aurora Background Effect */
+  /* Outline text utility */
+  .text-outline {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+    color: transparent;
+  }
+  
+  /* Vibrant Neon Aurora Background Effect */
   .aurora-bg {
     position: relative;
     background-color: var(--background);
+    overflow: hidden;
   }
   .aurora-bg::before,
-  .aurora-bg::after {
+  .aurora-bg::after,
+  .aurora-bg-third {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100vh;
+    border-radius: 50%;
     z-index: -1;
     pointer-events: none;
-    opacity: 0.15;
-    filter: blur(100px);
+    filter: blur(80px);
+    opacity: 0.6; /* Stronger opacity for neon glow */
   }
   .aurora-bg::before {
-    background: radial-gradient(circle at 15% 50%, #007FFF 0%, transparent 40%);
+    top: -10%;
+    left: -10%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, #7000FF 0%, transparent 60%);
   }
   .aurora-bg::after {
-    background: radial-gradient(circle at 85% 20%, #0047AB 0%, transparent 40%);
+    bottom: -10%;
+    right: -10%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, #FF007F 0%, transparent 60%);
   }
   
-  .dark .aurora-bg::before,
-  .dark .aurora-bg::after {
-    opacity: 0.2;
-  }
+  /* Adding a third orb via a div class if needed, or just box-shadow */
   
-  /* Custom Scrollbar for a premium feel */
+  /* Custom Scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
+    width: 0px; /* Hidden for mobile app feel */
+    height: 0px;
   }
 }

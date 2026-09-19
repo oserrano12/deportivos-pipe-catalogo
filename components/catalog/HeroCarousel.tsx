@@ -41,48 +41,44 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="relative flex flex-col items-center justify-start w-full min-h-[70vh] md:min-h-[80vh] overflow-hidden group">
-                  
-                  {/* Dynamic Brand Gradient Background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#0D1B3E] via-[#0047AB] to-[#007FFF] opacity-90 z-0 transition-opacity duration-700 group-hover:opacity-100" />
+                <Link href={`/producto/${product.slug}`} className="relative flex flex-col items-start justify-start w-full min-h-[70vh] md:min-h-[80vh] overflow-hidden group">
                   
                   {/* Content Container */}
-                  <div className="relative z-20 flex flex-col items-center text-center px-4 pt-24 md:pt-32 pb-12 w-full max-w-4xl mx-auto">
+                  <div className="relative z-20 flex flex-col items-start text-left px-6 md:px-12 pt-28 md:pt-32 pb-12 w-full max-w-6xl mx-auto">
                     
-                    {/* Pill Badge */}
-                    <span className="px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest rounded-full mb-6 md:mb-8 shadow-sm">
-                      Destacado
-                    </span>
+                    {/* Main Title (Ultra Bold, Left Aligned) */}
+                    <div className="flex flex-col space-y-0 md:space-y-2 mb-6">
+                      <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                        NUEVA
+                      </h1>
+                      <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                        COLECCIÓN
+                      </h1>
+                      <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-outline leading-[0.9]">
+                        ZAPATILLAS
+                      </h1>
+                    </div>
                     
-                    {/* Main Title (Elegant, Large) */}
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-white mb-6 leading-[1.05] drop-shadow-lg">
-                      {product.name}
-                    </h1>
-                    
-                    <p className="text-white/80 font-medium text-sm md:text-lg max-w-2xl mb-10 drop-shadow-md">
-                      {product.description || "Descubre el máximo confort y estilo. Toca para ver los detalles completos de este producto."}
+                    <p className="text-white/80 font-medium text-sm md:text-lg max-w-md mb-8">
+                      {product.name} - {product.description || "Descubre el máximo confort y estilo."}
                     </p>
                     
-                    {/* Pill Buttons */}
-                    <div className="flex items-center gap-4">
-                      <div className="px-8 py-4 bg-white text-[#0047AB] text-sm md:text-base font-black uppercase tracking-wider rounded-full hover:bg-gray-100 transition-transform hover:scale-105 shadow-xl">
-                        Ver Producto
-                      </div>
+                    {/* Yellow Accent Button */}
+                    <div className="px-8 py-3 bg-[#FFD700] text-black text-sm md:text-base font-black uppercase tracking-wider rounded-full hover:bg-yellow-400 transition-transform hover:scale-105 shadow-xl shadow-yellow-500/20">
+                      Ver Detalles
                     </div>
 
                   </div>
 
-                  {/* Floating Sneaker Image */}
-                  <div className="relative z-10 w-full max-w-2xl mt-auto md:-mt-12 h-[35vh] md:h-[50vh] flex items-center justify-center">
-                    <div className="relative w-full h-full p-4 transition-transform duration-1000 ease-out group-hover:scale-110 group-hover:-translate-y-4">
-                      {/* Sneaker shadow for realism */}
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-black/40 blur-2xl rounded-[100%]" />
+                  {/* Floating Sneaker Image on the right or bottom */}
+                  <div className="absolute right-0 md:right-12 bottom-12 md:bottom-24 w-[70%] md:w-[45%] h-[40vh] md:h-[60vh] z-10 pointer-events-none">
+                    <div className="relative w-full h-full transition-transform duration-1000 ease-out group-hover:scale-110">
                       <Image
                         src={imageUrl}
                         alt={product.name}
                         fill
                         priority={index === 0}
-                        className="object-contain drop-shadow-2xl mix-blend-normal"
+                        className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
                         sizes="(max-width: 768px) 100vw, 80vw"
                       />
                     </div>
