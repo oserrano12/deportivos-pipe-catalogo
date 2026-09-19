@@ -38,6 +38,7 @@ export const metadata: Metadata = {
 }
 
 import { GoogleTagManager } from '@next/third-parties/google'
+import { Analytics } from '@vercel/analytics/next'
 
 export default function RootLayout({
   children,
@@ -68,6 +69,7 @@ export default function RootLayout({
           </ThemeProvider>
         </FavoritesProvider>
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || 'GTM-TGKPL943'} />
+        <Analytics />
       </body>
     </html>
   )
