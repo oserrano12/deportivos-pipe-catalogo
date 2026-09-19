@@ -41,7 +41,7 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-between w-full min-h-[75vh] md:min-h-[80vh] overflow-hidden group gap-8 px-6 md:px-16 pt-24 md:pt-32 pb-28 md:pb-12 max-w-7xl mx-auto">
+                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center w-full min-h-[calc(100vh-5rem)] md:min-h-[80vh] overflow-hidden group gap-6 md:gap-12 px-6 md:px-16 pt-6 md:pt-16 pb-28 md:pb-12 max-w-7xl mx-auto">
                   
                   {/* Left: Content Container */}
                   <div className="relative z-20 flex flex-col items-start text-left w-full md:w-1/2 shrink-0">
