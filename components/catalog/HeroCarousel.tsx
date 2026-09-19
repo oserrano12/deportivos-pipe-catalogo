@@ -45,7 +45,7 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   
                   {/* MASSIVE BACKGROUND TEXT */}
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
-                    <span className="text-[15rem] md:text-[25rem] font-black tracking-tighter text-secondary/40 whitespace-nowrap -rotate-2 scale-110 md:scale-100 group-hover:scale-105 transition-transform duration-1000">
+                    <span className="text-[15rem] md:text-[25rem] font-black tracking-tighter text-foreground/10 dark:text-foreground/20 whitespace-nowrap -rotate-2 scale-110 md:scale-100 group-hover:scale-105 transition-transform duration-1000">
                       {product.brand?.name?.toUpperCase() || 'PIPE'}
                     </span>
                   </div>
