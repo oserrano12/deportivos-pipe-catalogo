@@ -10,6 +10,8 @@ import {
   type CarouselApi
 } from "@/components/ui/carousel"
 
+import Image from 'next/image'
+
 export function ProductGallery({ images }: { images: string[] | null }) {
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
@@ -37,11 +39,13 @@ export function ProductGallery({ images }: { images: string[] | null }) {
           {validImages.map((src, index) => (
             <CarouselItem key={index}>
               <div className="aspect-[4/3] sm:aspect-square relative bg-secondary/30 md:rounded-2xl overflow-hidden border border-border/50">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={src}
                   alt={`Product Image ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  fill
+                  priority={index === 0}
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  className="object-cover"
                 />
               </div>
             </CarouselItem>

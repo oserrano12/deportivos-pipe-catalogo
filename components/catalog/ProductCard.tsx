@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { ProductWithRelations } from '@/lib/data/products'
 
+import Image from 'next/image'
+
 interface ProductCardProps {
   product: ProductWithRelations
 }
@@ -15,11 +17,12 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link href={`/producto/${product.slug}`} className="group block">
       <div className="relative aspect-square overflow-hidden rounded-xl bg-secondary/50 mb-3 border border-border/50">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={imageUrl}
           alt={product.name}
-          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {!product.is_available && (
           <div className="absolute inset-0 bg-background/50 flex items-center justify-center backdrop-blur-sm">

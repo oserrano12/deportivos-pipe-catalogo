@@ -18,6 +18,8 @@ import { SeedButton } from '@/components/admin/SeedButton'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 
+import Image from 'next/image'
+
 export const revalidate = 0
 
 export default async function AdminDashboard() {
@@ -76,8 +78,15 @@ export default async function AdminDashboard() {
                       <TableRow key={product.id}>
                         <TableCell>
                           <div className="flex items-center gap-4">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={imageUrl} alt={product.name} className="w-14 h-14 rounded-lg object-cover bg-secondary border border-border/50" />
+                            <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-secondary border border-border/50 shrink-0">
+                              <Image 
+                                src={imageUrl} 
+                                alt={product.name} 
+                                fill
+                                sizes="56px"
+                                className="object-cover"
+                              />
+                            </div>
                             <div>
                               <div className="font-bold text-sm leading-tight">{product.name}</div>
                               <div className="text-xs text-muted-foreground flex items-center gap-2 mt-1">

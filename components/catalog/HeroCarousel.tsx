@@ -11,6 +11,8 @@ import {
 import { ProductWithRelations } from "@/lib/data/products"
 import Autoplay from "embla-carousel-autoplay"
 
+import Image from 'next/image'
+
 export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWithRelations[] }) {
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true })
@@ -45,14 +47,18 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   />
 
                   {/* Main Image */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={imageUrl}
-                    alt={product.name}
-                    loading={index === 0 ? "eager" : "lazy"}
-                    className="absolute inset-0 w-full h-full object-contain p-6 pb-40 md:p-16 md:pb-16 md:pr-[400px] z-20 transition-transform duration-700 group-hover:scale-105 drop-shadow-2xl"
-                    style={{ willChange: 'transform' }}
-                  />
+                  <div className="absolute inset-0 p-6 pb-40 md:p-16 md:pb-16 md:pr-[400px] z-20">
+                    <div className="relative w-full h-full transition-transform duration-700 group-hover:scale-105 drop-shadow-2xl" style={{ willChange: 'transform' }}>
+                      <Image
+                        src={imageUrl}
+                        alt={product.name}
+                        fill
+                        priority={index === 0}
+                        className="object-contain"
+                        sizes="(max-width: 768px) 100vw, 70vw"
+                      />
+                    </div>
+                  </div>
 
                   {/* Floating Box overlay */}
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 md:bottom-12 md:right-12 md:left-auto md:translate-x-0 w-[90%] md:w-[380px] bg-background/95 backdrop-blur-xl border border-border/50 shadow-2xl rounded-2xl p-6 z-30 flex flex-col items-center md:items-start text-center md:text-left transition-all duration-300 group-hover:-translate-y-2">
