@@ -25,6 +25,16 @@ export function BottomNav() {
           Inicio
         </Link>
 
+        <Link 
+          href="/#catalogo"
+          className={cn(
+            "flex flex-col items-center justify-center w-16 h-full text-xs font-medium transition-colors text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <Grid className="h-5 w-5 mb-1" />
+          Catálogo
+        </Link>
+
         <a 
           href={whatsappUrl}
           target="_blank"

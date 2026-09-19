@@ -1,0 +1,78 @@
+'use client'
+
+import * as React from "react"
+import Link from 'next/link'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi
+} from "@/components/ui/carousel"
+import { ProductWithRelations } from "@/lib/data/products"
+import Autoplay from "embla-carousel-autoplay"
+
+export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWithRelations[] }) {
+  const plugin = React.useRef(
+    Autoplay({ delay: 4000, stopOnInteraction: true })
+  )
+
+  if (!featuredProducts || featuredProducts.length === 0) {
+    return null
+  }
+
+  return (
+    <div className="w-full relative bg-secondary/20 border-b">
+      <Carousel
+        plugins={[plugin.current]}
+        className="w-full"
+        opts={{
+          loop: true,
+        }}
+      >
+        <CarouselContent>
+          {featuredProducts.map((product) => {
+            const imageUrl = product.images && product.images.length > 0 
+              ? product.images[0] 
+              : '/placeholder-sneaker.webp'
+
+            return (
+              <CarouselItem key={product.id}>
+                <Link href={`/producto/${product.slug}`} className="block relative h-[50vh] md:h-[70vh] w-full overflow-hidden group">
+                  {/* Background Layer with Blur */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center opacity-30 blur-xl scale-110"
+                    style={{ backgroundImage: `url(${imageUrl})` }}
+                  />
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent z-10" />
+
+                  {/* Main Image */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={imageUrl}
+                    alt={product.name}
+                    className="absolute inset-0 w-full h-full object-contain p-8 md:p-16 z-20 transition-transform duration-700 group-hover:scale-105 drop-shadow-2xl"
+                  />
+
+                  {/* Text overlay */}
+                  <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 z-30 flex flex-col items-center text-center">
+                    <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest rounded-full mb-3">
+                      Destacado
+                    </span>
+                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-foreground mb-2 drop-shadow-md">
+                      {product.name}
+                    </h2>
+                    <p className="text-muted-foreground font-medium md:text-lg">
+                      Toca para ver detalles
+                    </p>
+                  </div>
+                </Link>
+              </CarouselItem>
+            )
+          })}
+        </CarouselContent>
+      </Carousel>
+    </div>
+  )
+}
