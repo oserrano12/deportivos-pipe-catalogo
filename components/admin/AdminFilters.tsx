@@ -26,7 +26,7 @@ export function AdminFilters({ categories, brands }: AdminFiltersProps) {
     } else {
       params.delete(key)
     }
-    router.push(`/admin?${params.toString()}`)
+    router.push(`/admin?${params.toString()}`, { scroll: false })
   }
 
   return (
