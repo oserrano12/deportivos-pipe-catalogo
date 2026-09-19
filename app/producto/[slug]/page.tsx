@@ -4,7 +4,7 @@ import { ProductClientView } from '@/components/product/ProductClientView'
 import { ProductCard } from '@/components/catalog/ProductCard'
 import { Metadata, ResolvingMetadata } from 'next'
 
-export const revalidate = 0
+export const revalidate = 60 // 1 minute ISR caching for extreme performance
 
 type Params = Promise<{ slug: string }>
 

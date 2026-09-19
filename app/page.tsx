@@ -10,7 +10,7 @@ import { SortSelect } from '@/components/catalog/SortSelect'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getBrands, getProducts, getCategories } from '@/lib/data/products'
 
-export const revalidate = 0 // For now, dynamic fetching
+export const revalidate = 60 // 1 minute ISR caching for extreme performance
 
 export default async function Home({
   searchParams,
