@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { ProductGallery } from './ProductGallery'
 import { SizeSelector } from './SizeSelector'
 import { FloatingWhatsAppButton } from './FloatingWhatsAppButton'
@@ -70,10 +71,29 @@ export function ProductClientView({ product }: ProductClientViewProps) {
         
         <div className="mt-6 md:mt-0 flex flex-col justify-center space-y-10">
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">
-                {product.brand?.name}
-              </span>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              
+              {/* Highlighted Brand */}
+              <div className="flex items-center gap-3">
+                {product.brand?.logo_url && (
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden bg-white border-2 border-border shadow-[2px_2px_0_0_oklch(var(--color-border))] flex items-center justify-center p-1.5 shrink-0">
+                    <div className="relative w-full h-full">
+                      <Image 
+                        src={product.brand.logo_url} 
+                        alt={product.brand.name} 
+                        fill 
+                        className="object-contain" 
+                        sizes="40px"
+                      />
+                    </div>
+                  </div>
+                )}
+                <span className="text-xs md:text-sm font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-none border-l-4 border-primary shadow-sm">
+                  {product.brand?.name || 'Marca'}
+                </span>
+              </div>
+
+              {/* Badges & Actions */}
               <div className="flex gap-2 items-center">
                 {!product.is_available && (
                   <Badge variant="destructive" className="font-black uppercase rounded-none px-3 py-1">Agotado</Badge>
