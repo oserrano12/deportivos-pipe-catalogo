@@ -4,6 +4,7 @@ import { BrandChips } from '@/components/catalog/BrandChips'
 import { CategoryChips } from '@/components/catalog/CategoryChips'
 import { FilterDrawer } from '@/components/catalog/FilterDrawer'
 import { HeroCarousel } from '@/components/catalog/HeroCarousel'
+import { BrandMarquee } from '@/components/catalog/BrandMarquee'
 import { SearchBar } from '@/components/catalog/SearchBar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getBrands, getProducts, getCategories } from '@/lib/data/products'
@@ -66,6 +67,9 @@ export default async function Home({
     <div className="w-full">
       {/* Hero Section */}
       <HeroCarousel featuredProducts={featuredProducts} />
+
+      {/* Brand Marquee Infinite Scroll */}
+      <BrandMarquee />
 
       {/* Catalog Section */}
       <div id="catalogo" className="container px-4 py-12 md:py-16 space-y-6 mx-auto scroll-mt-16">
