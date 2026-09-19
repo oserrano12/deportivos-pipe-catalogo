@@ -27,6 +27,7 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
   const [priceStr, setPriceStr] = useState(product?.price?.toString() || '')
   const [selectedSizes, setSelectedSizes] = useState<string[]>(product?.sizes || [])
   const [previewImages, setPreviewImages] = useState<string[]>([])
+  const [compressedFiles, setCompressedFiles] = useState<File[]>([])
   const [loading, setLoading] = useState(false)
 
   const generateSlug = (val: string) => {
@@ -52,11 +53,57 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
     )
   }
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+  const convertToWebP = async (file: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 1200;
+          let width = img.width;
+          let height = img.height;
+          if (width > MAX_WIDTH) {
+            height = Math.round((height * MAX_WIDTH) / width);
+            width = MAX_WIDTH;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return reject(new Error('Canvas failed'));
+          ctx.drawImage(img, 0, 0, width, height);
+          canvas.toBlob((blob) => {
+            if (!blob) return reject(new Error('toBlob failed'));
+            const newName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
+            resolve(new File([blob], newName, { type: 'image/webp' }));
+          }, 'image/webp', 0.85); // 85% quality sweetspot
+        };
+        img.onerror = reject;
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
       const filesArray = Array.from(e.target.files)
       const urls = filesArray.map(file => URL.createObjectURL(file))
       setPreviewImages(urls)
+      
+      toast.info('Comprimiendo imágenes...')
+      try {
+        const converted = await Promise.all(filesArray.map(f => convertToWebP(f)))
+        setCompressedFiles(converted)
+        toast.success('Imágenes optimizadas a WebP')
+      } catch (error) {
+        toast.error('Error al comprimir imágenes')
+        setCompressedFiles(filesArray) // fallback to originals
+      }
+    } else {
+      setPreviewImages([])
+      setCompressedFiles([])
     }
   }
 
@@ -64,6 +111,12 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
     e.preventDefault()
     setLoading(true)
     const formData = new FormData(e.currentTarget)
+    
+    // Override the raw files from the input with our compressed ones
+    formData.delete('images')
+    compressedFiles.forEach(file => {
+      formData.append('images', file)
+    })
     
     try {
       const result = await saveProduct(formData)
