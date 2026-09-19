@@ -13,19 +13,23 @@ interface ProductClientViewProps {
 
 import { getSizeInfo } from '@/lib/sizing'
 
+import { SizeGuideModal } from './SizeGuideModal'
+
 export function ProductClientView({ product }: ProductClientViewProps) {
   const [selectedSizeId, setSelectedSizeId] = useState<string | null>(null)
-  const [selectedGender, setSelectedGender] = useState<'Caballero' | 'Dama' | null>(null)
+  const [selectedGender, setSelectedGender] = useState<'Caballero' | 'Dama' | 'Ropa (Unisex)' | null>(null)
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
 
   const hasDama = product.sizes?.some(s => s.startsWith('D-'))
   const hasCaballero = product.sizes?.some(s => s.startsWith('C-'))
+  const hasRopa = product.sizes?.some(s => s.startsWith('R-'))
   
   const availableGenders = []
   if (hasCaballero) availableGenders.push('Caballero')
   if (hasDama) availableGenders.push('Dama')
+  if (hasRopa) availableGenders.push('Ropa (Unisex)')
 
-  const currentPrefix = selectedGender === 'Caballero' ? 'C-' : selectedGender === 'Dama' ? 'D-' : null
+  const currentPrefix = selectedGender === 'Caballero' ? 'C-' : selectedGender === 'Dama' ? 'D-' : selectedGender === 'Ropa (Unisex)' ? 'R-' : null
   const sizesForGender = currentPrefix 
     ? product.sizes?.filter(s => s.startsWith(currentPrefix)) 
     : []
@@ -85,8 +89,11 @@ export function ProductClientView({ product }: ProductClientViewProps) {
           <div className="space-y-6">
             {availableGenders.length > 0 && (
               <div className="space-y-3">
-                <h3 className="font-semibold text-sm uppercase tracking-wider">Género</h3>
-                <div className="flex gap-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold text-sm uppercase tracking-wider">Género / Tipo</h3>
+                  {!hasRopa && <SizeGuideModal />}
+                </div>
+                <div className="flex flex-wrap gap-4">
                   {availableGenders.map(gender => (
                     <button
                       key={gender}
