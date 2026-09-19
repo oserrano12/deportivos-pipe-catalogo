@@ -47,43 +47,59 @@ export async function seedProducts() {
     throw new Error('Debes crear al menos una marca y una categoría primero')
   }
 
-  const placeholderImages = [
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1595950653106-6c9ebd614c3a?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=1000&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1000&auto=format&fit=crop'
+  // 1. Delete previous seeded products
+  await supabase.from('products').delete().like('slug', 'seed-%')
+
+  // 2. Update real products to have a default description if they don't have one
+  await supabase.from('products').update({
+    description: 'Experimenta la mejor calidad y confort con nuestro calzado premium. Diseñados para brindar un soporte excepcional y un estilo único en cada paso.'
+  }).is('description', null).not('slug', 'like', 'seed-%')
+
+  // 3. Insert new beautiful seed products
+  const seedData = [
+    {
+      name: 'Adidas Ultraboost Pro',
+      image: '/seed/media_1789780251021.jpg',
+      description: 'Zapatillas de running diseñadas con tecnología de retorno de energía para impulsarte en cada zancada. Super ligeras y transpirables.'
+    },
+    {
+      name: 'Fila Disruptor Gym',
+      image: '/seed/media_1789780251026.jpg',
+      description: 'El estilo chunky clásico combinado con suelas antideslizantes, ideales para entrenamiento y lucir increíble en el gimnasio.'
+    },
+    {
+      name: 'Jordan 4 Retro Flight',
+      image: '/seed/media_1789780251037.jpg',
+      description: 'Un ícono de las canchas adaptado a las calles. Diseño legendario con amortiguación Air visible en el talón para máxima comodidad.'
+    },
+    {
+      name: 'Nike Air Max Elite',
+      image: '/seed/media_1789780251043.jpg',
+      description: 'Silueta aerodinámica con cámara de aire completa. Soporte inigualable para salir a correr o recorrer la ciudad sin cansarte.'
+    },
+    {
+      name: 'Nike Zoom Pegasus',
+      image: '/seed/media_1789780251072.jpg',
+      description: 'La zapatilla en la que todos confían. Entresuela reactiva y malla exterior para máxima frescura en el asfalto o la pista.'
+    }
   ]
 
-  const models = ['Air Max', 'Runner Zoom', 'Classic Retro', 'Street Force', 'Elite Pro', 'Cloud Walk', 'Speed Drift', 'Urban Step', 'Jump High', 'Trail Blaze']
-
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < seedData.length; i++) {
     const randomBrand = brands[Math.floor(Math.random() * brands.length)]
     const randomCategory = categories[Math.floor(Math.random() * categories.length)]
-    const randomPrice = Math.floor(Math.random() * 200 + 100) * 1000 // 100k - 300k
+    const randomPrice = Math.floor(Math.random() * 200 + 150) * 1000 // 150k - 350k
     
-    // Create random sizes
-    const sizes = []
-    if (Math.random() > 0.5) sizes.push('C-40', 'C-41', 'C-42')
-    if (Math.random() > 0.5) sizes.push('D-36', 'D-37', 'D-38')
-    if (sizes.length === 0) sizes.push('C-40') // Ensure at least one size
-
     await supabase.from('products').insert({
-      name: `${randomBrand.name} ${models[i]}`,
-      slug: `seed-product-${Date.now()}-${i}`,
-      description: 'Zapatos de prueba generados automáticamente para visualizar el diseño del catálogo y el carrusel de inicio. Puedes eliminarlos cuando quieras.',
+      name: seedData[i].name,
+      slug: `seed-v2-${Date.now()}-${i}`,
+      description: seedData[i].description,
       price: randomPrice,
       brand_id: randomBrand.id,
       category_id: randomCategory.id,
-      sizes: sizes,
-      images: [placeholderImages[i]],
+      sizes: ['C-40', 'C-41', 'C-42', 'D-36', 'D-37'],
+      images: [seedData[i].image],
       is_available: true,
-      is_featured: i < 4 // Make first 4 featured for the carousel!
+      is_featured: true
     })
   }
 
