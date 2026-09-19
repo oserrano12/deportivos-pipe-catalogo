@@ -39,9 +39,9 @@ export function ProductClientView({ product }: ProductClientViewProps) {
       <div className="sticky top-[4.5rem] md:top-20 z-30 mb-6 -mx-2 px-2 py-2 pointer-events-none">
         <a 
           href="/#catalogo"
-          className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground transition-colors bg-background/80 backdrop-blur-md border shadow-sm px-4 py-2.5 rounded-full w-fit hover:bg-muted pointer-events-auto"
+          className="inline-flex items-center gap-2 text-sm font-black text-foreground transition-all bg-background/95 backdrop-blur-xl border-2 border-border shadow-md px-5 py-2.5 rounded-full w-fit hover:bg-muted hover:scale-[1.02] pointer-events-auto"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           Volver al Catálogo
         </a>
       </div>
