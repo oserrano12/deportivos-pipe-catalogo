@@ -42,67 +42,67 @@
 }
 
 :root {
-  /* Minimalist light theme: Clean white with royal blue accent */
-  --background: oklch(0.99 0.01 250);
-  --foreground: oklch(0.15 0.05 260);
+  /* Minimalist light theme: Clean white with classic blue accent */
+  --background: oklch(0.99 0.01 260);
+  --foreground: #0D1B3E; /* Deep Navy text */
   
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.05 260);
+  --card-foreground: #0D1B3E;
   
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.05 260);
+  --popover-foreground: #0D1B3E;
   
-  --primary: oklch(0.45 0.16 260); /* Royal Blue */
+  --primary: #0047AB; /* Classic Blue */
   --primary-foreground: oklch(0.98 0 0);
   
-  --secondary: oklch(0.95 0.02 250);
-  --secondary-foreground: oklch(0.2 0.05 260);
+  --secondary: oklch(0.95 0.02 260);
+  --secondary-foreground: #0047AB;
   
-  --muted: oklch(0.95 0.02 250);
-  --muted-foreground: oklch(0.5 0.02 250);
+  --muted: oklch(0.95 0.02 260);
+  --muted-foreground: oklch(0.5 0.02 260);
   
-  --accent: oklch(0.92 0.03 250);
-  --accent-foreground: oklch(0.15 0.05 260);
+  --accent: oklch(0.92 0.03 260);
+  --accent-foreground: #0D1B3E;
   
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
   
-  --border: oklch(0.9 0.02 250);
-  --input: oklch(0.9 0.02 250);
-  --ring: oklch(0.45 0.16 260);
+  --border: oklch(0.9 0.02 260);
+  --input: oklch(0.9 0.02 260);
+  --ring: #007FFF; /* Bright Blue */
   
   --radius: 1rem; /* More rounded, softer feel for Aurora */
 }
 
 .dark {
   /* Stealth dark theme: Deep Navy with Bright Blue */
-  --background: oklch(0.15 0.02 260);
-  --foreground: oklch(0.98 0.01 250);
+  --background: #0D1B3E; /* Deep Navy */
+  --foreground: oklch(0.98 0.01 260);
   
-  --card: oklch(0.18 0.03 260);
-  --card-foreground: oklch(0.98 0.01 250);
+  --card: oklch(0.2 0.05 260); /* Slightly lighter navy */
+  --card-foreground: oklch(0.98 0.01 260);
   
-  --popover: oklch(0.18 0.03 260);
-  --popover-foreground: oklch(0.98 0.01 250);
+  --popover: oklch(0.2 0.05 260);
+  --popover-foreground: oklch(0.98 0.01 260);
   
-  --primary: oklch(0.65 0.14 245); /* Bright Blue */
-  --primary-foreground: oklch(0.1 0.05 260);
+  --primary: #007FFF; /* Bright Blue */
+  --primary-foreground: #0D1B3E;
   
-  --secondary: oklch(0.2 0.04 260);
+  --secondary: #0047AB; /* Classic Blue */
   --secondary-foreground: oklch(0.98 0 0);
   
-  --muted: oklch(0.2 0.04 260);
-  --muted-foreground: oklch(0.7 0.02 250);
+  --muted: oklch(0.25 0.05 260);
+  --muted-foreground: oklch(0.7 0.02 260);
   
-  --accent: oklch(0.25 0.05 260);
+  --accent: #0047AB;
   --accent-foreground: oklch(0.98 0 0);
   
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
   
-  --border: oklch(0.25 0.03 260);
-  --input: oklch(0.25 0.03 260);
-  --ring: oklch(0.65 0.14 245);
+  --border: oklch(0.25 0.05 260);
+  --input: oklch(0.25 0.05 260);
+  --ring: #007FFF;
 }
 
 @layer base {
@@ -132,15 +132,15 @@
     filter: blur(100px);
   }
   .aurora-bg::before {
-    background: radial-gradient(circle at 15% 50%, #1EA1F2 0%, transparent 40%);
+    background: radial-gradient(circle at 15% 50%, #007FFF 0%, transparent 40%);
   }
   .aurora-bg::after {
-    background: radial-gradient(circle at 85% 20%, #0047BB 0%, transparent 40%);
+    background: radial-gradient(circle at 85% 20%, #0047AB 0%, transparent 40%);
   }
   
   .dark .aurora-bg::before,
   .dark .aurora-bg::after {
-    opacity: 0.1;
+    opacity: 0.2;
   }
   
   /* Custom Scrollbar for a premium feel */

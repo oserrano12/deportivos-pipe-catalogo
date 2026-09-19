@@ -14,7 +14,7 @@ export function Logo({ className = "h-8" }: LogoProps) {
         width={300}
         height={80}
         priority
-        className="object-contain w-auto h-full"
+        className="object-contain w-auto h-full mix-blend-multiply dark:mix-blend-normal"
       />
     </div>
   )
