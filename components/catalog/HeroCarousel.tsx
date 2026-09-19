@@ -41,7 +41,7 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-6rem)] md:min-h-[85vh] overflow-hidden group bg-background border-b border-border py-4 md:py-8 px-4 md:p-12 lg:p-24 gap-4 md:gap-8">
+                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-between w-full h-[calc(100vh-5.5rem)] md:min-h-[85vh] md:h-auto overflow-hidden group bg-background border-b border-border pt-4 pb-2 px-5 md:p-12 lg:p-24 gap-4 md:gap-8">
                   
                   {/* MASSIVE BACKGROUND TEXT */}
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
@@ -54,28 +54,28 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-48 bg-primary/40 dark:bg-primary/30 blur-[80px] md:blur-[120px] -rotate-12 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
 
                   {/* Left: Text Section */}
-                  <div className="relative z-20 w-full md:w-1/2 flex flex-col items-start justify-center text-left">
-                    <span className="inline-block px-3 py-1 bg-foreground text-background text-[10px] font-black italic uppercase tracking-widest rounded-none mb-3 md:mb-6 shadow-[3px_3px_0_0_#007FFF] md:shadow-[4px_4px_0_0_#007FFF]">
+                  <div className="relative z-20 w-full md:w-1/2 flex flex-col items-start justify-start text-left mt-2 md:mt-0">
+                    <span className="inline-block px-3 py-1.5 bg-foreground text-background text-[10px] font-black italic uppercase tracking-widest rounded-none mb-4 md:mb-6 shadow-[3px_3px_0_0_#007FFF] md:shadow-[4px_4px_0_0_#007FFF]">
                       Destacado
                     </span>
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter text-foreground mb-2 md:mb-4 leading-[0.85] flex flex-col">
+                    <h1 className="text-[3rem] sm:text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter text-foreground mb-3 leading-[0.85] flex flex-col">
                       <span className="translate-x-0 group-hover:translate-x-4 transition-transform duration-500">MAXIMIZE</span> 
                       <span className="text-transparent" style={{ WebkitTextStroke: '2px var(--color-foreground)' }}>YOUR</span>
                       <span className="text-primary -translate-x-2 group-hover:translate-x-2 transition-transform duration-700">POTENTIAL.</span>
                     </h1>
-                    <p className="text-muted-foreground font-medium text-xs md:text-base max-w-sm mb-4 md:mb-8 mt-2 md:mt-4 border-l-2 border-primary pl-3 md:pl-4">
+                    <p className="text-muted-foreground font-medium text-xs md:text-base max-w-sm mb-5 mt-2 border-l-2 border-primary pl-3">
                       <strong className="text-foreground">{product.name}</strong> <br/>
-                      <span className="hidden sm:inline">{product.description || "Diseñadas para el impacto máximo. No te quedes atrás."}</span>
+                      <span className="inline-block mt-1 leading-tight">{product.description || "Diseñadas para el impacto máximo."}</span>
                     </p>
-                    <div className="px-6 py-3.5 md:px-10 md:py-5 bg-foreground text-background hover:bg-primary hover:text-white text-xs md:text-sm font-black italic uppercase tracking-widest rounded-none transition-all flex items-center gap-2 md:gap-4 group/btn shadow-[5px_5px_0_0_#007FFF] md:shadow-[8px_8px_0_0_#007FFF] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-1 hover:translate-y-1">
+                    <div className="px-8 py-3.5 md:px-10 md:py-5 bg-foreground text-background hover:bg-primary hover:text-white text-xs md:text-sm font-black italic uppercase tracking-widest rounded-none transition-all flex items-center gap-3 group/btn shadow-[5px_5px_0_0_#007FFF] hover:shadow-[3px_3px_0_0_#000] hover:translate-x-1 hover:translate-y-1">
                       Comprar Ahora
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover/btn:translate-x-2 w-4 h-4 md:w-5 md:h-5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                     </div>
                   </div>
 
                   {/* Center/Right: Product Image */}
-                  <div className="relative z-10 w-full md:w-2/3 flex items-center justify-center mt-4 md:mt-0">
-                    <div className="relative w-full aspect-square max-w-[200px] sm:max-w-[280px] md:max-w-[550px] transition-transform duration-1000 ease-out group-hover:scale-105 group-hover:rotate-2">
+                  <div className="relative z-10 w-full md:w-2/3 flex flex-1 items-end md:items-center justify-center mt-2 mb-2 md:mt-0">
+                    <div className="relative w-full aspect-square max-w-[280px] sm:max-w-[320px] md:max-w-[550px] transition-transform duration-1000 ease-out group-hover:scale-105 group-hover:rotate-2">
                       <div className="absolute inset-0 bg-primary/10 rounded-2xl md:rounded-[3rem] rotate-3 group-hover:rotate-6 transition-transform duration-700" />
                       <div className="relative w-full h-full rounded-2xl md:rounded-[3rem] overflow-hidden border-2 border-border bg-background shadow-2xl">
                         <Image
