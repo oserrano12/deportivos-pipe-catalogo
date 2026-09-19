@@ -64,7 +64,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         
         <div className="flex flex-col gap-1 px-1">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-foreground/70 uppercase tracking-widest">
               {product.brand?.name || 'Marca'}
             </span>
             <span className="text-sm font-black text-primary">

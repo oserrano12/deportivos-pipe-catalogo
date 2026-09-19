@@ -15,7 +15,7 @@ export function Footer() {
           
           {/* Brand Info */}
           <div className="space-y-4">
-            <h3 className="text-xl font-black uppercase tracking-tight">Deportivos Pipe</h3>
+            <h2 className="text-xl font-black uppercase tracking-tight">Deportivos Pipe</h2>
             <p className="text-sm text-muted-foreground font-medium max-w-xs">
               Tu catálogo digital de confianza para calzado deportivo y streetwear. Encuentra tu estilo con nosotros.
             </p>
@@ -23,7 +23,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4 md:mx-auto">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">Enlaces</h4>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Enlaces</h3>
             <nav className="flex flex-col gap-3 text-sm font-medium text-muted-foreground">
               <Link href="/" className="hover:text-primary transition-colors w-fit">Inicio</Link>
               <Link href="/#catalogo" className="hover:text-primary transition-colors w-fit">Ver Catálogo</Link>
@@ -32,7 +32,7 @@ export function Footer() {
 
           {/* Contact & Social */}
           <div className="space-y-4 md:ml-auto">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">Contáctanos</h4>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Contáctanos</h3>
             <div className="flex gap-4">
               <a 
                 href={`https://instagram.com/${instagramUser}`}

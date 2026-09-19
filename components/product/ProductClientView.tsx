@@ -71,7 +71,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
     <div className="pb-32 md:pb-16 container max-w-7xl mx-auto px-4 md:py-8 pt-4 relative min-h-screen">
       
       {/* MASSIVE WATERMARK BACKGROUND */}
-      <div className="fixed inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-[-1]">
+      <div className="fixed inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-[-1]" aria-hidden="true">
         <span className="text-[20vw] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6">
           {product.brand?.name?.toUpperCase() || 'KINETIC'}
         </span>

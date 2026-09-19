@@ -44,7 +44,7 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                 <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-6rem)] md:min-h-[85vh] overflow-hidden group bg-background border-b border-border py-4 md:py-8 px-4 md:p-12 lg:p-24 gap-6 md:gap-8">
                   
                   {/* MASSIVE BACKGROUND TEXT */}
-                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
+                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
                     <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-transform duration-1000">
                       {product.brand?.name?.toUpperCase() || 'KINETIC'}
                     </span>
