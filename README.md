@@ -1,6 +1,6 @@
 # 👟 Deportivos Pipe - Catálogo Digital
 
-[**deportivospipe.com**](https://www.deportivospipe.com)
+<a href="https://www.deportivospipe.com" target="_blank"><strong>deportivospipe.com</strong></a>
 
 Deportivos Pipe es un catálogo digital premium de calzado deportivo y streetwear. Diseñado para maximizar la conversión en WhatsApp, ofrece una experiencia ultra-rápida, una interfaz "Kinetic" inmersiva, y está 100% optimizado para SEO y dispositivos móviles.
 
