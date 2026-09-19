@@ -45,7 +45,7 @@ export function SearchBar() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar modelos, marcas..."
+          placeholder="Buscar..."
           className={`w-full h-11 pl-10 pr-10 rounded-full border border-border/50 shadow-sm bg-background/50 backdrop-blur-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${isPending ? 'opacity-50' : 'opacity-100'}`}
         />
         {query && (
