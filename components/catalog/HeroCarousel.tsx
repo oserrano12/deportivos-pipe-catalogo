@@ -25,7 +25,7 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
   }
 
   return (
-    <div className="w-full relative bg-secondary/20 border-b group/carousel">
+    <div className="w-full relative group/carousel">
       <Carousel
         plugins={[plugin.current]}
         className="w-full"
@@ -41,35 +41,49 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="flex flex-col md:flex-row w-full md:h-[60vh] overflow-hidden group bg-background border-b border-border/10">
+                <Link href={`/producto/${product.slug}`} className="relative flex flex-col items-center justify-start w-full min-h-[70vh] md:min-h-[80vh] overflow-hidden group">
                   
-                  {/* Left: Text Section (Bottom on Mobile) */}
-                  <div className="w-full md:w-1/2 order-2 md:order-1 flex flex-col justify-center items-center md:items-start text-center md:text-left px-6 py-12 md:p-16 lg:px-24 z-20 bg-background shrink-0 relative">
-                    <span className="px-3 py-1 bg-foreground text-background text-[10px] font-black uppercase tracking-widest rounded-full mb-5 shadow-sm inline-block">
+                  {/* Dynamic Brand Gradient Background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#0D1B3E] via-[#0047AB] to-[#007FFF] opacity-90 z-0 transition-opacity duration-700 group-hover:opacity-100" />
+                  
+                  {/* Content Container */}
+                  <div className="relative z-20 flex flex-col items-center text-center px-4 pt-24 md:pt-32 pb-12 w-full max-w-4xl mx-auto">
+                    
+                    {/* Pill Badge */}
+                    <span className="px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest rounded-full mb-6 md:mb-8 shadow-sm">
                       Destacado
                     </span>
-                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-foreground mb-4 leading-[1.05]">
+                    
+                    {/* Main Title (Elegant, Large) */}
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-white mb-6 leading-[1.05] drop-shadow-lg">
                       {product.name}
                     </h1>
-                    <p className="text-muted-foreground font-medium text-sm md:text-base line-clamp-2 max-w-md mb-8">
+                    
+                    <p className="text-white/80 font-medium text-sm md:text-lg max-w-2xl mb-10 drop-shadow-md">
                       {product.description || "Descubre el máximo confort y estilo. Toca para ver los detalles completos de este producto."}
                     </p>
-                    <div className="px-6 py-3.5 bg-primary text-primary-foreground text-sm font-bold rounded-xl flex items-center gap-2 group-hover:scale-105 transition-transform shadow-lg shadow-primary/25">
-                      Ver Producto
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    
+                    {/* Pill Buttons */}
+                    <div className="flex items-center gap-4">
+                      <div className="px-8 py-4 bg-white text-[#0047AB] text-sm md:text-base font-black uppercase tracking-wider rounded-full hover:bg-gray-100 transition-transform hover:scale-105 shadow-xl">
+                        Ver Producto
+                      </div>
                     </div>
+
                   </div>
 
-                  {/* Right: Image Section (Top on Mobile) */}
-                  <div className="w-full md:w-1/2 h-[50vh] md:h-full order-1 md:order-2 relative bg-secondary/20 flex items-center justify-center overflow-hidden">
-                    <div className="relative w-full h-full p-4 md:p-12 z-10 transition-transform duration-700 group-hover:scale-105">
+                  {/* Floating Sneaker Image */}
+                  <div className="relative z-10 w-full max-w-2xl mt-auto md:-mt-12 h-[35vh] md:h-[50vh] flex items-center justify-center">
+                    <div className="relative w-full h-full p-4 transition-transform duration-1000 ease-out group-hover:scale-110 group-hover:-translate-y-4">
+                      {/* Sneaker shadow for realism */}
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-3/4 h-8 bg-black/40 blur-2xl rounded-[100%]" />
                       <Image
                         src={imageUrl}
                         alt={product.name}
                         fill
                         priority={index === 0}
-                        className="object-contain"
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className="object-contain drop-shadow-2xl mix-blend-normal"
+                        sizes="(max-width: 768px) 100vw, 80vw"
                       />
                     </div>
                   </div>
