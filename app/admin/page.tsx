@@ -13,6 +13,7 @@ import Link from 'next/link'
 import { Plus } from 'lucide-react'
 import { DeleteProductButton } from '@/components/admin/DeleteProductButton'
 import { AvailabilitySwitch, FeaturedSwitch } from '@/components/admin/ProductSwitches'
+import { SeedButton } from '@/components/admin/SeedButton'
 
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
@@ -38,9 +39,12 @@ export default async function AdminDashboard() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Gestión de Catálogo</h1>
-        <Link href="/admin/productos/nuevo" className={buttonVariants({ variant: "default" }) + " gap-2 font-bold"}>
-          <Plus className="w-4 h-4" /> Nuevo Producto
-        </Link>
+        <div className="flex gap-2">
+          <SeedButton />
+          <Link href="/admin/productos/nuevo" className={buttonVariants({ variant: "default" }) + " gap-2 font-bold"}>
+            <Plus className="w-4 h-4" /> Nuevo Producto
+          </Link>
+        </div>
       </div>
 
       {products.length === 0 ? (
