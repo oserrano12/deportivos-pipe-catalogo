@@ -32,6 +32,12 @@ export function BottomNav() {
 
         <Link 
           href="/#catalogo"
+          onClick={(e) => {
+            if (pathname === '/') {
+              e.preventDefault();
+              document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
           className={cn(
             "flex flex-col items-center justify-center w-16 h-full text-xs font-medium transition-colors text-muted-foreground hover:text-foreground"
           )}
