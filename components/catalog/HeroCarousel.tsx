@@ -79,10 +79,10 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
           })}
         </CarouselContent>
         
-        {/* Navigation Buttons */}
-        <div className="absolute z-30 bottom-4 right-4 md:bottom-8 md:right-8 flex gap-2">
-          <CarouselPrevious className="static translate-y-0 opacity-100 scale-100 bg-background/80 backdrop-blur border-border hover:bg-background" />
-          <CarouselNext className="static translate-y-0 opacity-100 scale-100 bg-background/80 backdrop-blur border-border hover:bg-background" />
+        {/* Navigation Buttons (Desktop Only or All Devices) */}
+        <div className="hidden md:block">
+          <CarouselPrevious className="absolute z-30 !left-6 h-14 w-14 shadow-xl border-border bg-background/80 backdrop-blur-md hover:bg-background hover:scale-110 transition-all opacity-0 group-hover/carousel:opacity-100 [&_svg]:size-6" />
+          <CarouselNext className="absolute z-30 !right-6 h-14 w-14 shadow-xl border-border bg-background/80 backdrop-blur-md hover:bg-background hover:scale-110 transition-all opacity-0 group-hover/carousel:opacity-100 [&_svg]:size-6" />
         </div>
       </Carousel>
     </div>
