@@ -1,6 +1,8 @@
 # 👟 Deportivos Pipe - Catálogo Digital
 
-Deportivos Pipe es un catálogo digital de calzado deportivo y streetwear diseñado para maximizar la conversión en WhatsApp. Construido con tecnología de punta para ofrecer una experiencia ultra-rápida, estética y 100% optimizada para dispositivos móviles.
+[**deportivospipe.com**](https://www.deportivospipe.com)
+
+Deportivos Pipe es un catálogo digital premium de calzado deportivo y streetwear. Diseñado para maximizar la conversión en WhatsApp, ofrece una experiencia ultra-rápida, una interfaz "Kinetic" inmersiva, y está 100% optimizado para SEO y dispositivos móviles.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
 ![Supabase](https://img.shields.io/badge/Supabase-Database%20%26%20Auth-3ECF8E?style=for-the-badge&logo=supabase)
@@ -9,22 +11,22 @@ Deportivos Pipe es un catálogo digital de calzado deportivo y streetwear diseñ
 
 ## 🌟 Características Principales
 
-*   **⚡ Velocidad Extrema:** Renderizado híbrido con Next.js App Router para carga casi instantánea.
-*   **📱 Mobile-First:** Interfaz diseñada pensando en el uso en celulares (donde ocurren el 90% de las ventas).
-*   **🛒 Integración con WhatsApp:** Flujo de compra directo a WhatsApp. Si un producto está agotado, permite solicitar *Restock* con la talla exacta deseada.
-*   **📸 Galería Avanzada:** Múltiples imágenes por producto con miniaturas y compresión automática a WebP desde el navegador.
-*   **🎯 SEO y OpenGraph:** Tarjetas enriquecidas al compartir links en redes sociales o WhatsApp (Muestra foto, título y precio real).
-*   **⚙️ Panel de Administrador Privado:** Sistema seguro con Supabase Auth para crear, editar, eliminar y gestionar stock de zapatillas desde cualquier dispositivo.
+*   **⚡ Velocidad Extrema (Performance 96+):** Renderizado híbrido con Next.js App Router para carga casi instantánea y un LCP optimizado.
+*   **🎨 Diseño "Kinetic":** Interfaz de usuario dinámica con marcas de agua masivas, destellos de luz (Glows), tipografía agresiva y animaciones sutiles.
+*   **🛒 Integración Nativa con WhatsApp:** Botón de contacto directo por producto. Si una zapatilla está agotada, el botón cambia automáticamente para solicitar *Restock* indicando la talla deseada.
+*   **📸 Galería & Storage:** Subida de múltiples imágenes por producto, comprimidas automáticamente a WebP en el navegador, y almacenadas en Supabase Storage.
+*   **🎯 SEO de Producción:** Sitemap automático, Robots.txt, y tarjetas de previsualización (OpenGraph) reales para compartir en Facebook, Instagram y WhatsApp.
+*   **⭐ Favoritos (Local Storage):** Los usuarios pueden marcar zapatillas como favoritas sin necesidad de registrarse.
+*   **⚙️ Panel de Administración Oculto:** Sistema de gestión completo (CRUD) protegido por Supabase Auth + RLS (Seguridad a Nivel de Fila). **Acceso:** *Triple-click al logo principal* o ingresando a la ruta `/admin`.
 
 ## 🛠️ Stack Tecnológico
 
-*   **Frontend:** Next.js 15, React 19, Tailwind CSS v4, Framer Motion (Animaciones).
-*   **Backend & Base de Datos:** Supabase (PostgreSQL), Supabase Auth, Supabase Storage.
-*   **UI Components:** Shadcn UI, Radix UI, Lucide Icons.
+*   **Frontend:** Next.js 15, React 19, Tailwind CSS v4, Framer Motion (Animaciones fluidas).
+*   **Backend & Base de Datos:** Supabase (PostgreSQL), Auth y Storage con RLS activado.
+*   **UI Components:** Shadcn UI, Radix UI, Lucide Icons, Embla Carousel.
+*   **Despliegue & Dominio:** Vercel (CI/CD Automático).
 
 ## 🚀 Instalación y Desarrollo Local
-
-Si deseas correr este proyecto en tu propia máquina:
 
 1.  **Clona el repositorio:**
     ```bash
@@ -38,7 +40,7 @@ Si deseas correr este proyecto en tu propia máquina:
     ```
 
 3.  **Variables de Entorno:**
-    Crea un archivo `.env.local` en la raíz del proyecto y añade tus credenciales de Supabase:
+    Crea un archivo `.env.local` en la raíz del proyecto.
     ```env
     NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
     NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
@@ -48,11 +50,10 @@ Si deseas correr este proyecto en tu propia máquina:
     ```bash
     npm run dev
     ```
-    El catálogo estará disponible en `http://localhost:3000`.
 
 ## 🔒 Seguridad
 
-Este repositorio **no** contiene credenciales, contraseñas, ni llaves privadas. Todas las conexiones sensibles a la base de datos están inyectadas a través de variables de entorno protegidas en el servidor (Vercel) y el archivo `.env.local` está explícitamente ignorado en `.gitignore`.
+El catálogo cumple con estrictas políticas de seguridad HTTP (X-Frame-Options, STS, Referrer-Policy). Este repositorio **no** contiene credenciales, contraseñas, ni llaves privadas. Todas las conexiones sensibles a la base de datos están inyectadas a través de variables de entorno protegidas en el servidor (Vercel) y las políticas RLS en Supabase impiden modificaciones públicas.
 
 ---
-*Desarrollado para Deportivos Pipe.*
+*Diseñado y desarrollado para Deportivos Pipe.*
