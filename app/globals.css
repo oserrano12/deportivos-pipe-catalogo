@@ -92,13 +92,12 @@
   .aurora-bg {
     position: relative;
     background-color: var(--background);
-    overflow: hidden;
   }
   .aurora-bg::before,
   .aurora-bg::after,
   .aurora-bg-third {
     content: "";
-    position: absolute;
+    position: fixed;
     border-radius: 50%;
     z-index: -1;
     pointer-events: none;
