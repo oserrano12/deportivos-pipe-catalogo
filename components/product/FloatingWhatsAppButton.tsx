@@ -7,7 +7,7 @@ interface FloatingWhatsAppButtonProps {
   productName: string
   price: number
   selectedSize: string | null
-  selectedGender?: 'Caballero' | 'Dama' | null
+  selectedGender?: 'Caballero' | 'Dama' | 'Ropa (Unisex)' | null
   isAvailable: boolean
   needsSize?: boolean
   needsGender?: boolean
