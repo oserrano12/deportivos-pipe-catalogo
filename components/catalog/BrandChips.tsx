@@ -23,6 +23,7 @@ export function BrandChips({ brands }: { brands: Brand[] }) {
     } else {
       params.delete('marca')
     }
+    params.delete('page') // Reset page on filter change
     return `/?${params.toString()}`
   }
 
@@ -30,11 +31,12 @@ export function BrandChips({ brands }: { brands: Brand[] }) {
     <div className="flex overflow-x-auto gap-2 pb-2 -mx-4 px-4 scrollbar-hide">
       <Link
         href={getHref()}
+        scroll={false}
         className={cn(
           "px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors border",
           !activeBrand
-            ? "border-primary text-primary"
-            : "border-border text-muted-foreground hover:text-foreground"
+            ? "border-primary text-primary bg-primary/5"
+            : "border-border text-muted-foreground hover:text-foreground hover:bg-secondary/50"
         )}
       >
         Todas las Marcas
@@ -43,6 +45,7 @@ export function BrandChips({ brands }: { brands: Brand[] }) {
         <Link
           key={brand.id}
           href={getHref(brand.id)}
+          scroll={false}
           className={cn(
             "px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors border",
             activeBrand === brand.id

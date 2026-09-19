@@ -33,9 +33,12 @@ export async function ProductGrid({ search, categoryId, brandId, size, gender, s
   return (
     <div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
-        {paginatedProducts.map((product, index) => (
-          <ProductCard key={product.id} product={product} index={index} />
-        ))}
+        {paginatedProducts.map((product, index) => {
+          const filterKey = `${product.id}-${categoryId || ''}-${brandId || ''}-${size || ''}-${gender || ''}-${sort || ''}-${page}`
+          return (
+            <ProductCard key={filterKey} product={product} index={index} />
+          )
+        })}
       </div>
       <CatalogPagination currentPage={safePage} totalPages={totalPages} />
     </div>

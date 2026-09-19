@@ -14,7 +14,8 @@ export function SortSelect() {
     } else {
       params.set('sort', e.target.value)
     }
-    router.push(`/?${params.toString()}#catalogo`)
+    params.delete('page') // Reset page on sort change
+    router.push(`/?${params.toString()}`, { scroll: false })
   }
 
   return (

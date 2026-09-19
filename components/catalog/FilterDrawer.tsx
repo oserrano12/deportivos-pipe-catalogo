@@ -30,7 +30,8 @@ export function FilterDrawer({ availableSizes, availableGenders }: { availableSi
     if (selectedGender) params.set('genero', selectedGender)
     else params.delete('genero')
 
-    router.push(`/?${params.toString()}#catalogo`)
+    params.delete('page')
+    router.push(`/?${params.toString()}`, { scroll: false })
   }
 
   const clearFilters = () => {
@@ -39,7 +40,8 @@ export function FilterDrawer({ availableSizes, availableGenders }: { availableSi
     const params = new URLSearchParams(searchParams.toString())
     params.delete('talla')
     params.delete('genero')
-    router.push(`/?${params.toString()}#catalogo`)
+    params.delete('page')
+    router.push(`/?${params.toString()}`, { scroll: false })
   }
 
   if (availableSizes.length === 0 && availableGenders.length === 0) {
