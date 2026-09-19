@@ -14,58 +14,82 @@ export function RelatedAndFavorites({
   categoryId: string | null
   allProducts: ProductWithRelations[] 
 }) {
-  const { favoriteIds: favorites } = useFavorites()
+  const { favoriteIds } = useFavorites()
 
-  const displayProducts = useMemo(() => {
-    // Get favorite products that are NOT the current product
-    const favoriteProducts = allProducts.filter(p => 
-      favorites.includes(p.id) && p.id !== currentProductId && p.is_available
+  const { relatedProducts, favoriteProducts } = useMemo(() => {
+    // 1. Favoritos relacionados (excluyendo el actual)
+    const favorites = allProducts.filter(p => 
+      favoriteIds.includes(p.id) && p.id !== currentProductId && p.is_available
     )
 
-    // Get related products (same category) that are NOT the current product and NOT already in favorites
-    const relatedProducts = allProducts.filter(p => 
+    // 2. Recomendados / Similares (misma categoría, excluyendo actual y favoritos para no repetir)
+    let related = allProducts.filter(p => 
       p.category_id === categoryId && 
       p.id !== currentProductId && 
       p.is_available && 
-      !favorites.includes(p.id)
+      !favoriteIds.includes(p.id)
     )
 
-    // Get fallback products (any available) just in case we need more
-    const fallbackProducts = allProducts.filter(p => 
-      p.id !== currentProductId && 
-      p.is_available && 
-      !favorites.includes(p.id) && 
-      p.category_id !== categoryId
-    )
+    // Si no hay suficientes relacionados, rellenar con otros disponibles
+    if (related.length < 4) {
+      const fallbacks = allProducts.filter(p => 
+        p.id !== currentProductId && 
+        p.is_available && 
+        !favoriteIds.includes(p.id) && 
+        p.category_id !== categoryId
+      )
+      related = [...related, ...fallbacks]
+    }
 
-    // Combine them, prioritizing favorites, then related, then fallbacks
-    // We want exactly 4 products if possible
-    const combined = [...favoriteProducts, ...relatedProducts, ...fallbackProducts]
-    return combined.slice(0, 4)
-  }, [allProducts, currentProductId, categoryId, favorites])
+    return {
+      relatedProducts: related.slice(0, 4),
+      favoriteProducts: favorites.slice(0, 4)
+    }
+  }, [allProducts, currentProductId, categoryId, favoriteIds])
 
-  if (displayProducts.length === 0) return null
+  if (relatedProducts.length === 0 && favoriteProducts.length === 0) return null
 
   return (
-    <div className="container max-w-7xl mx-auto px-4 pb-32">
-      <div className="border-t-2 border-border pt-12 space-y-8">
-        <div className="flex flex-col gap-2">
-          <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">
-            PODRÍA INTERESARTE
-          </h2>
-          {favorites.length > 0 && (
-            <p className="text-sm font-bold text-primary uppercase tracking-widest">
-              Basado en tus favoritos y categoría
+    <div className="container max-w-7xl mx-auto px-4 pb-32 space-y-20">
+      
+      {/* Sección 1: Recomendados / Similares */}
+      {relatedProducts.length > 0 && (
+        <div className="border-t-2 border-border pt-12 space-y-8">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">
+              TAMBIÉN TE PODRÍA INTERESAR
+            </h2>
+            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+              Productos similares recomendados
             </p>
-          )}
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {relatedProducts.map((product, index) => (
+              <ProductCard key={product.id} product={product} index={index} />
+            ))}
+          </div>
         </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-          {displayProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
-          ))}
+      )}
+
+      {/* Sección 2: Tus Favoritos */}
+      {favoriteProducts.length > 0 && (
+        <div className="border-t-2 border-border pt-12 space-y-8">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">
+              TUS FAVORITOS
+            </h2>
+            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+              Zapatillas que te han gustado
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {favoriteProducts.map((product, index) => (
+              <ProductCard key={product.id} product={product} index={index} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
     </div>
   )
 }
