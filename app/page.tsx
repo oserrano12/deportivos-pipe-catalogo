@@ -24,7 +24,6 @@ export default async function Home({
   const size = typeof resolvedParams.talla === 'string' ? resolvedParams.talla : undefined
   const gender = typeof resolvedParams.genero === 'string' ? resolvedParams.genero : undefined
   const sort = typeof resolvedParams.sort === 'string' ? resolvedParams.sort : undefined
-  const page = parseInt(typeof resolvedParams.page === 'string' ? resolvedParams.page : '1', 10)
 
   const [brands, categories, allProducts] = await Promise.all([
     getBrands(),
@@ -101,7 +100,7 @@ export default async function Home({
         </div>
 
         <Suspense fallback={<ProductGridSkeleton />}>
-          <ProductGrid search={search} categoryId={categoryId} brandId={brandId} size={size} gender={gender} sort={sort} page={page} />
+          <ProductGrid search={search} categoryId={categoryId} brandId={brandId} size={size} gender={gender} sort={sort} />
         </Suspense>
       </div>
     </div>
