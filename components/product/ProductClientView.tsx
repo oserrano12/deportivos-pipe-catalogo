@@ -35,7 +35,15 @@ export function ProductClientView({ product }: ProductClientViewProps) {
   const displaySize = sizeInfo ? sizeInfo.eur : null
 
   return (
-    <div className="pb-32 md:pb-16 container max-w-6xl mx-auto px-4 md:py-8">
+    <div className="pb-32 md:pb-16 container max-w-6xl mx-auto px-4 md:py-8 pt-4">
+      <a 
+        href="/#catalogo"
+        className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground mb-6 transition-colors bg-secondary/30 px-4 py-2 rounded-full w-fit hover:bg-secondary/60"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Volver al Catálogo
+      </a>
+
       <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
         <div className="md:sticky md:top-24 h-fit">
           <ProductGallery images={product.images} />
