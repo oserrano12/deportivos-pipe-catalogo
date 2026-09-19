@@ -66,8 +66,8 @@ export default async function ProductPage({ params }: { params: Params }) {
               También te podría interesar
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {relatedProducts.map(related => (
-                <ProductCard key={related.id} product={related} />
+              {relatedProducts.map((related, index) => (
+                <ProductCard key={related.id} product={related} index={index} />
               ))}
             </div>
           </div>

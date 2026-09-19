@@ -6,6 +6,7 @@ import { FilterDrawer } from '@/components/catalog/FilterDrawer'
 import { HeroCarousel } from '@/components/catalog/HeroCarousel'
 import { BrandMarquee } from '@/components/catalog/BrandMarquee'
 import { SearchBar } from '@/components/catalog/SearchBar'
+import { SortSelect } from '@/components/catalog/SortSelect'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getBrands, getProducts, getCategories } from '@/lib/data/products'
 
@@ -22,12 +23,17 @@ export default async function Home({
   const search = typeof resolvedParams.q === 'string' ? resolvedParams.q : undefined
   const size = typeof resolvedParams.talla === 'string' ? resolvedParams.talla : undefined
   const gender = typeof resolvedParams.genero === 'string' ? resolvedParams.genero : undefined
+  const sort = typeof resolvedParams.sort === 'string' ? resolvedParams.sort : undefined
+  const page = parseInt(typeof resolvedParams.page === 'string' ? resolvedParams.page : '1', 10)
 
   const [brands, categories, allProducts] = await Promise.all([
     getBrands(),
     getCategories(),
-    getProducts()
+    getProducts() // We fetch all for calculating filters, wait...
   ])
+
+  // To properly calculate filters based on ALL products, we might need all products regardless of sort/filters
+  // But wait, the filters should be calculated from ALL products anyway.
 
   // Calculate used brands
   const usedBrandIds = new Set(allProducts.map(p => p.brand?.id).filter(Boolean))
@@ -57,7 +63,7 @@ export default async function Home({
   const availableSizesList = Array.from(allSizes).sort((a, b) => Number(a) - Number(b))
   const availableGendersList = Array.from(availableGenders).sort()
 
-  // Get featured products for the Hero, or fallback to the latest 5 if none are featured
+  // Get featured products for the Hero
   let featuredProducts = allProducts.filter(p => p.is_featured && p.is_available)
   if (featuredProducts.length === 0) {
     featuredProducts = allProducts.filter(p => p.is_available).slice(0, 5)
@@ -78,9 +84,10 @@ export default async function Home({
             <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight">Catálogo</h1>
             <p className="text-muted-foreground font-medium">Explora nuestra colección completa</p>
           </div>
-          <div className="flex items-center gap-3 w-full md:w-auto">
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
             <SearchBar />
             <FilterDrawer availableSizes={availableSizesList} availableGenders={availableGendersList} />
+            <SortSelect />
           </div>
         </div>
 
@@ -94,7 +101,7 @@ export default async function Home({
         </div>
 
         <Suspense fallback={<ProductGridSkeleton />}>
-          <ProductGrid search={search} categoryId={categoryId} brandId={brandId} size={size} gender={gender} />
+          <ProductGrid search={search} categoryId={categoryId} brandId={brandId} size={size} gender={gender} sort={sort} page={page} />
         </Suspense>
       </div>
     </div>
@@ -103,14 +110,12 @@ export default async function Home({
 
 function ProductGridSkeleton() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="flex flex-col gap-3">
-          <Skeleton className="aspect-square rounded-xl" />
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-1/2" />
-            <Skeleton className="h-4 w-3/4" />
-          </div>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="space-y-3">
+          <Skeleton className="aspect-square w-full rounded-xl" />
+          <Skeleton className="h-4 w-2/3" />
+          <Skeleton className="h-4 w-1/2" />
         </div>
       ))}
     </div>

@@ -6,7 +6,7 @@ export type ProductWithRelations = Database['public']['Tables']['products']['Row
   category: Database['public']['Tables']['categories']['Row'] | null
 }
 
-export async function getProducts(search?: string, categoryId?: string, brandId?: string, size?: string, gender?: string) {
+export async function getProducts(search?: string, categoryId?: string, brandId?: string, size?: string, gender?: string, sort?: string) {
   const supabase = await createClient()
   let query = supabase.from('products').select('*')
 
@@ -18,6 +18,15 @@ export async function getProducts(search?: string, categoryId?: string, brandId?
   }
   if (brandId) {
     query = query.eq('brand_id', brandId)
+  }
+
+  if (sort === 'price_asc') {
+    query = query.order('price', { ascending: true })
+  } else if (sort === 'price_desc') {
+    query = query.order('price', { ascending: false })
+  } else {
+    // defaults to newest first if the column exists, else order by id
+    query = query.order('created_at', { ascending: false })
   }
 
   const { data: productsData, error: productsError } = await query
