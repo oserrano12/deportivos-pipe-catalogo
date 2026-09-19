@@ -37,15 +37,15 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="block relative h-[50vh] md:h-[70vh] w-full overflow-hidden group">
+                <Link href={`/producto/${product.slug}`} className="block relative h-[50vh] md:h-[70vh] w-full overflow-hidden group bg-neutral-950">
                   {/* Background Layer with Blur (Optimized: Less blur on mobile, less opacity to save GPU) */}
                   <div 
-                    className="absolute inset-0 bg-cover bg-center opacity-10 md:opacity-20 blur-sm md:blur-xl scale-110"
+                    className="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-40 blur-sm md:blur-xl scale-110"
                     style={{ backgroundImage: `url(${imageUrl})`, willChange: 'transform' }}
                   />
                   
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10" />
+                  {/* Gradient Overlay to ensure text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/50 to-transparent z-10" />
 
                   {/* Main Image (Optimized: Lazy load off-screen, reduce drop-shadow on mobile) */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -53,7 +53,7 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                     src={imageUrl}
                     alt={product.name}
                     loading={index === 0 ? "eager" : "lazy"}
-                    className="absolute inset-0 w-full h-full object-contain p-8 md:p-16 z-20 transition-transform duration-700 group-hover:scale-105 drop-shadow-md md:drop-shadow-2xl"
+                    className="absolute inset-0 w-full h-full object-contain p-8 md:p-16 z-20 transition-transform duration-700 group-hover:scale-105 drop-shadow-xl"
                     style={{ willChange: 'transform' }}
                   />
 
@@ -62,10 +62,10 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                     <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest rounded-full mb-3 shadow-sm">
                       Destacado
                     </span>
-                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-foreground mb-2 drop-shadow-sm">
+                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white mb-2 drop-shadow-md">
                       {product.name}
                     </h2>
-                    <p className="text-muted-foreground font-medium md:text-lg">
+                    <p className="text-neutral-300 font-medium md:text-lg">
                       Toca para ver detalles
                     </p>
                   </div>
