@@ -48,7 +48,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
       
       {/* MASSIVE WATERMARK BACKGROUND */}
       <div className="fixed inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-[-1]">
-        <span className="text-[20vw] font-black italic tracking-tighter text-foreground/[0.03] dark:text-foreground/[0.05] whitespace-nowrap -rotate-6">
+        <span className="text-[20vw] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6">
           {product.brand?.name?.toUpperCase() || 'KINETIC'}
         </span>
       </div>

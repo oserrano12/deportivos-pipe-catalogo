@@ -41,11 +41,11 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-between w-full min-h-[75vh] md:min-h-[85vh] overflow-hidden group bg-background border-b border-border p-6 md:p-12 lg:p-24 gap-8">
+                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-5rem)] md:min-h-[85vh] overflow-hidden group bg-background border-b border-border py-8 px-5 md:p-12 lg:p-24 gap-12 md:gap-8">
                   
                   {/* MASSIVE BACKGROUND TEXT */}
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
-                    <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.03] dark:text-foreground/[0.08] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-transform duration-1000">
+                    <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-transform duration-1000">
                       {product.brand?.name?.toUpperCase() || 'KINETIC'}
                     </span>
                   </div>
@@ -54,11 +54,11 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-48 bg-primary/40 dark:bg-primary/30 blur-[80px] md:blur-[120px] -rotate-12 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
 
                   {/* Left: Text Section */}
-                  <div className="relative z-20 w-full md:w-1/2 flex flex-col items-start justify-center text-left mt-12 md:mt-0">
+                  <div className="relative z-20 w-full md:w-1/2 flex flex-col items-start justify-center text-left">
                     <span className="inline-block px-4 py-1.5 bg-foreground text-background text-[10px] font-black italic uppercase tracking-widest rounded-none mb-6 shadow-[4px_4px_0_0_#007FFF]">
                       Destacado
                     </span>
-                    <h1 className="text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter text-foreground mb-4 leading-[0.85] flex flex-col">
+                    <h1 className="text-[3.25rem] sm:text-6xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter text-foreground mb-4 leading-[0.85] flex flex-col">
                       <span className="translate-x-0 group-hover:translate-x-4 transition-transform duration-500">MAXIMIZE</span> 
                       <span className="text-transparent" style={{ WebkitTextStroke: '2px var(--color-foreground)' }}>YOUR</span>
                       <span className="text-primary -translate-x-2 group-hover:translate-x-2 transition-transform duration-700">POTENTIAL.</span>
