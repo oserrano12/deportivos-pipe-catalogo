@@ -39,37 +39,42 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="block relative h-[60vh] md:h-[75vh] w-full overflow-hidden group bg-muted">
+                <Link href={`/producto/${product.slug}`} className="flex flex-col md:flex-row w-full md:h-[60vh] overflow-hidden group bg-background border-b border-border/10">
                   
-                  {/* Main Full-Screen Image */}
-                  <div className="absolute inset-0 z-10 transition-transform duration-1000 group-hover:scale-105" style={{ willChange: 'transform' }}>
-                    <Image
-                      src={imageUrl}
-                      alt={product.name}
-                      fill
-                      priority={index === 0}
-                      className="object-cover object-center"
-                      sizes="100vw"
-                    />
-                  </div>
-
-                  {/* Subtle Gradient Overlay for depth */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-20 opacity-80" />
-
-                  {/* Floating Box overlay */}
-                  <div className="absolute bottom-6 left-1/2 -translate-x-1/2 md:bottom-12 md:right-12 md:left-auto md:translate-x-0 w-[90%] md:w-[420px] bg-background/95 backdrop-blur-xl border border-border/50 shadow-2xl rounded-2xl p-6 md:p-8 z-30 flex flex-col items-center md:items-start text-center md:text-left transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-primary/20">
-                    <span className="px-3 py-1 bg-primary text-primary-foreground text-[10px] font-black uppercase tracking-widest rounded-full mb-4 shadow-sm inline-block">
+                  {/* Left: Text Section (Bottom on Mobile) */}
+                  <div className="w-full md:w-1/2 order-2 md:order-1 flex flex-col justify-center items-center md:items-start text-center md:text-left px-6 py-12 md:p-16 lg:px-24 z-20 bg-background shrink-0">
+                    <span className="px-3 py-1 bg-foreground text-background text-[10px] font-black uppercase tracking-widest rounded-full mb-5 shadow-sm inline-block">
                       Destacado
                     </span>
-                    <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-foreground mb-3 leading-tight">
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-foreground mb-4 leading-[1.05]">
                       {product.name}
-                    </h2>
-                    <p className="text-muted-foreground font-medium text-sm md:text-base line-clamp-2">
-                      {product.description || "Toca para ver detalles de este increíble producto."}
+                    </h1>
+                    <p className="text-muted-foreground font-medium text-sm md:text-base line-clamp-2 max-w-md mb-8">
+                      {product.description || "Descubre el máximo confort y estilo. Toca para ver los detalles completos de este producto."}
                     </p>
-                    <div className="mt-6 text-sm font-bold text-primary flex items-center gap-2 group/btn">
+                    <div className="px-6 py-3.5 bg-primary text-primary-foreground text-sm font-bold rounded-xl flex items-center gap-2 group/btn transition-transform hover:scale-105 shadow-lg shadow-primary/25">
                       Ver Producto
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover/btn:translate-x-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                  </div>
+
+                  {/* Right: Image Section (Top on Mobile) */}
+                  <div className="w-full md:w-1/2 h-[50vh] md:h-full order-1 md:order-2 relative bg-secondary/30 flex items-center justify-center overflow-hidden">
+                    {/* Subtle ambiance blur behind the shoe */}
+                    <div 
+                      className="absolute inset-0 bg-cover bg-center opacity-30 blur-2xl scale-110"
+                      style={{ backgroundImage: `url(${imageUrl})`, willChange: 'transform' }}
+                    />
+                    
+                    <div className="relative w-full h-full p-8 md:p-12 z-10 transition-transform duration-700 group-hover:scale-105">
+                      <Image
+                        src={imageUrl}
+                        alt={product.name}
+                        fill
+                        priority={index === 0}
+                        className="object-contain drop-shadow-2xl"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
                     </div>
                   </div>
                 </Link>
