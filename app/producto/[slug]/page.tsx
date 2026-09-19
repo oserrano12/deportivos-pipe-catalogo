@@ -4,6 +4,8 @@ import { ProductClientView } from '@/components/product/ProductClientView'
 import { ProductCard } from '@/components/catalog/ProductCard'
 import { Metadata, ResolvingMetadata } from 'next'
 
+import { RelatedAndFavorites } from '@/components/product/RelatedAndFavorites'
+
 export const revalidate = 60 // 1 minute ISR caching for extreme performance
 
 type Params = Promise<{ slug: string }>
@@ -49,30 +51,17 @@ export default async function ProductPage({ params }: { params: Params }) {
     notFound()
   }
 
-  // Fetch related products (same category, available, excluding current)
+  // Fetch all products to pass to the client component for client-side favorite mixing
   const allProducts = await getProducts()
-  const relatedProducts = allProducts
-    .filter(p => p.category_id === product.category_id && p.id !== product.id && p.is_available)
-    .slice(0, 4)
 
   return (
     <>
       <ProductClientView product={product} />
-      
-      {relatedProducts.length > 0 && (
-        <div className="container max-w-6xl mx-auto px-4 pb-32">
-          <div className="border-t pt-12 space-y-8">
-            <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight">
-              También te podría interesar
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {relatedProducts.map((related, index) => (
-                <ProductCard key={related.id} product={related} index={index} />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      <RelatedAndFavorites 
+        currentProductId={product.id} 
+        categoryId={product.category_id} 
+        allProducts={allProducts} 
+      />
     </>
   )
 }
