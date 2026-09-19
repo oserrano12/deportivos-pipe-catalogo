@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import { ProductGrid } from '@/components/catalog/ProductGrid'
-import { CategoryChips } from '@/components/catalog/CategoryChips'
 import { BrandChips } from '@/components/catalog/BrandChips'
 import { FilterDrawer } from '@/components/catalog/FilterDrawer'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -31,7 +30,6 @@ export default async function Home({
       </div>
 
       <div className="space-y-3">
-        <CategoryChips categories={categories} />
         <BrandChips brands={brands} />
       </div>
 
