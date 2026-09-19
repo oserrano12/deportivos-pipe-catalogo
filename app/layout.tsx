@@ -46,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 font-sans antialiased">
+      <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 font-sans antialiased aurora-bg">
         <FavoritesProvider>
           <ThemeProvider
             attribute="class"

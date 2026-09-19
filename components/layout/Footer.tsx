@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Logo } from '@/components/ui/Logo'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -15,7 +16,7 @@ export function Footer() {
           
           {/* Brand Info */}
           <div className="space-y-4">
-            <h3 className="text-xl font-black uppercase tracking-tight">Deportivos Pipe</h3>
+            <Logo className="h-8 md:h-10 w-auto opacity-90 hover:opacity-100 transition-opacity" />
             <p className="text-sm text-muted-foreground font-medium max-w-xs">
               Tu catálogo digital de confianza para calzado deportivo y streetwear. Encuentra tu estilo con nosotros.
             </p>

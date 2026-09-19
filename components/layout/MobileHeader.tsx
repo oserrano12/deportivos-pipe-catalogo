@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import * as React from 'react'
 
+import { Logo } from '@/components/ui/Logo'
+
 export function MobileHeader() {
   const router = useRouter()
   const clickCount = useRef(0)
@@ -43,10 +45,10 @@ export function MobileHeader() {
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${whatsappMessage}`
   
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container max-w-6xl mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" onClick={handleLogoClick} className="flex items-center gap-2 select-none">
-          <span className="font-bold text-xl md:text-2xl tracking-tight uppercase">Deportivos Pipe</span>
+    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-sm">
+      <div className="container max-w-6xl mx-auto flex h-20 items-center justify-between px-4">
+        <Link href="/" onClick={handleLogoClick} className="flex items-center gap-2 select-none" aria-label="Inicio">
+          <Logo className="h-10 md:h-12 w-auto drop-shadow-sm" />
         </Link>
 
         {/* Desktop Navigation */}
