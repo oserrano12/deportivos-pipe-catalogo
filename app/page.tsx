@@ -1,11 +1,12 @@
 import { Suspense } from 'react'
 import { ProductGrid } from '@/components/catalog/ProductGrid'
 import { BrandChips } from '@/components/catalog/BrandChips'
+import { CategoryChips } from '@/components/catalog/CategoryChips'
 import { FilterDrawer } from '@/components/catalog/FilterDrawer'
 import { HeroCarousel } from '@/components/catalog/HeroCarousel'
 import { SearchBar } from '@/components/catalog/SearchBar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { getBrands, getProducts } from '@/lib/data/products'
+import { getBrands, getProducts, getCategories } from '@/lib/data/products'
 
 export const revalidate = 0 // For now, dynamic fetching
 
@@ -21,14 +22,19 @@ export default async function Home({
   const size = typeof resolvedParams.talla === 'string' ? resolvedParams.talla : undefined
   const gender = typeof resolvedParams.genero === 'string' ? resolvedParams.genero : undefined
 
-  const [brands, allProducts] = await Promise.all([
+  const [brands, categories, allProducts] = await Promise.all([
     getBrands(),
+    getCategories(),
     getProducts()
   ])
 
   // Calculate used brands
   const usedBrandIds = new Set(allProducts.map(p => p.brand?.id).filter(Boolean))
   const availableBrands = brands.filter(b => usedBrandIds.has(b.id))
+
+  // Calculate used categories
+  const usedCategoryIds = new Set(allProducts.map(p => p.category?.id).filter(Boolean))
+  const availableCategories = categories.filter(c => usedCategoryIds.has(c.id))
 
   // Calculate used sizes and genders
   const allSizes = new Set<string>()
@@ -74,11 +80,14 @@ export default async function Home({
           </div>
         </div>
 
-        {availableBrands.length > 0 && (
-          <div className="space-y-4 pt-2">
+        <div className="space-y-4 pt-2">
+          {availableCategories.length > 0 && (
+            <CategoryChips categories={availableCategories} />
+          )}
+          {availableBrands.length > 0 && (
             <BrandChips brands={availableBrands} />
-          </div>
-        )}
+          )}
+        </div>
 
         <Suspense fallback={<ProductGridSkeleton />}>
           <ProductGrid search={search} categoryId={categoryId} brandId={brandId} size={size} gender={gender} />
