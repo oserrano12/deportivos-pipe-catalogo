@@ -51,7 +51,7 @@ export function Footer() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-background border flex items-center justify-center text-muted-foreground hover:text-[#25D366] hover:border-[#25D366] transition-colors"
+                className="w-10 h-10 rounded-full bg-background border flex items-center justify-center text-muted-foreground hover:text-white hover:border-transparent hover:bg-[#25D366] transition-colors"
                 aria-label="WhatsApp"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
