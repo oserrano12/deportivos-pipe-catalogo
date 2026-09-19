@@ -14,8 +14,13 @@ interface ProductClientViewProps {
 import { getSizeInfo } from '@/lib/sizing'
 
 import { SizeGuideModal } from './SizeGuideModal'
+import { Heart } from 'lucide-react'
+import { useFavorites } from '@/components/context/FavoritesContext'
 
 export function ProductClientView({ product }: ProductClientViewProps) {
+  const { isFavorite, toggleFavorite } = useFavorites()
+  const favorite = isFavorite(product.id)
+  
   const [selectedSizeId, setSelectedSizeId] = useState<string | null>(null)
   const [selectedGender, setSelectedGender] = useState<'Caballero' | 'Dama' | 'Ropa (Unisex)' | null>(null)
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
@@ -61,13 +66,25 @@ export function ProductClientView({ product }: ProductClientViewProps) {
               <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                 {product.brand?.name}
               </span>
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 {!product.is_available && (
                   <Badge variant="destructive" className="font-bold">Agotado</Badge>
                 )}
                 {product.is_featured && (
                   <Badge className="bg-primary text-primary-foreground font-bold">Destacado</Badge>
                 )}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    toggleFavorite(product.id)
+                  }}
+                  className="ml-2 p-2 rounded-full bg-background border shadow-sm hover:bg-muted transition-colors outline-none focus:ring-2 ring-primary"
+                  aria-label="Agregar a favoritos"
+                >
+                  <Heart 
+                    className={`w-5 h-5 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-foreground'}`} 
+                  />
+                </button>
               </div>
             </div>
             
