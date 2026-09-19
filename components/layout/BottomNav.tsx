@@ -24,17 +24,6 @@ export function BottomNav() {
           <Home className="h-5 w-5 mb-1" />
           Inicio
         </Link>
-        
-        <Link 
-          href="/categorias"
-          className={cn(
-            "flex flex-col items-center justify-center w-16 h-full text-xs font-medium transition-colors",
-            pathname === '/categorias' ? "text-primary" : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          <Grid className="h-5 w-5 mb-1" />
-          Categorías
-        </Link>
 
         <a 
           href={whatsappUrl}

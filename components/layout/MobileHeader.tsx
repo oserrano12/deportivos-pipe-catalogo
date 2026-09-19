@@ -17,7 +17,6 @@ export function MobileHeader() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-wider">
           <Link href="/" className="hover:text-primary transition-colors">Inicio</Link>
-          <Link href="/categorias" className="hover:text-primary transition-colors">Categorías</Link>
           <a href={whatsappUrl} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Contacto</a>
         </nav>
 
