@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { MobileHeader } from "@/components/layout/MobileHeader"
 import { BottomNav } from "@/components/layout/BottomNav"
+import { Footer } from "@/components/layout/Footer"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { Toaster } from "@/components/ui/sonner"
 import "./globals.css"
@@ -42,7 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 font-sans antialiased pb-16">
+      <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -50,9 +51,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MobileHeader />
-          <main className="flex-1">
+          <main className="flex-1 flex flex-col">
             {children}
           </main>
+          <Footer />
           <BottomNav />
           <Toaster position="top-center" richColors />
         </ThemeProvider>
