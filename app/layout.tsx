@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { MobileHeader } from "@/components/layout/MobileHeader"
+import { SplashScreen } from "@/components/layout/SplashScreen"
 import { BottomNav } from "@/components/layout/BottomNav"
 import { Footer } from "@/components/layout/Footer"
 import { FavoritesProvider } from "@/components/context/FavoritesContext"
@@ -59,6 +60,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <SplashScreen />
             <MobileHeader />
             <main className="flex-1 flex flex-col">
               {children}
