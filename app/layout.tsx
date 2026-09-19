@@ -37,6 +37,8 @@ export const metadata: Metadata = {
   }
 }
 
+import { GoogleTagManager } from '@next/third-parties/google'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -61,6 +63,7 @@ export default function RootLayout({
             <Toaster position="top-center" richColors />
           </ThemeProvider>
         </FavoritesProvider>
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || 'GTM-TGKPL943'} />
       </body>
     </html>
   )
