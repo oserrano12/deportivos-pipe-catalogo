@@ -30,7 +30,7 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
         }}
       >
         <CarouselContent>
-          {featuredProducts.map((product) => {
+          {featuredProducts.map((product, index) => {
             const imageUrl = product.images && product.images.length > 0 
               ? product.images[0] 
               : '/placeholder-sneaker.webp'
@@ -38,29 +38,31 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
             return (
               <CarouselItem key={product.id}>
                 <Link href={`/producto/${product.slug}`} className="block relative h-[50vh] md:h-[70vh] w-full overflow-hidden group">
-                  {/* Background Layer with Blur */}
+                  {/* Background Layer with Blur (Optimized: Less blur on mobile, less opacity to save GPU) */}
                   <div 
-                    className="absolute inset-0 bg-cover bg-center opacity-30 blur-xl scale-110"
-                    style={{ backgroundImage: `url(${imageUrl})` }}
+                    className="absolute inset-0 bg-cover bg-center opacity-10 md:opacity-20 blur-sm md:blur-xl scale-110"
+                    style={{ backgroundImage: `url(${imageUrl})`, willChange: 'transform' }}
                   />
                   
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10" />
 
-                  {/* Main Image */}
+                  {/* Main Image (Optimized: Lazy load off-screen, reduce drop-shadow on mobile) */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imageUrl}
                     alt={product.name}
-                    className="absolute inset-0 w-full h-full object-contain p-8 md:p-16 z-20 transition-transform duration-700 group-hover:scale-105 drop-shadow-2xl"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    className="absolute inset-0 w-full h-full object-contain p-8 md:p-16 z-20 transition-transform duration-700 group-hover:scale-105 drop-shadow-md md:drop-shadow-2xl"
+                    style={{ willChange: 'transform' }}
                   />
 
                   {/* Text overlay */}
                   <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 z-30 flex flex-col items-center text-center">
-                    <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest rounded-full mb-3">
+                    <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-widest rounded-full mb-3 shadow-sm">
                       Destacado
                     </span>
-                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-foreground mb-2 drop-shadow-md">
+                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-foreground mb-2 drop-shadow-sm">
                       {product.name}
                     </h2>
                     <p className="text-muted-foreground font-medium md:text-lg">
