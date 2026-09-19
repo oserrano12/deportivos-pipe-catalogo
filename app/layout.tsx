@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Deportivos Pipe | Catálogo",
   description: "Catálogo digital de calzado deportivo y streetwear en Colombia.",
+  authors: [{ name: "oserrano12", url: "https://github.com/oserrano12" }],
+  creator: "oserrano12",
+  publisher: "oserrano12",
   openGraph: {
     title: "Deportivos Pipe | Catálogo",
     description: "Catálogo digital de calzado deportivo y streetwear en Colombia.",

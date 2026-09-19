@@ -2,6 +2,7 @@
   "name": "deportivos-pipe-catalogo",
   "version": "0.1.0",
   "private": true,
+  "author": "oserrano12",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -3,12 +3,20 @@
 import Link from 'next/link'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { useRouter } from 'next/navigation'
+import { useEffect, useRef } from 'react'
 import * as React from 'react'
 
 export function MobileHeader() {
   const router = useRouter()
-  const clickCount = React.useRef(0)
-  const clickTimeout = React.useRef<NodeJS.Timeout | null>(null)
+  const clickCount = useRef(0)
+  const clickTimeout = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    console.log(
+      "%c🚀 Designed and Developed by oserrano12",
+      "color: #ff5500; font-size: 16px; font-weight: bold; padding: 10px; border-radius: 5px; background: #111;"
+    )
+  }, [])
 
   const handleLogoClick = (e: React.MouseEvent) => {
     clickCount.current += 1
