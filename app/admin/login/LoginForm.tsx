@@ -31,7 +31,7 @@ export function LoginForm() {
             <form action={formAction} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-xs uppercase tracking-wider font-bold">Email</Label>
-                <Input id="email" name="email" type="email" placeholder="admin@deportivospipe.com" required className="h-12 bg-background border-input focus-visible:ring-primary focus-visible:border-primary" />
+                <Input id="email" name="email" type="email" required className="h-12 bg-background border-input focus-visible:ring-primary focus-visible:border-primary" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-xs uppercase tracking-wider font-bold">Contraseña</Label>
