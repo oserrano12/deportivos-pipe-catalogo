@@ -14,7 +14,7 @@ export function RelatedAndFavorites({
   categoryId: string | null
   allProducts: ProductWithRelations[] 
 }) {
-  const { favorites } = useFavorites()
+  const { favoriteIds: favorites } = useFavorites()
 
   const displayProducts = useMemo(() => {
     // Get favorite products that are NOT the current product
