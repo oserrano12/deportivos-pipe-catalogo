@@ -190,35 +190,52 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="images">Nuevas Imágenes</Label>
-        <Input id="images" name="images" type="file" multiple accept="image/*" onChange={handleImageSelect} />
+      <div className="space-y-4 bg-secondary/20 p-4 rounded-xl border">
+        <Label htmlFor="images" className="text-base font-bold">Imágenes del Producto</Label>
         
-        {/* Previews of newly selected images */}
-        {previewImages.length > 0 && (
-          <div className="mt-2 space-y-1">
-            <p className="text-xs text-muted-foreground">Archivos por subir:</p>
-            <div className="flex gap-2 flex-wrap">
-              {previewImages.map((img, idx) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={idx} src={img} alt="Preview" className="w-16 h-16 object-cover rounded-md border border-primary/50" />
-              ))}
+        <div className="flex items-center gap-4">
+          <Input id="images" name="images" type="file" multiple accept="image/*" onChange={handleImageSelect} className="bg-background" />
+        </div>
+        
+        {/* Gallery Preview Area */}
+        <div className="space-y-4 pt-2">
+          {/* Existing Images */}
+          {product?.images && product.images.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                Imágenes Actualmente Publicadas
+              </p>
+              <div className="flex gap-3 flex-wrap">
+                {product.images.map((img: string, idx: number) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <div key={`exist-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-border shadow-sm">
+                    <img src={img} alt="Current" className="w-28 h-28 object-cover" />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Existing Images */}
-        {product?.images && product.images.length > 0 && previewImages.length === 0 && (
-          <div className="mt-2 space-y-1">
-            <p className="text-xs text-muted-foreground">Imágenes actuales:</p>
-            <div className="flex gap-2 flex-wrap">
-              {product.images.map((img: string, idx: number) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={idx} src={img} alt="Current" className="w-16 h-16 object-cover rounded-md border opacity-80" />
-              ))}
+          {/* New Images Preview */}
+          {previewImages.length > 0 && (
+            <div className="space-y-2 pt-2">
+              <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                Nuevas Imágenes por Subir
+              </p>
+              <div className="flex gap-3 flex-wrap">
+                {previewImages.map((img, idx) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <div key={`new-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-primary shadow-md">
+                    <img src={img} alt="Preview" className="w-28 h-28 object-cover" />
+                    <div className="absolute inset-0 bg-primary/10"></div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <div className="flex items-center gap-6 pt-2">
