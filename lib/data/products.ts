@@ -6,12 +6,12 @@ export type ProductWithRelations = Database['public']['Tables']['products']['Row
   category: Database['public']['Tables']['categories']['Row'] | null
 }
 
-export async function getProducts(search?: string, categoryId?: string, brandId?: string) {
+export async function getProducts(search?: string, categoryId?: string, brandId?: string, size?: string, gender?: string) {
   const supabase = await createClient()
   let query = supabase.from('products').select('*')
 
   if (search) {
-    query = query.ilike('name', `%${search}%`)
+    query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`)
   }
   if (categoryId) {
     query = query.eq('category_id', categoryId)
@@ -31,11 +31,21 @@ export async function getProducts(search?: string, categoryId?: string, brandId?
   const { data: brandsData } = await supabase.from('brands').select('*')
   const { data: categoriesData } = await supabase.from('categories').select('*')
 
-  const products = productsData.map(product => ({
+  let products = productsData.map(product => ({
     ...product,
     brand: brandsData?.find(b => b.id === product.brand_id) || null,
     category: categoriesData?.find(c => c.id === product.category_id) || null
   }))
+
+  // JS-side filtering for complex JSON/array fields
+  if (size) {
+    products = products.filter(p => p.sizes?.some(s => s.endsWith(`-${size}`)))
+  }
+
+  if (gender) {
+    const prefix = gender === 'Caballero' ? 'C-' : 'D-'
+    products = products.filter(p => p.sizes?.some(s => s.startsWith(prefix)))
+  }
 
   return products as ProductWithRelations[]
 }

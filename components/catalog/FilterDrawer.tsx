@@ -19,33 +19,37 @@ export function FilterDrawer() {
   const router = useRouter()
   const searchParams = useSearchParams()
   
-  // Just an example state for size filtering
   const [selectedSize, setSelectedSize] = useState<string | null>(searchParams.get('talla'))
+  const [selectedGender, setSelectedGender] = useState<string | null>(searchParams.get('genero'))
 
   const applyFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
-    if (selectedSize) {
-      params.set('talla', selectedSize)
-    } else {
-      params.delete('talla')
-    }
-    router.push(`/?${params.toString()}`)
+    if (selectedSize) params.set('talla', selectedSize)
+    else params.delete('talla')
+
+    if (selectedGender) params.set('genero', selectedGender)
+    else params.delete('genero')
+
+    router.push(`/?${params.toString()}#catalogo`)
   }
 
   const clearFilters = () => {
     setSelectedSize(null)
+    setSelectedGender(null)
     const params = new URLSearchParams(searchParams.toString())
     params.delete('talla')
-    router.push(`/?${params.toString()}`)
+    params.delete('genero')
+    router.push(`/?${params.toString()}#catalogo`)
   }
 
-  const sizes = ["36", "37", "38", "39", "40", "41", "42", "43", "44"]
+  const sizes = ["36", "37", "38", "39", "40", "41", "42", "43", "44", "45"]
+  const genders = ["Caballero", "Dama"]
 
   return (
     <Drawer>
-      <DrawerTrigger className="inline-flex items-center justify-center h-9 gap-2 px-3 rounded-full border border-border bg-background text-sm font-medium hover:bg-muted hover:text-foreground outline-none">
+      <DrawerTrigger className="inline-flex items-center justify-center h-11 md:h-11 gap-2 px-6 rounded-full border-2 border-border bg-background text-sm font-bold hover:bg-muted hover:text-foreground outline-none transition-colors shrink-0">
         <SlidersHorizontal className="h-4 w-4" />
-        Filtros
+        Filtros {(selectedSize || selectedGender) && <span className="w-2 h-2 rounded-full bg-primary ml-1" />}
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-md">
@@ -54,28 +58,46 @@ export function FilterDrawer() {
             <DrawerDescription>Encuentra tus sneakers ideales.</DrawerDescription>
           </DrawerHeader>
           
-          <div className="p-4 pb-0">
-            <h4 className="text-sm font-medium mb-3 text-foreground">Talla (EUR)</h4>
-            <div className="grid grid-cols-4 gap-2">
-              {sizes.map(size => (
-                <Button
-                  key={size}
-                  variant={selectedSize === size ? 'default' : 'outline'}
-                  className="rounded-xl font-bold"
-                  onClick={() => setSelectedSize(size === selectedSize ? null : size)}
-                >
-                  {size}
-                </Button>
-              ))}
+          <div className="p-4 pb-0 space-y-6">
+            <div>
+              <h4 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Género</h4>
+              <div className="grid grid-cols-2 gap-3">
+                {genders.map(gender => (
+                  <Button
+                    key={gender}
+                    variant={selectedGender === gender ? 'default' : 'outline'}
+                    className="rounded-xl font-bold h-12"
+                    onClick={() => setSelectedGender(gender === selectedGender ? null : gender)}
+                  >
+                    {gender}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Talla (EUR)</h4>
+              <div className="grid grid-cols-5 gap-2">
+                {sizes.map(size => (
+                  <Button
+                    key={size}
+                    variant={selectedSize === size ? 'default' : 'outline'}
+                    className="rounded-xl font-bold"
+                    onClick={() => setSelectedSize(size === selectedSize ? null : size)}
+                  >
+                    {size}
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
           
-          <DrawerFooter>
-            <DrawerClose onClick={applyFilters} className="w-full h-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground font-bold uppercase tracking-wider hover:bg-primary/90 outline-none">
+          <DrawerFooter className="mt-4">
+            <DrawerClose onClick={applyFilters} className="w-full h-12 inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground font-black uppercase tracking-wider hover:bg-primary/90 outline-none shadow-md">
               Aplicar Filtros
             </DrawerClose>
-            <DrawerClose onClick={clearFilters} className="w-full h-10 inline-flex items-center justify-center rounded-md hover:bg-muted hover:text-foreground text-sm font-medium outline-none">
-              Limpiar
+            <DrawerClose onClick={clearFilters} className="w-full h-12 inline-flex items-center justify-center rounded-xl hover:bg-muted hover:text-foreground text-sm font-bold outline-none border border-transparent hover:border-border mt-2">
+              Limpiar Todo
             </DrawerClose>
           </DrawerFooter>
         </div>

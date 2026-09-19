@@ -3,6 +3,7 @@ import { ProductGrid } from '@/components/catalog/ProductGrid'
 import { BrandChips } from '@/components/catalog/BrandChips'
 import { FilterDrawer } from '@/components/catalog/FilterDrawer'
 import { HeroCarousel } from '@/components/catalog/HeroCarousel'
+import { SearchBar } from '@/components/catalog/SearchBar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getBrands, getProducts } from '@/lib/data/products'
 
@@ -17,6 +18,8 @@ export default async function Home({
   const categoryId = typeof resolvedParams.categoria === 'string' ? resolvedParams.categoria : undefined
   const brandId = typeof resolvedParams.marca === 'string' ? resolvedParams.marca : undefined
   const search = typeof resolvedParams.q === 'string' ? resolvedParams.q : undefined
+  const size = typeof resolvedParams.talla === 'string' ? resolvedParams.talla : undefined
+  const gender = typeof resolvedParams.genero === 'string' ? resolvedParams.genero : undefined
 
   const [brands, allProducts] = await Promise.all([
     getBrands(),
@@ -41,15 +44,18 @@ export default async function Home({
             <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight">Catálogo</h1>
             <p className="text-muted-foreground font-medium">Explora nuestra colección completa</p>
           </div>
-          <FilterDrawer />
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <SearchBar />
+            <FilterDrawer />
+          </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 pt-2">
           <BrandChips brands={brands} />
         </div>
 
         <Suspense fallback={<ProductGridSkeleton />}>
-          <ProductGrid search={search} categoryId={categoryId} brandId={brandId} />
+          <ProductGrid search={search} categoryId={categoryId} brandId={brandId} size={size} gender={gender} />
         </Suspense>
       </div>
     </div>

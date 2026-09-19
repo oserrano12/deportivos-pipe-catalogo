@@ -5,10 +5,12 @@ interface ProductGridProps {
   search?: string
   categoryId?: string
   brandId?: string
+  size?: string
+  gender?: string
 }
 
-export async function ProductGrid({ search, categoryId, brandId }: ProductGridProps) {
-  const products = await getProducts(search, categoryId, brandId)
+export async function ProductGrid({ search, categoryId, brandId, size, gender }: ProductGridProps) {
+  const products = await getProducts(search, categoryId, brandId, size, gender)
 
   if (products.length === 0) {
     return (
