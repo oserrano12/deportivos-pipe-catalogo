@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge'
 import { ProductWithRelations } from '@/lib/data/products'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { Heart } from 'lucide-react'
+import { useFavorites } from '@/components/context/FavoritesContext'
 
 interface ProductCardProps {
   product: ProductWithRelations
@@ -12,6 +14,9 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
+  const { isFavorite, toggleFavorite } = useFavorites()
+  const favorite = isFavorite(product.id)
+
   // Use a fallback image if array is empty or null
   const imageUrl = product.images && product.images.length > 0 
     ? product.images[0] 
@@ -34,15 +39,29 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             className="object-cover transition-transform duration-500 group-hover:scale-110"
           />
           {!product.is_available && (
-            <div className="absolute inset-0 bg-background/50 flex items-center justify-center backdrop-blur-sm transition-all duration-300">
+            <div className="absolute inset-0 bg-background/50 flex items-center justify-center backdrop-blur-sm transition-all duration-300 z-10">
               <Badge variant="destructive" className="font-bold scale-110 shadow-lg">Agotado</Badge>
             </div>
           )}
           {product.is_available && product.is_featured && (
-            <Badge className="absolute top-2 right-2 font-bold bg-primary text-primary-foreground shadow-md">
+            <Badge className="absolute top-2 right-2 font-bold bg-primary text-primary-foreground shadow-md z-20">
               Destacado
             </Badge>
           )}
+
+          {/* Favoritos Button */}
+          <button
+            onClick={(e) => {
+              e.preventDefault() // prevent navigating to product detail
+              toggleFavorite(product.id)
+            }}
+            className="absolute top-2 left-2 z-20 p-2 rounded-full bg-background/80 backdrop-blur border shadow-sm hover:bg-background transition-colors outline-none focus:ring-2 ring-primary"
+            aria-label="Agregar a favoritos"
+          >
+            <Heart 
+              className={`w-4 h-4 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-foreground'}`} 
+            />
+          </button>
         </div>
         
         <div className="flex flex-col gap-1 px-1">
