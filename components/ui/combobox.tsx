@@ -123,7 +123,7 @@ export function Combobox({ options, value, onChange, name, placeholder = "" }: C
                   aria-selected={selectedValue === option.id}
                   className={cn(
                     "relative flex w-full cursor-pointer select-none items-center rounded-sm py-2 pl-2 pr-8 text-sm outline-none transition-colors",
-                    activeIndex === idx ? "bg-accent text-accent-foreground" : "hover:bg-accent/50",
+                    activeIndex === idx ? "bg-accent text-accent-foreground" : "hover:bg-accent hover:text-accent-foreground",
                     selectedValue === option.id && "font-bold"
                   )}
                   onClick={() => {
