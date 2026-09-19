@@ -15,8 +15,9 @@ interface ProductClientViewProps {
 import { getSizeInfo } from '@/lib/sizing'
 
 import { SizeGuideModal } from './SizeGuideModal'
-import { Heart } from 'lucide-react'
+import { Heart, Share2 } from 'lucide-react'
 import { useFavorites } from '@/components/context/FavoritesContext'
+import { toast } from 'sonner'
 
 export function ProductClientView({ product }: ProductClientViewProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
@@ -43,6 +44,28 @@ export function ProductClientView({ product }: ProductClientViewProps) {
   // Clean size display for WhatsApp message
   const sizeInfo = selectedSizeId ? getSizeInfo(selectedSizeId) : null
   const displaySize = sizeInfo ? sizeInfo.eur : null
+
+  const handleShare = async () => {
+    const url = window.location.href
+    const title = `${product.name} | Deportivos Pipe`
+    const text = `Mira estas zapatillas ${product.name} en Deportivos Pipe 👟🔥`
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title,
+          text,
+          url
+        })
+      } catch (error) {
+        // user cancelled or failed
+      }
+    } else {
+      // Fallback for desktop/unsupported browsers
+      navigator.clipboard.writeText(url)
+      toast.success('¡Enlace copiado al portapapeles!')
+    }
+  }
 
   return (
     <div className="pb-32 md:pb-16 container max-w-7xl mx-auto px-4 md:py-8 pt-4 relative min-h-screen">
@@ -101,18 +124,27 @@ export function ProductClientView({ product }: ProductClientViewProps) {
                 {product.is_featured && (
                   <Badge className="bg-primary text-primary-foreground font-black uppercase rounded-none px-3 py-1">Destacado</Badge>
                 )}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    toggleFavorite(product.id)
-                  }}
-                  className="ml-2 p-2.5 rounded-full bg-background border-2 border-border shadow-sm hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
-                  aria-label="Agregar a favoritos"
-                >
-                  <Heart 
-                    className={`w-5 h-5 transition-colors ${favorite ? 'fill-primary text-primary' : 'text-foreground'}`} 
-                  />
-                </button>
+                <div className="flex items-center ml-2 gap-2">
+                  <button
+                    onClick={handleShare}
+                    className="p-2.5 rounded-full bg-background border-2 border-border shadow-sm hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
+                    aria-label="Compartir producto"
+                  >
+                    <Share2 className="w-5 h-5 text-foreground" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      toggleFavorite(product.id)
+                    }}
+                    className="p-2.5 rounded-full bg-background border-2 border-border shadow-sm hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
+                    aria-label="Agregar a favoritos"
+                  >
+                    <Heart 
+                      className={`w-5 h-5 transition-colors ${favorite ? 'fill-primary text-primary' : 'text-foreground'}`} 
+                    />
+                  </button>
+                </div>
               </div>
             </div>
             
