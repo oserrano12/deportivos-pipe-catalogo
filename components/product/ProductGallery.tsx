@@ -25,15 +25,16 @@ export function ProductGallery({ images }: { images: string[] | null }) {
     }
 
     setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap() + 1)
+    setCurrent(api.selectedScrollSnap())
 
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1)
+      setCurrent(api.selectedScrollSnap())
     })
   }, [api])
 
   return (
-    <div className="relative -mx-4 sm:mx-0">
+    <div className="relative -mx-4 sm:mx-0 space-y-4">
+      {/* Main Image Carousel */}
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent>
           {validImages.map((src, index) => (
@@ -59,17 +60,28 @@ export function ProductGallery({ images }: { images: string[] | null }) {
         )}
       </Carousel>
       
+      {/* Thumbnails Navigation */}
       {validImages.length > 1 && (
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-          {validImages.map((_, idx) => (
+        <div className="flex justify-center md:justify-start gap-3 overflow-x-auto px-4 sm:px-0 scrollbar-hide py-1">
+          {validImages.map((src, idx) => (
             <button
               key={idx}
-              className={`h-2 w-2 rounded-full transition-all ${
-                idx + 1 === current ? "bg-primary w-4" : "bg-primary/30"
-              }`}
               onClick={() => api?.scrollTo(idx)}
+              className={`relative w-16 h-16 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
+                idx === current 
+                  ? "border-primary opacity-100 scale-105" 
+                  : "border-border opacity-60 hover:opacity-100"
+              }`}
               aria-label={`Go to slide ${idx + 1}`}
-            />
+            >
+              <Image
+                src={src}
+                alt={`Thumbnail ${idx + 1}`}
+                fill
+                sizes="64px"
+                className="object-cover"
+              />
+            </button>
           ))}
         </div>
       )}
