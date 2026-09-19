@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button"
 import { SlidersHorizontal } from "lucide-react"
 import { useRouter, useSearchParams } from 'next/navigation'
 
-export function FilterDrawer() {
+export function FilterDrawer({ availableSizes, availableGenders }: { availableSizes: string[], availableGenders: string[] }) {
   const router = useRouter()
   const searchParams = useSearchParams()
   
@@ -42,8 +42,9 @@ export function FilterDrawer() {
     router.push(`/?${params.toString()}#catalogo`)
   }
 
-  const sizes = ["36", "37", "38", "39", "40", "41", "42", "43", "44", "45"]
-  const genders = ["Caballero", "Dama"]
+  if (availableSizes.length === 0 && availableGenders.length === 0) {
+    return null
+  }
 
   return (
     <Drawer>
@@ -59,37 +60,41 @@ export function FilterDrawer() {
           </DrawerHeader>
           
           <div className="p-4 pb-0 space-y-6">
-            <div>
-              <h4 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Género</h4>
-              <div className="grid grid-cols-2 gap-3">
-                {genders.map(gender => (
-                  <Button
-                    key={gender}
-                    variant={selectedGender === gender ? 'default' : 'outline'}
-                    className="rounded-xl font-bold h-12"
-                    onClick={() => setSelectedGender(gender === selectedGender ? null : gender)}
-                  >
-                    {gender}
-                  </Button>
-                ))}
+            {availableGenders.length > 0 && (
+              <div>
+                <h4 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Género</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {availableGenders.map(gender => (
+                    <Button
+                      key={gender}
+                      variant={selectedGender === gender ? 'default' : 'outline'}
+                      className="rounded-xl font-bold h-12"
+                      onClick={() => setSelectedGender(gender === selectedGender ? null : gender)}
+                    >
+                      {gender}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            <div>
-              <h4 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Talla (EUR)</h4>
-              <div className="grid grid-cols-5 gap-2">
-                {sizes.map(size => (
-                  <Button
-                    key={size}
-                    variant={selectedSize === size ? 'default' : 'outline'}
-                    className="rounded-xl font-bold"
-                    onClick={() => setSelectedSize(size === selectedSize ? null : size)}
-                  >
-                    {size}
-                  </Button>
-                ))}
+            {availableSizes.length > 0 && (
+              <div>
+                <h4 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Talla (EUR)</h4>
+                <div className="grid grid-cols-5 gap-2">
+                  {availableSizes.map(size => (
+                    <Button
+                      key={size}
+                      variant={selectedSize === size ? 'default' : 'outline'}
+                      className="rounded-xl font-bold"
+                      onClick={() => setSelectedSize(size === selectedSize ? null : size)}
+                    >
+                      {size}
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           
           <DrawerFooter className="mt-4">

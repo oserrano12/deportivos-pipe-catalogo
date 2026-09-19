@@ -26,6 +26,30 @@ export default async function Home({
     getProducts()
   ])
 
+  // Calculate used brands
+  const usedBrandIds = new Set(allProducts.map(p => p.brand?.id).filter(Boolean))
+  const availableBrands = brands.filter(b => usedBrandIds.has(b.id))
+
+  // Calculate used sizes and genders
+  const allSizes = new Set<string>()
+  const availableGenders = new Set<string>()
+  allProducts.forEach(p => {
+    if (p.sizes && p.sizes.length > 0) {
+      p.sizes.forEach(s => {
+        if (s.startsWith('C-')) {
+          availableGenders.add('Caballero')
+          allSizes.add(s.replace('C-', ''))
+        } else if (s.startsWith('D-')) {
+          availableGenders.add('Dama')
+          allSizes.add(s.replace('D-', ''))
+        }
+      })
+    }
+  })
+  
+  const availableSizesList = Array.from(allSizes).sort((a, b) => Number(a) - Number(b))
+  const availableGendersList = Array.from(availableGenders).sort()
+
   // Get featured products for the Hero, or fallback to the latest 5 if none are featured
   let featuredProducts = allProducts.filter(p => p.is_featured && p.is_available)
   if (featuredProducts.length === 0) {
@@ -46,13 +70,15 @@ export default async function Home({
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
             <SearchBar />
-            <FilterDrawer />
+            <FilterDrawer availableSizes={availableSizesList} availableGenders={availableGendersList} />
           </div>
         </div>
 
-        <div className="space-y-4 pt-2">
-          <BrandChips brands={brands} />
-        </div>
+        {availableBrands.length > 0 && (
+          <div className="space-y-4 pt-2">
+            <BrandChips brands={availableBrands} />
+          </div>
+        )}
 
         <Suspense fallback={<ProductGridSkeleton />}>
           <ProductGrid search={search} categoryId={categoryId} brandId={brandId} size={size} gender={gender} />
