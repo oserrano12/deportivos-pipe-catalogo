@@ -208,10 +208,13 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
               </p>
               <div className="flex gap-3 flex-wrap">
                 {product.images.map((img: string, idx: number) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <div key={`exist-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-border shadow-sm">
-                    <img src={img} alt="Current" className="w-28 h-28 object-cover" />
-                  </div>
+                  <a href={img} target="_blank" rel="noopener noreferrer" key={`exist-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-border shadow-sm hover:border-primary transition-colors cursor-pointer block">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={img} alt="Current" className="w-28 h-28 object-cover group-hover:scale-105 transition-transform" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 bg-background/80 text-foreground text-xs font-bold px-2 py-1 rounded shadow backdrop-blur-sm transition-opacity">Ver</span>
+                    </div>
+                  </a>
                 ))}
               </div>
             </div>
@@ -226,11 +229,13 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
               </p>
               <div className="flex gap-3 flex-wrap">
                 {previewImages.map((img, idx) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <div key={`new-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-primary shadow-md">
-                    <img src={img} alt="Preview" className="w-28 h-28 object-cover" />
-                    <div className="absolute inset-0 bg-primary/10"></div>
-                  </div>
+                  <a href={img} target="_blank" rel="noopener noreferrer" key={`new-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-primary shadow-md hover:border-primary/80 transition-colors cursor-pointer block">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={img} alt="Preview" className="w-28 h-28 object-cover group-hover:scale-105 transition-transform" />
+                    <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded shadow transition-opacity">Ver</span>
+                    </div>
+                  </a>
                 ))}
               </div>
             </div>
