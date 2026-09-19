@@ -14,6 +14,8 @@ import { Plus } from 'lucide-react'
 import { DeleteProductButton } from '@/components/admin/DeleteProductButton'
 import { AvailabilitySwitch, FeaturedSwitch } from '@/components/admin/ProductSwitches'
 import { AdminFilters } from '@/components/admin/AdminFilters'
+import { AdminStatsCards } from '@/components/admin/AdminStatsCards'
+import { AdminCharts } from '@/components/admin/AdminCharts'
 
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
@@ -59,15 +61,22 @@ export default async function AdminDashboard({
   }, {} as Record<string, typeof filteredProducts>)
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Gestión de Catálogo</h1>
         <div className="flex flex-wrap items-center gap-2">
-          <AdminFilters categories={categories} brands={brands} />
           <Link href="/admin/productos/nuevo" className={buttonVariants({ variant: "default" }) + " gap-2 font-bold ml-auto md:ml-2"}>
             <Plus className="w-4 h-4" /> Nuevo Producto
           </Link>
         </div>
+      </div>
+
+      <AdminStatsCards products={allProducts} />
+      <AdminCharts products={allProducts} />
+
+      <div className="pt-6 border-t flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <h2 className="text-xl font-bold">Inventario Detallado</h2>
+        <AdminFilters categories={categories} brands={brands} />
       </div>
 
       {filteredProducts.length === 0 ? (
