@@ -23,6 +23,17 @@ export function MobileHeader() {
 
         <div className="flex items-center gap-2 md:gap-4">
           <ThemeToggle />
+          <Link
+            href="/admin"
+            className="inline-flex items-center justify-center p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors rounded-md outline-none"
+            title="Panel de Administración"
+            aria-label="Admin Login"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </Link>
           <a
             href={`https://instagram.com/${instagramUser}`}
             target="_blank"

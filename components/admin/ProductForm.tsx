@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Combobox } from '@/components/ui/combobox'
 import { ProductWithRelations } from '@/lib/data/products'
 import { Database } from '@/types/database.types'
 import { WOMEN_SIZES, MEN_SIZES } from '@/lib/sizing'
@@ -172,21 +173,23 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="brand_id">Marca</Label>
-          <select id="brand_id" name="brand_id" className="flex h-10 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" defaultValue={product?.brand_id || ''}>
-            <option value="" className="bg-background text-foreground">Ninguna</option>
-            {brands.map(b => (
-              <option key={b.id} value={b.id} className="bg-background text-foreground">{b.name}</option>
-            ))}
-          </select>
+          <Combobox 
+            name="brand_id" 
+            options={brands} 
+            value={product?.brand_id || ''} 
+            onChange={() => {}} 
+            placeholder="Buscar o seleccionar marca..." 
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="category_id">Categoría</Label>
-          <select id="category_id" name="category_id" className="flex h-10 w-full rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" defaultValue={product?.category_id || ''}>
-            <option value="" className="bg-background text-foreground">Ninguna</option>
-            {categories.map(c => (
-              <option key={c.id} value={c.id} className="bg-background text-foreground">{c.name}</option>
-            ))}
-          </select>
+          <Combobox 
+            name="category_id" 
+            options={categories} 
+            value={product?.category_id || ''} 
+            onChange={() => {}} 
+            placeholder="Buscar o seleccionar categoría..." 
+          />
         </div>
       </div>
 
