@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .filter(p => p.is_available)
       .map(product => ({
         url: `${baseUrl}/producto/${product.slug}`,
-        lastModified: product.updated_at ? new Date(product.updated_at) : new Date(),
+        lastModified: product.created_at ? new Date(product.created_at) : new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.9,
       }))
