@@ -44,70 +44,80 @@ export function ProductClientView({ product }: ProductClientViewProps) {
   const displaySize = sizeInfo ? sizeInfo.eur : null
 
   return (
-    <div className="pb-32 md:pb-16 container max-w-6xl mx-auto px-4 md:py-8 pt-4 relative">
-      <div className="sticky top-[4.5rem] md:top-20 z-30 mb-6 -mx-2 px-2 py-2 pointer-events-none">
+    <div className="pb-32 md:pb-16 container max-w-7xl mx-auto px-4 md:py-8 pt-4 relative min-h-screen">
+      
+      {/* MASSIVE WATERMARK BACKGROUND */}
+      <div className="fixed inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-[-1]">
+        <span className="text-[20vw] font-black italic tracking-tighter text-foreground/[0.03] dark:text-foreground/[0.05] whitespace-nowrap -rotate-6">
+          {product.brand?.name?.toUpperCase() || 'KINETIC'}
+        </span>
+      </div>
+
+      <div className="sticky top-[4.5rem] md:top-24 z-30 mb-8 -mx-2 px-2 py-2 pointer-events-none">
         <a 
           href="/#catalogo"
-          className="inline-flex items-center gap-2 text-sm font-black text-foreground transition-all bg-background/95 backdrop-blur-xl border-2 border-border shadow-md px-5 py-2.5 rounded-full w-fit hover:bg-muted hover:scale-[1.02] pointer-events-auto"
+          className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-foreground transition-all bg-background border-2 border-border shadow-[4px_4px_0_0_oklch(var(--color-border))] px-5 py-3 rounded-none w-fit hover:translate-x-1 hover:translate-y-1 hover:shadow-none pointer-events-auto"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           Volver al Catálogo
         </a>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
-        <div className="md:sticky md:top-36 h-fit">
+      <div className="grid md:grid-cols-2 gap-8 lg:gap-20">
+        <div className="md:sticky md:top-36 h-fit bg-secondary/20 p-4 md:p-8 rounded-[2rem] border border-border shadow-2xl">
           <ProductGallery images={product.images} />
         </div>
         
-        <div className="mt-6 md:mt-0 space-y-8">
-          <div className="space-y-3">
+        <div className="mt-6 md:mt-0 flex flex-col justify-center space-y-10">
+          <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+              <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">
                 {product.brand?.name}
               </span>
               <div className="flex gap-2 items-center">
                 {!product.is_available && (
-                  <Badge variant="destructive" className="font-bold">Agotado</Badge>
+                  <Badge variant="destructive" className="font-black uppercase rounded-none px-3 py-1">Agotado</Badge>
                 )}
                 {product.is_featured && (
-                  <Badge className="bg-primary text-primary-foreground font-bold">Destacado</Badge>
+                  <Badge className="bg-primary text-primary-foreground font-black uppercase rounded-none px-3 py-1">Destacado</Badge>
                 )}
                 <button
                   onClick={(e) => {
                     e.preventDefault()
                     toggleFavorite(product.id)
                   }}
-                  className="ml-2 p-2 rounded-full bg-background border shadow-sm hover:bg-muted transition-colors outline-none focus:ring-2 ring-primary"
+                  className="ml-2 p-2.5 rounded-full bg-background border-2 border-border shadow-sm hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
                   aria-label="Agregar a favoritos"
                 >
                   <Heart 
-                    className={`w-5 h-5 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-foreground'}`} 
+                    className={`w-5 h-5 transition-colors ${favorite ? 'fill-primary text-primary' : 'text-foreground'}`} 
                   />
                 </button>
               </div>
             </div>
             
-            <h1 className="text-3xl md:text-4xl font-bold leading-tight">{product.name}</h1>
-            <p className="text-3xl font-black text-primary">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] text-foreground">
+              {product.name}
+            </h1>
+            <p className="text-4xl md:text-5xl font-black italic tracking-tighter text-primary">
               {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
             </p>
           </div>
 
           {product.description && (
-            <div className="space-y-3">
-              <h3 className="font-semibold text-sm uppercase tracking-wider">Descripción</h3>
-              <p className="text-base text-muted-foreground leading-relaxed whitespace-pre-wrap">
+            <div className="space-y-4 border-l-4 border-primary pl-4 py-2">
+              <h3 className="font-black text-sm uppercase tracking-widest text-foreground">Descripción</h3>
+              <p className="text-base text-muted-foreground font-medium leading-relaxed whitespace-pre-wrap">
                 {product.description}
               </p>
             </div>
           )}
 
-          <div className="space-y-6">
+          <div className="space-y-8">
             {availableGenders.length > 0 && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-sm uppercase tracking-wider">Género / Tipo</h3>
+                  <h3 className="font-black text-sm uppercase tracking-widest">Género / Tipo</h3>
                   {!hasRopa && <SizeGuideModal />}
                 </div>
                 <div className="flex flex-wrap gap-4">
@@ -116,12 +126,12 @@ export function ProductClientView({ product }: ProductClientViewProps) {
                       key={gender}
                       onClick={() => {
                         setSelectedGender(gender as any)
-                        setSelectedSizeId(null) // reset size when changing gender
+                        setSelectedSizeId(null)
                       }}
-                      className={`flex-1 h-12 rounded-xl border text-sm font-bold transition-all ${
+                      className={`flex-1 h-14 border-2 text-sm font-black uppercase tracking-widest transition-all shadow-[4px_4px_0_0_oklch(var(--color-border))] hover:translate-x-1 hover:translate-y-1 hover:shadow-none ${
                         selectedGender === gender
-                          ? 'border-primary bg-primary text-primary-foreground'
-                          : 'bg-background hover:bg-muted text-muted-foreground'
+                          ? 'border-primary bg-primary text-primary-foreground shadow-[4px_4px_0_0_oklch(var(--color-primary))]'
+                          : 'border-border bg-background hover:bg-foreground hover:border-foreground hover:text-background'
                       }`}
                     >
                       {gender}
@@ -139,14 +149,14 @@ export function ProductClientView({ product }: ProductClientViewProps) {
               />
             )}
             
-            <div className="pt-6 border-t border-border/50">
+            <div className="pt-8 border-t-2 border-border">
               <a
                 href={`https://instagram.com/${instagramUser}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors p-4 rounded-xl border border-border bg-secondary/50 hover:bg-secondary"
+                className="flex items-center justify-center gap-3 text-sm font-black uppercase tracking-widest text-foreground hover:text-background transition-all p-5 border-2 border-foreground bg-transparent hover:bg-foreground shadow-[8px_8px_0_0_oklch(var(--color-foreground))] hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
                   <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
