@@ -41,26 +41,26 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="relative flex flex-col items-start justify-start w-full min-h-[70vh] md:min-h-[80vh] overflow-hidden group">
+                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-between w-full min-h-[75vh] md:min-h-[80vh] overflow-hidden group gap-8 px-6 md:px-16 pt-24 md:pt-32 pb-28 md:pb-12 max-w-7xl mx-auto">
                   
-                  {/* Content Container */}
-                  <div className="relative z-20 flex flex-col items-start text-left px-6 md:px-12 pt-28 md:pt-32 pb-12 w-full max-w-6xl mx-auto">
+                  {/* Left: Content Container */}
+                  <div className="relative z-20 flex flex-col items-start text-left w-full md:w-1/2 shrink-0">
                     
                     {/* Main Title (Ultra Bold, Left Aligned) */}
                     <div className="flex flex-col space-y-0 md:space-y-2 mb-6">
-                      <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                      <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.9]">
                         NUEVA
                       </h1>
-                      <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                      <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.9]">
                         COLECCIÓN
                       </h1>
-                      <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-outline leading-[0.9]">
+                      <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-outline leading-[0.9]">
                         ZAPATILLAS
                       </h1>
                     </div>
                     
                     <p className="text-white/80 font-medium text-sm md:text-lg max-w-md mb-8">
-                      {product.name} - {product.description || "Descubre el máximo confort y estilo."}
+                      <strong className="text-white">{product.name}</strong> <br/> {product.description || "Descubre el máximo confort y estilo."}
                     </p>
                     
                     {/* Yellow Accent Button */}
@@ -70,16 +70,16 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
                   </div>
 
-                  {/* Floating Sneaker Image on the right or bottom */}
-                  <div className="absolute right-0 md:right-12 bottom-12 md:bottom-24 w-[70%] md:w-[45%] h-[40vh] md:h-[60vh] z-10 pointer-events-none">
-                    <div className="relative w-full h-full transition-transform duration-1000 ease-out group-hover:scale-110">
+                  {/* Right/Bottom: Sneaker Image Frame */}
+                  <div className="relative z-10 w-full md:w-1/2 aspect-square max-w-[320px] sm:max-w-[400px] md:max-w-[500px] mt-4 md:mt-0 mx-auto md:mr-0">
+                    <div className="relative w-full h-full rounded-[2rem] overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-transform duration-1000 ease-out group-hover:scale-105 group-hover:-rotate-2">
                       <Image
                         src={imageUrl}
                         alt={product.name}
                         fill
                         priority={index === 0}
-                        className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
-                        sizes="(max-width: 768px) 100vw, 80vw"
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
                   </div>
