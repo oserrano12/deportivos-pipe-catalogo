@@ -41,8 +41,41 @@
   }
 }
 
-:root, .dark {
-  /* Force Dark Neon Theme */
+:root {
+  /* Light Mode Aurora Theme */
+  --background: oklch(0.98 0.01 260); /* Very soft icy blue/white */
+  --foreground: oklch(0.15 0.05 270); /* Deep Navy/Black text */
+  
+  --card: oklch(1 0 0 / 0.6); /* Glass card (light) */
+  --card-foreground: oklch(0.15 0.05 270);
+  
+  --popover: oklch(0.98 0.01 260);
+  --popover-foreground: oklch(0.15 0.05 270);
+  
+  --primary: #FFD700; /* Vibrant Yellow Accent */
+  --primary-foreground: #000000;
+  
+  --secondary: oklch(0 0 0 / 0.05); /* Subtle dark glass */
+  --secondary-foreground: oklch(0.15 0.05 270);
+  
+  --muted: oklch(0 0 0 / 0.05);
+  --muted-foreground: oklch(0.4 0 0);
+  
+  --accent: #FFD700;
+  --accent-foreground: #000000;
+  
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  
+  --border: oklch(0 0 0 / 0.1); /* Subtle dark borders for light glass */
+  --input: oklch(0 0 0 / 0.1);
+  --ring: #FFD700;
+  
+  --radius: 1.5rem; /* Super rounded corners */
+}
+
+.dark {
+  /* Dark Neon Theme */
   --background: oklch(0.12 0.05 270); /* Very Deep Blue/Black */
   --foreground: oklch(0.98 0 0); /* Pure White */
   
@@ -70,8 +103,6 @@
   --border: oklch(0.98 0 0 / 0.1); /* Subtle white borders for glass */
   --input: oklch(0.98 0 0 / 0.1);
   --ring: #FFD700;
-  
-  --radius: 1.5rem; /* Super rounded corners for cards */
 }
 
 @layer base {
@@ -84,8 +115,11 @@
   
   /* Outline text utility */
   .text-outline {
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
     color: transparent;
+  }
+  .dark .text-outline {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
   }
   
   /* Vibrant Neon Aurora Background Effect */
@@ -102,20 +136,32 @@
     z-index: -1;
     pointer-events: none;
     filter: blur(80px);
-    opacity: 0.6; /* Stronger opacity for neon glow */
+    opacity: 0.3; /* Softer opacity for light mode */
   }
+  .dark .aurora-bg::before,
+  .dark .aurora-bg::after {
+    opacity: 0.6; /* Stronger neon for dark mode */
+  }
+  
   .aurora-bg::before {
     top: -10%;
     left: -10%;
     width: 60vw;
     height: 60vw;
+    background: radial-gradient(circle, #007FFF 0%, transparent 60%);
+  }
+  .dark .aurora-bg::before {
     background: radial-gradient(circle, #7000FF 0%, transparent 60%);
   }
+  
   .aurora-bg::after {
     bottom: -10%;
     right: -10%;
     width: 70vw;
     height: 70vw;
+    background: radial-gradient(circle, #0047AB 0%, transparent 60%);
+  }
+  .dark .aurora-bg::after {
     background: radial-gradient(circle, #FF007F 0%, transparent 60%);
   }
   

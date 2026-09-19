@@ -48,10 +48,10 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                     
                     {/* Main Title (Ultra Bold, Left Aligned) */}
                     <div className="flex flex-col space-y-0 md:space-y-2 mb-6">
-                      <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                      <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-foreground leading-[0.9]">
                         NUEVA
                       </h1>
-                      <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-white leading-[0.9]">
+                      <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-foreground leading-[0.9]">
                         COLECCIÓN
                       </h1>
                       <h1 className="text-[2.75rem] sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-outline leading-[0.9]">
@@ -59,8 +59,8 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                       </h1>
                     </div>
                     
-                    <p className="text-white/80 font-medium text-sm md:text-lg max-w-md mb-8">
-                      <strong className="text-white">{product.name}</strong> <br/> {product.description || "Descubre el máximo confort y estilo."}
+                    <p className="text-foreground/80 font-medium text-sm md:text-lg max-w-md mb-8">
+                      <strong className="text-foreground">{product.name}</strong> <br/> {product.description || "Descubre el máximo confort y estilo."}
                     </p>
                     
                     {/* Yellow Accent Button */}
