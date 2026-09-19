@@ -59,20 +59,15 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   </div>
 
                   {/* Right: Image Section (Top on Mobile) */}
-                  <div className="w-full md:w-1/2 h-[50vh] md:h-full order-1 md:order-2 relative bg-secondary/30 flex items-center justify-center overflow-hidden">
-                    {/* Subtle ambiance blur behind the shoe */}
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center opacity-30 blur-2xl scale-110"
-                      style={{ backgroundImage: `url(${imageUrl})`, willChange: 'transform' }}
-                    />
-                    
-                    <div className="relative w-full h-full p-8 md:p-12 z-10 transition-transform duration-700 group-hover:scale-105">
+                  <div className="w-full md:w-1/2 h-[50vh] md:h-full order-1 md:order-2 relative bg-secondary/20 flex items-center justify-center overflow-hidden">
+                    {/* Performance optimized: Removed heavy blur filters and drop shadows */}
+                    <div className="relative w-full h-full p-4 md:p-12 z-10 transition-transform duration-700 group-hover:scale-105">
                       <Image
                         src={imageUrl}
                         alt={product.name}
                         fill
                         priority={index === 0}
-                        className="object-contain drop-shadow-2xl"
+                        className="object-contain"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
