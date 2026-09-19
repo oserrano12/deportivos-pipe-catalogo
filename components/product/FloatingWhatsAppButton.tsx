@@ -33,23 +33,16 @@ export function FloatingWhatsAppButton({
   const spaceOrEmpty = genderText || sizeText ? ' ' : ''
   const comboText = [genderText, sizeText].filter(Boolean).join(' y ')
 
-  const message = `¡Hola! Quiero estos ${productName}${spaceOrEmpty}${comboText}. ${productUrl}`
+  const message = isAvailable
+    ? `¡Hola! Quiero estos ${productName}${spaceOrEmpty}${comboText}. ${productUrl}`
+    : `¡Hola! Vi que los ${productName}${spaceOrEmpty}${comboText} están agotados. ¿Cuándo volverán a tener stock? ${productUrl}`
+
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`
 
-  if (!isAvailable) {
-    return (
-      <div className="fixed bottom-0 left-0 right-0 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] bg-background border-t z-30 flex justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
-        <div className="w-full max-w-6xl mx-auto">
-          <Button disabled className="w-full md:w-auto md:px-12 md:float-right h-14 rounded-xl font-bold text-lg" variant="secondary">
-            Producto Agotado
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
   const isDisabled = needsSize || needsGender
-  let buttonText = "Quiero Estos"
+  
+  let buttonText = isAvailable ? "Quiero Estos" : "Consultar Restock"
+  
   if (needsGender && needsSize) buttonText = "Elige Género y Talla"
   else if (needsGender) buttonText = "Elige el Género"
   else if (needsSize) buttonText = "Elige tu Talla"
@@ -71,7 +64,7 @@ export function FloatingWhatsAppButton({
             href={whatsappUrl} 
             target="_blank" 
             rel="noreferrer"
-            className="w-full md:w-auto md:px-12 h-14 rounded-xl font-bold text-lg gap-2 shadow-lg hover:scale-[1.02] transition-transform bg-[#25D366] hover:bg-[#25D366]/90 text-white inline-flex items-center justify-center whitespace-nowrap"
+            className={`w-full md:w-auto md:px-12 h-14 rounded-xl font-bold text-lg gap-2 shadow-lg hover:scale-[1.02] transition-transform text-white inline-flex items-center justify-center whitespace-nowrap ${isAvailable ? 'bg-[#25D366] hover:bg-[#25D366]/90' : 'bg-slate-800 hover:bg-slate-900 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-slate-300'}`}
           >
             <MessageCircle className="w-6 h-6" />
             {buttonText}

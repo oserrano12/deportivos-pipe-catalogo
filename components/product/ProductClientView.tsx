@@ -57,9 +57,14 @@ export function ProductClientView({ product }: ProductClientViewProps) {
               <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                 {product.brand?.name}
               </span>
-              {product.is_featured && (
-                <Badge className="bg-primary text-primary-foreground font-bold">Destacado</Badge>
-              )}
+              <div className="flex gap-2">
+                {!product.is_available && (
+                  <Badge variant="destructive" className="font-bold">Agotado</Badge>
+                )}
+                {product.is_featured && (
+                  <Badge className="bg-primary text-primary-foreground font-bold">Destacado</Badge>
+                )}
+              </div>
             </div>
             
             <h1 className="text-3xl md:text-4xl font-bold leading-tight">{product.name}</h1>
