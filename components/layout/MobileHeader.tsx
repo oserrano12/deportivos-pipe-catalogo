@@ -18,6 +18,7 @@ export function MobileHeader() {
     }
 
     if (clickCount.current >= 3) {
+      e.preventDefault() // Detener la navegación normal a "/"
       clickCount.current = 0
       router.push('/admin')
       return
@@ -25,7 +26,7 @@ export function MobileHeader() {
 
     clickTimeout.current = setTimeout(() => {
       clickCount.current = 0
-    }, 600) // 600ms window for 3 clicks
+    }, 1200) // 1.2 segundos para hacer los 3 clics
   }
 
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
