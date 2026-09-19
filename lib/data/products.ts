@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { supabasePublic } from '@/lib/supabase/public'
 import { Database } from '@/types/database.types'
 
 export type ProductWithRelations = Database['public']['Tables']['products']['Row'] & {
@@ -7,8 +7,7 @@ export type ProductWithRelations = Database['public']['Tables']['products']['Row
 }
 
 export async function getProducts(search?: string, categoryId?: string, brandId?: string, size?: string, gender?: string, sort?: string) {
-  const supabase = await createClient()
-  let query = supabase.from('products').select('*')
+  let query = supabasePublic.from('products').select('*')
 
   if (search) {
     query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`)
@@ -37,8 +36,8 @@ export async function getProducts(search?: string, categoryId?: string, brandId?
   }
 
   // Fetch relations manually to bypass missing foreign key constraints in DB
-  const { data: brandsData } = await supabase.from('brands').select('*')
-  const { data: categoriesData } = await supabase.from('categories').select('*')
+  const { data: brandsData } = await supabasePublic.from('brands').select('*')
+  const { data: categoriesData } = await supabasePublic.from('categories').select('*')
 
   let products = productsData.map(product => ({
     ...product,
@@ -66,8 +65,7 @@ export async function getProducts(search?: string, categoryId?: string, brandId?
 }
 
 export async function getProductBySlug(slug: string) {
-  const supabase = await createClient()
-  const { data: productData, error: productError } = await supabase
+  const { data: productData, error: productError } = await supabasePublic
     .from('products')
     .select('*')
     .eq('slug', slug)
@@ -79,8 +77,8 @@ export async function getProductBySlug(slug: string) {
     return null
   }
 
-  const { data: brandsData } = await supabase.from('brands').select('*')
-  const { data: categoriesData } = await supabase.from('categories').select('*')
+  const { data: brandsData } = await supabasePublic.from('brands').select('*')
+  const { data: categoriesData } = await supabasePublic.from('categories').select('*')
 
   return {
     ...productData,
@@ -90,13 +88,11 @@ export async function getProductBySlug(slug: string) {
 }
 
 export async function getCategories() {
-  const supabase = await createClient()
-  const { data, error } = await supabase.from('categories').select('*').order('name')
+  const { data, error } = await supabasePublic.from('categories').select('*').order('name')
   return data || []
 }
 
 export async function getBrands() {
-  const supabase = await createClient()
-  const { data, error } = await supabase.from('brands').select('*').order('name')
+  const { data, error } = await supabasePublic.from('brands').select('*').order('name')
   return data || []
 }
