@@ -11,6 +11,11 @@ export function BottomNav() {
   const whatsappMessage = encodeURIComponent('¡Hola! Quiero hacer una consulta sobre el catálogo.')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${whatsappMessage}`
 
+  // Hide bottom nav on specific routes like product details where we have a specific bottom action bar
+  if (pathname.startsWith('/producto/')) {
+    return null
+  }
+
   return (
     <div className="fixed bottom-0 z-40 w-full bg-background border-t pb-[env(safe-area-inset-bottom)] md:hidden">
       <div className="flex items-center justify-around h-16 px-4">

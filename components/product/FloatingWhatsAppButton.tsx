@@ -38,9 +38,9 @@ export function FloatingWhatsAppButton({
 
   if (!isAvailable) {
     return (
-      <div className="fixed bottom-[4.5rem] left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t z-30 flex justify-center">
+      <div className="fixed bottom-0 left-0 right-0 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] bg-background border-t z-30 flex justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <div className="w-full max-w-6xl mx-auto">
-          <Button disabled className="w-full md:w-auto md:px-12 md:float-right h-14 rounded-full font-bold text-lg" variant="secondary">
+          <Button disabled className="w-full md:w-auto md:px-12 md:float-right h-14 rounded-xl font-bold text-lg" variant="secondary">
             Producto Agotado
           </Button>
         </div>
@@ -55,12 +55,12 @@ export function FloatingWhatsAppButton({
   else if (needsSize) buttonText = "Elige tu Talla"
 
   return (
-    <div className="fixed bottom-[4.5rem] left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t z-30 flex justify-center">
+    <div className="fixed bottom-0 left-0 right-0 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] bg-background border-t z-30 flex justify-center shadow-[0_-10px_40px_rgba(0,0,0,0.1)] dark:shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
       <div className="w-full max-w-6xl mx-auto flex md:justify-end">
         {isDisabled ? (
           <Button 
             disabled 
-            className="w-full md:w-auto md:px-12 h-14 rounded-full font-bold text-lg gap-2 shadow-sm transition-all"
+            className="w-full md:w-auto md:px-12 h-14 rounded-xl font-bold text-lg gap-2 shadow-sm transition-all bg-secondary/80 text-secondary-foreground/80"
             variant="secondary"
           >
             <MessageCircle className="w-6 h-6 opacity-50" />
@@ -71,7 +71,7 @@ export function FloatingWhatsAppButton({
             href={whatsappUrl} 
             target="_blank" 
             rel="noreferrer"
-            className="w-full md:w-auto md:px-12 h-14 rounded-full font-bold text-lg gap-2 shadow-lg hover:scale-[1.02] transition-transform bg-[#25D366] hover:bg-[#25D366]/90 text-white inline-flex items-center justify-center whitespace-nowrap"
+            className="w-full md:w-auto md:px-12 h-14 rounded-xl font-bold text-lg gap-2 shadow-lg hover:scale-[1.02] transition-transform bg-[#25D366] hover:bg-[#25D366]/90 text-white inline-flex items-center justify-center whitespace-nowrap"
           >
             <MessageCircle className="w-6 h-6" />
             {buttonText}
