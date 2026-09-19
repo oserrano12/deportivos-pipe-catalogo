@@ -30,50 +30,48 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       whileHover={{ y: -4 }}
     >
       <Link href={`/producto/${product.slug}`} className="group block">
-        <div className="relative aspect-square overflow-hidden rounded-xl bg-secondary/50 mb-3 border border-border/50 shadow-sm transition-shadow group-hover:shadow-md">
+        <div className="relative aspect-square overflow-hidden rounded-[1.5rem] bg-secondary mb-4 border border-border transition-all duration-300 group-hover:scale-[1.02] group-hover:shadow-2xl">
           <Image
             src={imageUrl}
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
           {!product.is_available && (
-            <div className="absolute inset-0 bg-background/50 flex items-center justify-center backdrop-blur-sm transition-all duration-300 z-10">
-              <Badge variant="destructive" className="font-bold scale-110 shadow-lg">Agotado</Badge>
+            <div className="absolute inset-0 bg-background/80 flex items-center justify-center backdrop-blur-sm transition-all duration-300 z-10">
+              <span className="px-4 py-1 text-xs font-black uppercase tracking-widest bg-foreground text-background rounded-full">Agotado</span>
             </div>
           )}
           {product.is_available && product.is_featured && (
-            <Badge className="absolute top-2 right-2 font-bold bg-primary text-primary-foreground shadow-md z-20">
-              Destacado
-            </Badge>
+            <span className="absolute top-4 right-4 z-20 w-3 h-3 rounded-full bg-primary animate-pulse shadow-[0_0_15px_#007FFF]" />
           )}
 
           {/* Favoritos Button */}
           <button
             onClick={(e) => {
-              e.preventDefault() // prevent navigating to product detail
+              e.preventDefault()
               toggleFavorite(product.id)
             }}
-            className="absolute top-2 left-2 z-20 p-2 rounded-full bg-background/80 backdrop-blur border shadow-sm hover:bg-background transition-colors outline-none focus:ring-2 ring-primary"
+            className="absolute top-3 left-3 z-20 p-2.5 rounded-full bg-background border border-border shadow-md hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
             aria-label="Agregar a favoritos"
           >
             <Heart 
-              className={`w-4 h-4 transition-colors ${favorite ? 'fill-red-500 text-red-500' : 'text-foreground'}`} 
+              className={`w-4 h-4 transition-colors ${favorite ? 'fill-primary text-primary' : 'text-foreground'}`} 
             />
           </button>
         </div>
         
         <div className="flex flex-col gap-1 px-1">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
               {product.brand?.name || 'Marca'}
             </span>
-            <span className="text-sm font-bold text-foreground">
-              {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
+            <span className="text-sm font-black text-foreground">
+              {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar'}
             </span>
           </div>
-          <h3 className="text-sm font-medium leading-tight text-foreground line-clamp-2">
+          <h3 className="text-sm font-bold leading-tight text-foreground line-clamp-2">
             {product.name}
           </h3>
         </div>
