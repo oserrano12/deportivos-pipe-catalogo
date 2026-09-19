@@ -7,28 +7,50 @@ import { Label } from '@/components/ui/label'
 import { Combobox } from '@/components/ui/combobox'
 import { ProductWithRelations } from '@/lib/data/products'
 import { Database } from '@/types/database.types'
-import { WOMEN_SIZES, MEN_SIZES } from '@/lib/sizing'
 import { saveProduct } from '@/app/admin/productos/actions'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
-interface ProductFormProps {
-  product?: any
-  brands: any[]
-  categories: any[]
-}
+const WOMEN_SIZES = [
+  { id: 'D-35', eur: '35' },
+  { id: 'D-36', eur: '36' },
+  { id: 'D-37', eur: '37' },
+  { id: 'D-38', eur: '38' },
+  { id: 'D-39', eur: '39' },
+  { id: 'D-40', eur: '40' },
+]
 
-const COLOMBIA_SIZES = ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45']
+const MEN_SIZES = [
+  { id: 'C-37', eur: '37' },
+  { id: 'C-38', eur: '38' },
+  { id: 'C-39', eur: '39' },
+  { id: 'C-40', eur: '40' },
+  { id: 'C-41', eur: '41' },
+  { id: 'C-42', eur: '42' },
+  { id: 'C-43', eur: '43' },
+]
 
-export function ProductForm({ product, brands, categories }: ProductFormProps) {
+const CLOTHING_SIZES = [
+  { id: 'R-XS', eur: 'XS' },
+  { id: 'R-S', eur: 'S' },
+  { id: 'R-M', eur: 'M' },
+  { id: 'R-L', eur: 'L' },
+  { id: 'R-XL', eur: 'XL' },
+  { id: 'R-XXL', eur: 'XXL' },
+]
+
+export function ProductForm({ product, categories, brands }: { product?: any, categories: any[], brands: any[] }) {
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
   const [name, setName] = useState(product?.name || '')
   const [slug, setSlug] = useState(product?.slug || '')
-  const [priceStr, setPriceStr] = useState(product?.price?.toString() || '')
   const [selectedSizes, setSelectedSizes] = useState<string[]>(product?.sizes || [])
+  const [priceStr, setPriceStr] = useState<string>(product?.price?.toString() || '')
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [previewImages, setPreviewImages] = useState<string[]>([])
+  const [selectedCategory, setSelectedCategory] = useState(product?.category_id || '')
+  const isClothing = categories.find(c => c.id === selectedCategory)?.slug === 'ropa'
   const [compressedFiles, setCompressedFiles] = useState<File[]>([])
-  const [loading, setLoading] = useState(false)
 
   const generateSlug = (val: string) => {
     setName(val)
@@ -177,53 +199,7 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
         </div>
       </div>
 
-      <div className="space-y-4">
-        <Label className="text-base">Tallas de Dama (EUR)</Label>
-        <div className="grid grid-cols-5 gap-2">
-          {WOMEN_SIZES.map(size => {
-            const isSelected = selectedSizes.includes(size.id)
-            return (
-              <button
-                key={size.id}
-                type="button"
-                onClick={() => toggleSize(size.id)}
-                className={`h-10 rounded-md border text-sm font-bold transition-colors ${
-                  isSelected 
-                    ? 'bg-primary text-primary-foreground border-primary' 
-                    : 'bg-background hover:bg-muted text-muted-foreground'
-                }`}
-              >
-                {size.eur}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <Label className="text-base">Tallas de Caballero (EUR)</Label>
-        <div className="grid grid-cols-5 gap-2">
-          {MEN_SIZES.map(size => {
-            const isSelected = selectedSizes.includes(size.id)
-            return (
-              <button
-                key={size.id}
-                type="button"
-                onClick={() => toggleSize(size.id)}
-                className={`h-10 rounded-md border text-sm font-bold transition-colors ${
-                  isSelected 
-                    ? 'bg-primary text-primary-foreground border-primary' 
-                    : 'bg-background hover:bg-muted text-muted-foreground'
-                }`}
-              >
-                {size.eur}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-4 mb-6">
         <div className="space-y-2">
           <Label htmlFor="brand_id">Marca</Label>
           <Combobox 
@@ -239,12 +215,88 @@ export function ProductForm({ product, brands, categories }: ProductFormProps) {
           <Combobox 
             name="category_id" 
             options={categories} 
-            value={product?.category_id || ''} 
-            onChange={() => {}} 
+            value={selectedCategory} 
+            onChange={(val) => {
+              setSelectedCategory(val);
+              setSelectedSizes([]); // Reset sizes when category changes
+            }} 
             placeholder="Buscar o seleccionar categoría..." 
           />
         </div>
       </div>
+
+      {isClothing ? (
+        <div className="space-y-4">
+          <Label className="text-base">Tallas (Ropa)</Label>
+          <div className="grid grid-cols-6 gap-2">
+            {CLOTHING_SIZES.map(size => {
+              const isSelected = selectedSizes.includes(size.id)
+              return (
+                <button
+                  key={size.id}
+                  type="button"
+                  onClick={() => toggleSize(size.id)}
+                  className={`h-10 rounded-md border text-sm font-bold transition-colors ${
+                    isSelected 
+                      ? 'bg-primary text-primary-foreground border-primary' 
+                      : 'bg-background hover:bg-muted text-muted-foreground'
+                  }`}
+                >
+                  {size.eur}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="space-y-4">
+            <Label className="text-base">Tallas de Dama (EUR)</Label>
+            <div className="grid grid-cols-5 gap-2">
+              {WOMEN_SIZES.map(size => {
+                const isSelected = selectedSizes.includes(size.id)
+                return (
+                  <button
+                    key={size.id}
+                    type="button"
+                    onClick={() => toggleSize(size.id)}
+                    className={`h-10 rounded-md border text-sm font-bold transition-colors ${
+                      isSelected 
+                        ? 'bg-primary text-primary-foreground border-primary' 
+                        : 'bg-background hover:bg-muted text-muted-foreground'
+                    }`}
+                  >
+                    {size.eur}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <Label className="text-base">Tallas de Caballero (EUR)</Label>
+            <div className="grid grid-cols-5 gap-2">
+              {MEN_SIZES.map(size => {
+                const isSelected = selectedSizes.includes(size.id)
+                return (
+                  <button
+                    key={size.id}
+                    type="button"
+                    onClick={() => toggleSize(size.id)}
+                    className={`h-10 rounded-md border text-sm font-bold transition-colors ${
+                      isSelected 
+                        ? 'bg-primary text-primary-foreground border-primary' 
+                        : 'bg-background hover:bg-muted text-muted-foreground'
+                    }`}
+                  >
+                    {size.eur}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        </>
+      )}
 
       <div className="space-y-4 bg-secondary/20 p-4 rounded-xl border">
         <Label htmlFor="images" className="text-base font-bold">Imágenes del Producto</Label>

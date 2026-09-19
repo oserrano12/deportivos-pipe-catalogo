@@ -54,12 +54,26 @@ export default async function Home({
         } else if (s.startsWith('D-')) {
           availableGenders.add('Dama')
           allSizes.add(s.replace('D-', ''))
+        } else if (s.startsWith('R-')) {
+          availableGenders.add('Ropa (Unisex)')
+          allSizes.add(s.replace('R-', ''))
         }
       })
     }
   })
   
-  const availableSizesList = Array.from(allSizes).sort((a, b) => Number(a) - Number(b))
+  // Sort sizes: Numbers first, then letters (S, M, L)
+  const availableSizesList = Array.from(allSizes).sort((a, b) => {
+    const isNumA = !isNaN(Number(a));
+    const isNumB = !isNaN(Number(b));
+    if (isNumA && isNumB) return Number(a) - Number(b);
+    if (isNumA && !isNumB) return -1;
+    if (!isNumA && isNumB) return 1;
+    
+    // Sort clothing sizes conceptually
+    const clothingOrder: Record<string, number> = { 'XS': 1, 'S': 2, 'M': 3, 'L': 4, 'XL': 5, 'XXL': 6 };
+    return (clothingOrder[a] || 99) - (clothingOrder[b] || 99);
+  })
   const availableGendersList = Array.from(availableGenders).sort()
 
   // Get featured products for the Hero

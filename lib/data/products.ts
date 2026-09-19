@@ -52,8 +52,14 @@ export async function getProducts(search?: string, categoryId?: string, brandId?
   }
 
   if (gender) {
-    const prefix = gender === 'Caballero' ? 'C-' : 'D-'
-    products = products.filter(p => p.sizes?.some(s => s.startsWith(prefix)))
+    let prefix = ''
+    if (gender === 'Caballero') prefix = 'C-'
+    else if (gender === 'Dama') prefix = 'D-'
+    else if (gender === 'Ropa (Unisex)') prefix = 'R-'
+    
+    if (prefix) {
+      products = products.filter(p => p.sizes?.some(s => s.startsWith(prefix)))
+    }
   }
 
   return products as ProductWithRelations[]

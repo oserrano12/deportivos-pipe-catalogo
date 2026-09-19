@@ -133,7 +133,7 @@ export default async function AdminDashboard({
                             {product.sizes && product.sizes.length > 0 ? (
                               product.sizes.map(size => (
                                 <Badge key={size} variant="secondary" className="text-[10px] px-1.5 py-0">
-                                  {size.replace('C-', 'Cab: ').replace('D-', 'Dam: ')}
+                                  {size.replace('C-', 'Cab: ').replace('D-', 'Dam: ').replace('R-', 'Ropa: ')}
                                 </Badge>
                               ))
                             ) : (
