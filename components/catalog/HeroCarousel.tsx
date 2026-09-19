@@ -45,26 +45,31 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   
                   {/* MASSIVE BACKGROUND TEXT */}
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
-                    <span className="text-[15rem] md:text-[25rem] font-black tracking-tighter text-foreground/10 dark:text-foreground/20 whitespace-nowrap -rotate-2 scale-110 md:scale-100 group-hover:scale-105 transition-transform duration-1000">
-                      {product.brand?.name?.toUpperCase() || 'PIPE'}
+                    <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.03] dark:text-foreground/[0.08] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-transform duration-1000">
+                      {product.brand?.name?.toUpperCase() || 'KINETIC'}
                     </span>
                   </div>
 
+                  {/* KINETIC LIGHT STREAK */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-48 bg-primary/40 dark:bg-primary/30 blur-[80px] md:blur-[120px] -rotate-12 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+
                   {/* Left: Text Section */}
-                  <div className="relative z-20 w-full md:w-1/3 flex flex-col items-start justify-center text-left">
-                    <span className="inline-block px-3 py-1 bg-foreground text-background text-[10px] font-black uppercase tracking-widest rounded-full mb-6">
+                  <div className="relative z-20 w-full md:w-1/2 flex flex-col items-start justify-center text-left mt-12 md:mt-0">
+                    <span className="inline-block px-4 py-1.5 bg-foreground text-background text-[10px] font-black italic uppercase tracking-widest rounded-none mb-6 shadow-[4px_4px_0_0_#007FFF]">
                       Destacado
                     </span>
-                    <h1 className="text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter text-foreground mb-6 leading-[0.9]">
-                      REDEFINE <br/> <span className="text-primary">STYLE.</span>
+                    <h1 className="text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter text-foreground mb-4 leading-[0.85] flex flex-col">
+                      <span className="translate-x-0 group-hover:translate-x-4 transition-transform duration-500">MAXIMIZE</span> 
+                      <span className="text-transparent" style={{ WebkitTextStroke: '2px var(--color-foreground)' }}>YOUR</span>
+                      <span className="text-primary -translate-x-2 group-hover:translate-x-2 transition-transform duration-700">POTENTIAL.</span>
                     </h1>
-                    <p className="text-muted-foreground font-medium text-sm md:text-base max-w-sm mb-8">
+                    <p className="text-muted-foreground font-medium text-sm md:text-base max-w-sm mb-8 mt-4 border-l-2 border-primary pl-4">
                       <strong className="text-foreground">{product.name}</strong> <br/>
-                      {product.description || "Designed for maximum impact and bold identities."}
+                      {product.description || "Diseñadas para el impacto máximo. No te quedes atrás."}
                     </p>
-                    <div className="px-8 py-4 border-2 border-foreground bg-transparent hover:bg-foreground text-foreground hover:text-background text-sm font-black uppercase tracking-wider rounded-full transition-all flex items-center gap-3 group/btn">
-                      Ver Producto
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover/btn:translate-x-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    <div className="px-10 py-5 bg-foreground text-background hover:bg-primary hover:text-white text-sm font-black italic uppercase tracking-widest rounded-none transition-all flex items-center gap-4 group/btn shadow-[8px_8px_0_0_#007FFF] hover:shadow-[4px_4px_0_0_#000] hover:translate-x-1 hover:translate-y-1">
+                      Comprar Ahora
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover/btn:translate-x-2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                     </div>
                   </div>
 
