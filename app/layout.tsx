@@ -46,6 +46,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL || "https://efwskbukxvioennmvxep.supabase.co"} crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || "https://efwskbukxvioennmvxep.supabase.co"} />
+      </head>
       <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 font-sans antialiased">
         <FavoritesProvider>
           <ThemeProvider
