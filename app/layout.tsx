@@ -20,6 +20,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.deportivospipe.com'),
   title: "Deportivos Pipe | Catálogo",
   description: "Catálogo digital de calzado deportivo y streetwear en Colombia.",
   authors: [{ name: "oserrano12", url: "https://github.com/oserrano12" }],
