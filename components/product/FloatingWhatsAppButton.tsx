@@ -85,10 +85,6 @@ export function FloatingWhatsAppButton({
         <WhatsAppIcon className="w-6 h-6 z-10" />
         <span className="relative z-10">
           {buttonText}
-          <span className="absolute -top-1 -right-4 flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
-          </span>
         </span>
       </a>
     </div>
