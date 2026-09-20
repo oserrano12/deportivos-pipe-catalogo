@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
         const currentSizes = product.sizes || []
         
         // Remove the size. This handles exact match "42" or prefixed "C-42"
-        const remainingSizes = currentSizes.filter(s => {
+        const remainingSizes = currentSizes.filter((s: string) => {
           const sizeNumber = s.split('-').pop() // gets "42" from "C-42" or "42"
           return sizeNumber !== item.talla
         })
