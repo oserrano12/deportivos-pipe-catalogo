@@ -4,7 +4,9 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { ProductGallery } from './ProductGallery'
 import { SizeSelector } from './SizeSelector'
-import { FloatingWhatsAppButton } from './FloatingWhatsAppButton'
+import { FloatingWhatsAppButton } from '@/components/product/FloatingWhatsAppButton'
+import { SizeGuideModal } from '@/components/product/SizeGuideModal'
+import { TrustBadges } from '@/components/product/TrustBadges'
 import { Badge } from '@/components/ui/badge'
 import { ProductWithRelations } from '@/lib/data/products'
 
@@ -13,8 +15,6 @@ interface ProductClientViewProps {
 }
 
 import { getSizeInfo } from '@/lib/sizing'
-
-import { SizeGuideModal } from './SizeGuideModal'
 import { Heart, Share2 } from 'lucide-react'
 import { useFavorites } from '@/components/context/FavoritesContext'
 import { toast } from 'sonner'
@@ -200,6 +200,10 @@ export function ProductClientView({ product }: ProductClientViewProps) {
                 onSizeChange={setSelectedSizeId} 
               />
             )}
+            
+            <div className="pt-4">
+              <TrustBadges />
+            </div>
             
             <div className="pt-8 border-t-2 border-border hidden md:block">
               <FloatingWhatsAppButton 
