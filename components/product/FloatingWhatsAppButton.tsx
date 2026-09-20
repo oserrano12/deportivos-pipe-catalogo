@@ -74,8 +74,15 @@ export function FloatingWhatsAppButton({
       rel="noreferrer"
       className={`${kineticStyles} border-[#25D366] text-white bg-[#25D366] shadow-[8px_8px_0_0_oklch(var(--color-foreground))] hover:shadow-[0_0_0_0_oklch(var(--color-foreground))]`}
     >
-      <WhatsAppIcon className="w-6 h-6" />
-      {buttonText}
+      <WhatsAppIcon className="w-6 h-6 animate-bounce" />
+      <span className="relative">
+        {buttonText}
+        {/* Subtle dot ping to catch the eye */}
+        <span className="absolute -top-1 -right-4 flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+        </span>
+      </span>
     </a>
   )
 
