@@ -72,9 +72,9 @@ export function FloatingWhatsAppButton({
       href={whatsappUrl} 
       target="_blank" 
       rel="noreferrer"
-      className={`${kineticStyles} border-[#25D366] text-white bg-[#25D366] shadow-[8px_8px_0_0_oklch(var(--color-foreground))] hover:shadow-[0_0_0_0_oklch(var(--color-foreground))]`}
+      className={`${kineticStyles} animate-bounce border-[#25D366] text-white bg-[#25D366] shadow-[8px_8px_0_0_oklch(var(--color-foreground))] hover:shadow-[0_0_0_0_oklch(var(--color-foreground))]`}
     >
-      <WhatsAppIcon className="w-6 h-6 animate-bounce" />
+      <WhatsAppIcon className="w-6 h-6" />
       <span className="relative">
         {buttonText}
         {/* Subtle dot ping to catch the eye */}
