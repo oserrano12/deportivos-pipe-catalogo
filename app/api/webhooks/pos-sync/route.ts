@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-// Provide a custom server-side client with the Service Role Key
-// because we need to bypass RLS to update products from a webhook.
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY! // MUST be the service role key, NOT anon key
-
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
-
 export async function POST(req: NextRequest) {
   try {
+    // Provide a custom server-side client with the Service Role Key
+    // inside the handler to avoid build-time errors if the env var is missing
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
+
     // 1. Validate Secret Token
     const authHeader = req.headers.get('x-webhook-secret')
     const expectedSecret = process.env.POS_WEBHOOK_SECRET
