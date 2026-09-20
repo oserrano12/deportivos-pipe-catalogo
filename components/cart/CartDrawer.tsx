@@ -19,11 +19,12 @@ export function CartDrawer() {
   const handleCheckout = () => {
     if (items.length === 0) return
 
-    let message = `¡Hola! Me interesan estos pares (Lleva + pares, paga menos):\n\n`
+    let message = `¡Hola! Me interesan estos pares:\n\n`
     items.forEach(item => {
-      message += `- ${item.product.name} (Talla: ${item.size}) x${item.quantity}\n`
+      const url = `${window.location.origin}/producto/${item.product.slug}`
+      message += `- ${item.product.name} (Talla: ${item.size}) x${item.quantity}\n  Enlace: ${url}\n\n`
     })
-    message += `\nTotal estimado: $${totalPrice.toLocaleString('es-CO')}`
+    message += `Total estimado: $${totalPrice.toLocaleString('es-CO')}`
 
     const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
     const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`
