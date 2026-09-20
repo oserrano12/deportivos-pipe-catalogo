@@ -9,7 +9,7 @@ export function Footer() {
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${whatsappMessage}`
 
   return (
-    <footer className="border-t bg-muted/30 pt-12 pb-24 md:pb-12 mt-auto">
+    <footer className="border-t bg-muted/30 pt-12 pb-36 md:pb-12 mt-auto">
       <div className="container max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           
