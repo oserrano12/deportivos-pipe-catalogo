@@ -48,6 +48,7 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
   const [priceStr, setPriceStr] = useState<string>(product?.price?.toString() || '')
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [previewImages, setPreviewImages] = useState<string[]>([])
+  const [existingImages, setExistingImages] = useState<string[]>(product?.images || [])
   const [selectedCategory, setSelectedCategory] = useState(product?.category_id || '')
   const isClothing = categories.find(c => c.id === selectedCategory)?.slug === 'ropa'
   const [compressedFiles, setCompressedFiles] = useState<File[]>([])
