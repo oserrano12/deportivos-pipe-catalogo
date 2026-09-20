@@ -10,7 +10,23 @@ export async function getProducts(search?: string, categoryId?: string, brandId?
   let query = supabasePublic.from('products').select('*')
 
   if (search) {
-    query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`)
+    // Buscar marcas y categorías que coincidan con la búsqueda
+    const { data: matchingBrands } = await supabasePublic.from('brands').select('id').ilike('name', `%${search}%`)
+    const { data: matchingCats } = await supabasePublic.from('categories').select('id').ilike('name', `%${search}%`)
+    
+    let orQuery = `name.ilike.%${search}%,description.ilike.%${search}%`
+    
+    if (matchingBrands && matchingBrands.length > 0) {
+      const brandIds = matchingBrands.map(b => `brand_id.eq.${b.id}`).join(',')
+      orQuery += `,${brandIds}`
+    }
+    
+    if (matchingCats && matchingCats.length > 0) {
+      const catIds = matchingCats.map(c => `category_id.eq.${c.id}`).join(',')
+      orQuery += `,${catIds}`
+    }
+    
+    query = query.or(orQuery)
   }
   if (categoryId) {
     query = query.eq('category_id', categoryId)
