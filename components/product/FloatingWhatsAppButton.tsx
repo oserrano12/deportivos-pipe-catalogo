@@ -80,31 +80,40 @@ export function FloatingWhatsAppButton({
     setTimeout(() => setAdded(false), 2000)
   }
 
-  const content = (
-    <div className="flex w-full gap-2 md:gap-4 group">
-      {/* Añadir al Carrito */}
-      {isCartDisabled ? (
-        <button disabled className={`flex-1 ${kineticStyles} border-muted bg-secondary text-muted-foreground shadow-[6px_6px_0_0_oklch(var(--color-muted))] md:shadow-[8px_8px_0_0_oklch(var(--color-muted))] opacity-70 cursor-not-allowed`}>
-          <ShoppingBag className="w-5 h-5 opacity-50" />
-          <span className="relative z-10 leading-none">{buttonTextCart}</span>
+  let content: React.ReactNode
+
+  if (needsSize || needsGender) {
+    let promptText = "Elige Talla"
+    if (needsGender && needsSize) promptText = "Elige Género y Talla"
+    else if (needsGender) promptText = "Elige el Género"
+
+    content = (
+      <div className="flex w-full">
+        <button disabled className={`w-full ${kineticStyles} border-muted bg-secondary text-muted-foreground shadow-[6px_6px_0_0_oklch(var(--color-muted))] md:shadow-[8px_8px_0_0_oklch(var(--color-muted))] opacity-70 cursor-not-allowed`}>
+          <span className="relative z-10 leading-none">{promptText}</span>
         </button>
-      ) : (
-        <button 
-          onClick={handleAdd}
-          className={`flex-1 ${kineticStyles} ${added ? 'bg-primary border-primary text-primary-foreground shadow-none translate-x-1 translate-y-1' : 'bg-foreground border-foreground text-background shadow-[6px_6px_0_0_oklch(var(--color-primary))] md:shadow-[8px_8px_0_0_oklch(var(--color-primary))]'} overflow-hidden`}
-        >
-          {added ? <Check className="w-5 h-5 z-10 shrink-0" /> : <ShoppingBag className="w-5 h-5 z-10 shrink-0" />}
-          <span className="relative z-10 leading-none">{buttonTextCart}</span>
-        </button>
-      )}
-      
-      {/* Pedir por WhatsApp / Consultar Restock */}
-      {isWaDisabled ? (
-        <button disabled className={`flex-1 ${kineticStyles} border-muted bg-secondary text-muted-foreground shadow-[6px_6px_0_0_oklch(var(--color-muted))] md:shadow-[8px_8px_0_0_oklch(var(--color-muted))] opacity-70 cursor-not-allowed`}>
-          <WhatsAppIcon className="w-5 h-5 opacity-50" />
-          <span className="relative z-10 leading-none">{buttonTextWa}</span>
-        </button>
-      ) : (
+      </div>
+    )
+  } else {
+    content = (
+      <div className="flex w-full gap-2 md:gap-4 group">
+        {/* Añadir al Carrito */}
+        {isCartDisabled ? (
+          <button disabled className={`flex-1 ${kineticStyles} border-muted bg-secondary text-muted-foreground shadow-[6px_6px_0_0_oklch(var(--color-muted))] md:shadow-[8px_8px_0_0_oklch(var(--color-muted))] opacity-70 cursor-not-allowed`}>
+            <ShoppingBag className="w-5 h-5 opacity-50 shrink-0" />
+            <span className="relative z-10 leading-none">{buttonTextCart}</span>
+          </button>
+        ) : (
+          <button 
+            onClick={handleAdd}
+            className={`flex-1 ${kineticStyles} ${added ? 'bg-primary border-primary text-primary-foreground shadow-none translate-x-1 translate-y-1' : 'bg-foreground border-foreground text-background shadow-[6px_6px_0_0_oklch(var(--color-primary))] md:shadow-[8px_8px_0_0_oklch(var(--color-primary))]'} overflow-hidden`}
+          >
+            {added ? <Check className="w-5 h-5 z-10 shrink-0" /> : <ShoppingBag className="w-5 h-5 z-10 shrink-0" />}
+            <span className="relative z-10 leading-none">{buttonTextCart}</span>
+          </button>
+        )}
+        
+        {/* Pedir por WhatsApp / Consultar Restock */}
         <a 
           href={whatsappUrl} 
           target="_blank" 
@@ -114,9 +123,9 @@ export function FloatingWhatsAppButton({
           <WhatsAppIcon className="w-5 h-5 z-10 shrink-0" />
           <span className="relative z-10 leading-none">{buttonTextWa}</span>
         </a>
-      )}
-    </div>
-  )
+      </div>
+    )
+  }
 
   if (inline) {
     return <div className={`w-full ${className}`}>{content}</div>
