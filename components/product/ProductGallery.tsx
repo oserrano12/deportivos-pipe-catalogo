@@ -46,6 +46,7 @@ export function ProductGallery({ images }: { images: string[] | null }) {
                   width={1200}
                   height={1200}
                   priority={index === 0}
+                  fetchPriority={index === 0 ? "high" : "auto"}
                   sizes="(max-width: 640px) 100vw, 50vw"
                   className="w-full h-auto object-contain"
                 />
