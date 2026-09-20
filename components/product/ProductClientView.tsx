@@ -183,7 +183,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
                       className={`flex-1 h-14 border-2 text-sm font-black uppercase tracking-widest transition-all shadow-[4px_4px_0_0_oklch(var(--color-border))] hover:translate-x-1 hover:translate-y-1 hover:shadow-none ${
                         selectedGender === gender
                           ? 'border-primary bg-primary text-primary-foreground shadow-[4px_4px_0_0_oklch(var(--color-primary))]'
-                          : 'border-border bg-background hover:bg-foreground hover:border-foreground hover:text-background'
+                          : 'border-border bg-secondary/50 hover:bg-foreground hover:border-foreground hover:text-background'
                       }`}
                     >
                       {gender}

@@ -136,11 +136,11 @@
   --primary: #007FFF; /* Brand Bright Blue */
   --primary-foreground: oklch(1 0 0);
   
-  --secondary: oklch(0.12 0 0);
+  --secondary: oklch(0.15 0 0);
   --secondary-foreground: oklch(0.98 0 0);
   
-  --muted: oklch(0.12 0 0);
-  --muted-foreground: oklch(0.6 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.65 0 0);
   
   --accent: #007FFF; 
   --accent-foreground: oklch(1 0 0);
@@ -148,8 +148,8 @@
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(1 0 0);
   
-  --border: oklch(0.15 0 0);
-  --input: oklch(0.15 0 0);
+  --border: oklch(0.25 0 0);
+  --input: oklch(0.25 0 0);
   --ring: #007FFF;
 }
 

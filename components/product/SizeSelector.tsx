@@ -28,11 +28,11 @@ export function SizeSelector({ sizes, selectedSize, onSizeChange }: SizeSelector
             <Button
               key={sizeId}
               type="button"
-              variant={selectedSize === sizeId ? "default" : "outline"}
+              variant={selectedSize === sizeId ? "default" : "secondary"}
               className={`rounded-xl font-bold transition-all ${
                 selectedSize === sizeId 
                   ? "shadow-md scale-105" 
-                  : "hover:border-primary"
+                  : "hover:border-primary border-2 border-transparent bg-secondary"
               }`}
               onClick={() => onSizeChange(sizeId)}
             >
