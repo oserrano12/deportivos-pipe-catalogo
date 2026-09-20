@@ -25,7 +25,8 @@ export function CartDrawer() {
     })
     message += `\nTotal estimado: $${totalPrice.toLocaleString('es-CO')}`
 
-    const whatsappUrl = `https://wa.me/573000000000?text=${encodeURIComponent(message)}`
+    const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
+    const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
 
