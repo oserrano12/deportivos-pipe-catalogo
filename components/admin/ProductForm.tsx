@@ -129,6 +129,10 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
     }
   }
 
+  const handleRemoveExistingImage = (idxToRemove: number) => {
+    setExistingImages(prev => prev.filter((_, idx) => idx !== idxToRemove))
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
@@ -159,7 +163,7 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-card p-6 rounded-xl border shadow-sm">
       {product && <input type="hidden" name="id" value={product.id} />}
-      <input type="hidden" name="existing_images" value={JSON.stringify(product?.images || [])} />
+      <input type="hidden" name="existing_images" value={JSON.stringify(existingImages)} />
       <input type="hidden" name="sizes" value={selectedSizes.join(',')} />
       <input type="hidden" name="price" value={priceStr} />
 
@@ -315,21 +319,31 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
         {/* Gallery Preview Area */}
         <div className="space-y-4 pt-2">
           {/* Existing Images */}
-          {product?.images && product.images.length > 0 && (
+          {existingImages.length > 0 && (
             <div className="space-y-2">
               <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-green-500"></span>
                 Imágenes Actualmente Publicadas
               </p>
               <div className="flex gap-3 flex-wrap">
-                {product.images.map((img: string, idx: number) => (
-                  <a href={img} target="_blank" rel="noopener noreferrer" key={`exist-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-border shadow-sm hover:border-primary transition-colors cursor-pointer block">
+                {existingImages.map((img: string, idx: number) => (
+                  <div key={`exist-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-border shadow-sm hover:border-primary transition-colors block">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={img} alt="Current" className="w-28 h-28 object-cover group-hover:scale-105 transition-transform" />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 bg-background/80 text-foreground text-xs font-bold px-2 py-1 rounded shadow backdrop-blur-sm transition-opacity">Ver</span>
-                    </div>
-                  </a>
+                    <img src={img} alt="Current" className="w-28 h-28 object-cover transition-transform" />
+                    
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none"></div>
+
+                    {/* Delete Button */}
+                    <button 
+                      type="button" 
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleRemoveExistingImage(idx); }}
+                      className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110 shadow-lg cursor-pointer pointer-events-auto"
+                      aria-label="Eliminar imagen"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                  </div>
                 ))}
               </div>
             </div>
