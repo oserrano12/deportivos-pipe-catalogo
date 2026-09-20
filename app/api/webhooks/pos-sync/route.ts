@@ -52,9 +52,13 @@ export async function POST(req: NextRequest) {
       if (existing) {
         // Update existing product
         const { error: updateError } = await supabaseAdmin.from('products').update({
+          name: p.nombre,
           price: p.precio_venta,
           sizes: p.tallas,
-          is_available: p.esta_disponible
+          is_available: p.esta_disponible,
+          brand_id: brand_id !== null ? brand_id : undefined,
+          category_id: category_id !== null ? category_id : undefined,
+          images: p.ruta_imagen ? [p.ruta_imagen] : []
         }).eq('id', existing.id)
 
         if (updateError) {
