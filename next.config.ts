@@ -5,7 +5,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'efwskbukxvioennmvxep.supabase.co',
+        hostname: 'efwskbukxvioennmvxep.supabase.co', // Web Catalog Supabase
+      },
+      {
+        protocol: 'https',
+        hostname: 'rpkrckhbpnlhmowkowbf.supabase.co', // POS Supabase
       },
       {
         protocol: 'https',
