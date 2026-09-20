@@ -110,7 +110,7 @@ export function ProductTableClient({ groupedProducts }: { groupedProducts: Recor
                   <TableRow>
                     <TableHead className="w-12 text-center">
                       <Checkbox 
-                        checked={allSelected ? true : someSelected ? "indeterminate" : false} 
+                        checked={allSelected} 
                         onCheckedChange={() => toggleCategory(catProducts)} 
                         aria-label="Seleccionar todos los de esta categoría"
                       />
