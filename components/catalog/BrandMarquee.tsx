@@ -12,7 +12,6 @@ export function BrandMarquee() {
     { name: "REEBOK", icon: "https://cdn.simpleicons.org/reebok/ffffff" },
     { name: "FILA", icon: "https://cdn.simpleicons.org/fila/ffffff" },
     { name: "ON", icon: "/on-running-logo.svg" },
-    { name: "CONVERSE", icon: "/converse-logo.svg" },
     { name: "VANS", icon: "/vans-logo.svg" },
   ]
 
