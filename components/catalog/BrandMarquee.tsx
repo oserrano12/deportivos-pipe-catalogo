@@ -10,6 +10,8 @@ export function BrandMarquee() {
     { name: "PUMA", icon: "https://cdn.simpleicons.org/puma/ffffff" },
     { name: "NEW BALANCE", icon: "https://cdn.simpleicons.org/newbalance/ffffff" },
     { name: "REEBOK", icon: "https://cdn.simpleicons.org/reebok/ffffff" },
+    { name: "FILA", icon: "https://cdn.simpleicons.org/fila/ffffff" },
+    { name: "ON", icon: null },
     { name: "CONVERSE", icon: null },
     { name: "VANS", icon: null },
   ]
