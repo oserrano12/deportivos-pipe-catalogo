@@ -39,14 +39,15 @@ export function ProductGallery({ images }: { images: string[] | null }) {
         <CarouselContent>
           {validImages.map((src, index) => (
             <CarouselItem key={index}>
-              <div className="aspect-[4/3] sm:aspect-square relative bg-secondary/30 md:rounded-2xl overflow-hidden border border-border/50">
+              <div className="relative w-full md:rounded-2xl overflow-hidden border border-border/50 bg-secondary/10 flex items-center justify-center">
                 <Image
                   src={src}
                   alt={`Product Image ${index + 1}`}
-                  fill
+                  width={1200}
+                  height={1200}
                   priority={index === 0}
                   sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover"
+                  className="w-full h-auto object-contain"
                 />
               </div>
             </CarouselItem>
