@@ -33,13 +33,13 @@ export function ProductGallery({ images }: { images: string[] | null }) {
   }, [api])
 
   return (
-    <div className="relative -mx-4 sm:mx-0 space-y-4">
+    <div className="relative space-y-4">
       {/* Main Image Carousel */}
       <Carousel setApi={setApi} className="w-full">
         <CarouselContent>
           {validImages.map((src, index) => (
             <CarouselItem key={index}>
-              <div className="relative w-full md:rounded-2xl overflow-hidden border border-border/50 bg-secondary/10 flex items-center justify-center">
+              <div className="relative w-full overflow-hidden flex items-center justify-center">
                 <Image
                   src={src}
                   alt={`Product Image ${index + 1}`}

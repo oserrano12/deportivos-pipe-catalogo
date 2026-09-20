@@ -88,7 +88,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 lg:gap-20">
-        <div className="md:sticky md:top-36 h-fit bg-secondary/20 p-4 md:p-8 rounded-[2rem] border border-border shadow-2xl">
+        <div className="md:sticky md:top-36 h-fit bg-secondary/20 pt-0 px-0 pb-4 md:p-8 rounded-[2rem] border border-border shadow-2xl overflow-hidden">
           <ProductGallery images={product.images} />
         </div>
         
