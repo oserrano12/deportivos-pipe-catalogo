@@ -10,13 +10,39 @@ export function SearchBar() {
   const [query, setQuery] = useState(searchParams.get('q') || '')
   const [isPending, startTransition] = useTransition()
 
-  // Sync state if URL changes
+  // Efecto para aplicar búsqueda en vivo con debounce
   useEffect(() => {
-    setQuery(searchParams.get('q') || '')
+    const timer = setTimeout(() => {
+      const currentUrlQuery = searchParams.get('q') || ''
+      if (query !== currentUrlQuery) {
+        const params = new URLSearchParams(searchParams.toString())
+        if (query.trim()) {
+          params.set('q', query.trim())
+        } else {
+          params.delete('q')
+        }
+        startTransition(() => {
+          router.push(`/?${params.toString()}#catalogo`, { scroll: false })
+        })
+      }
+    }, 400)
+
+    return () => clearTimeout(timer)
+  }, [query, router, searchParams])
+
+  // Sincronizar estado si la URL cambia por fuera (ej. botones atrás/adelante)
+  useEffect(() => {
+    const urlQuery = searchParams.get('q') || ''
+    if (urlQuery !== query) {
+      setQuery(urlQuery)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault()
+    // El formulario ya no necesita hacer push porque el useEffect lo hace en vivo,
+    // pero si le dan Enter, forzamos la actualización sin esperar el debounce
     const params = new URLSearchParams(searchParams.toString())
     if (query.trim()) {
       params.set('q', query.trim())
