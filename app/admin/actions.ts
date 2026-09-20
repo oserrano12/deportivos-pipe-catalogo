@@ -34,6 +34,16 @@ export async function deleteProduct(id: string) {
   revalidatePath('/')
 }
 
+export async function deleteProductsBulk(ids: string[]) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Unauthorized')
+
+  await supabase.from('products').delete().in('id', ids)
+  revalidatePath('/admin')
+  revalidatePath('/')
+}
+
 export async function seedProducts() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

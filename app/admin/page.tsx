@@ -22,6 +22,8 @@ import { redirect } from 'next/navigation'
 
 import Image from 'next/image'
 
+import { ProductTableClient } from '@/components/admin/ProductTableClient'
+
 export const revalidate = 0
 
 export default async function AdminDashboard({
@@ -85,85 +87,7 @@ export default async function AdminDashboard({
             No hay productos que coincidan con los filtros.
           </div>
         ) : (
-          Object.entries(groupedProducts).map(([category, catProducts]) => (
-            <div key={category} className="space-y-3">
-              <h2 className="text-xl font-bold border-b pb-2">{category} <span className="text-muted-foreground text-sm font-normal ml-2">({catProducts.length})</span></h2>
-              <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
-                <Table>
-                  <TableHeader className="bg-muted/50">
-                    <TableRow>
-                      <TableHead className="w-[300px]">Producto</TableHead>
-                      <TableHead>Tallas / Géneros</TableHead>
-                      <TableHead className="text-center">Disponible</TableHead>
-                      <TableHead className="text-center">Destacado</TableHead>
-                      <TableHead className="text-right">Acciones</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {catProducts.map((product) => {
-                      const imageUrl = product.images && product.images.length > 0 
-                        ? product.images[0] 
-                        : '/placeholder-sneaker.webp'
-
-                      return (
-                        <TableRow key={product.id}>
-                          <TableCell>
-                            <div className="flex items-center gap-4">
-                              <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-secondary border border-border/50 shrink-0">
-                                <Image 
-                                  src={imageUrl} 
-                                  alt={product.name} 
-                                  fill
-                                  sizes="56px"
-                                  className="object-cover"
-                                />
-                              </div>
-                              <div>
-                                <div className="font-bold text-sm leading-tight">{product.name}</div>
-                                <div className="text-xs text-muted-foreground flex items-center gap-2 mt-1">
-                                  <span className="uppercase tracking-wider">{product.brand?.name || 'Sin Marca'}</span>
-                                </div>
-                                <div className="text-sm font-semibold text-primary mt-1">
-                                  ${product.price.toLocaleString('es-CO')}
-                                </div>
-                              </div>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex flex-wrap gap-1 max-w-[200px]">
-                              {product.sizes && product.sizes.length > 0 ? (
-                                product.sizes.map(size => (
-                                  <Badge key={size} variant="secondary" className="text-[10px] px-1.5 py-0">
-                                    {size.replace('C-', 'Cab: ').replace('D-', 'Dam: ').replace('R-', 'Ropa: ')}
-                                  </Badge>
-                                ))
-                              ) : (
-                                <span className="text-xs text-muted-foreground">Sin tallas</span>
-                              )}
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <AvailabilitySwitch id={product.id} initial={product.is_available} />
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <FeaturedSwitch id={product.id} initial={product.is_featured} />
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end gap-2">
-                              <Link href={`/admin/productos/${product.id}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
-                                Editar
-                              </Link>
-                              <DeleteProductButton id={product.id} />
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-          ))
+          <ProductTableClient groupedProducts={groupedProducts} />
         )}
       </div>
     </div>
