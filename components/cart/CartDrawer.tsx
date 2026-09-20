@@ -13,7 +13,7 @@ import {
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 
-export function CartDrawer() {
+export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bottom-nav' } = {}) {
   const { items, removeItem, totalItems, totalPrice } = useCart()
 
   const handleCheckout = () => {
@@ -34,14 +34,33 @@ export function CartDrawer() {
   return (
     <Sheet>
       <SheetTrigger 
-        className="relative p-2 text-muted-foreground hover:text-foreground transition-colors outline-none focus:ring-2 ring-primary rounded-full group cursor-pointer"
+        className={variant === 'bottom-nav' 
+          ? "flex flex-col items-center justify-center w-16 h-full text-xs font-medium transition-colors text-muted-foreground hover:text-foreground relative cursor-pointer"
+          : "relative p-2 text-muted-foreground hover:text-foreground transition-colors outline-none focus:ring-2 ring-primary rounded-full group cursor-pointer"
+        }
         aria-label="Abrir carrito"
       >
-        <ShoppingBag className="h-5 w-5" />
-        {totalItems > 0 && (
-          <span className="absolute 0 right-0 top-0 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center animate-in zoom-in">
-            {totalItems}
-          </span>
+        {variant === 'bottom-nav' ? (
+          <>
+            <div className="relative flex justify-center">
+              <ShoppingBag className="h-5 w-5 mb-1" />
+              {totalItems > 0 && (
+                <span className="absolute -right-2 -top-1 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center animate-in zoom-in">
+                  {totalItems}
+                </span>
+              )}
+            </div>
+            Carrito
+          </>
+        ) : (
+          <>
+            <ShoppingBag className="h-5 w-5" />
+            {totalItems > 0 && (
+              <span className="absolute 0 right-0 top-0 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center animate-in zoom-in">
+                {totalItems}
+              </span>
+            )}
+          </>
         )}
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-md flex flex-col border-l-2 border-border p-0">

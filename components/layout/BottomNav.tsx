@@ -61,9 +61,7 @@ export function BottomNav() {
           Favoritos
         </Link>
 
-        <div className="flex flex-col items-center justify-center w-16 h-full mt-2">
-          <CartDrawer />
-        </div>
+        <CartDrawer variant="bottom-nav" />
       </div>
     </div>
   )
