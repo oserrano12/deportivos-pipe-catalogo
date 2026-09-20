@@ -11,7 +11,7 @@ export function BrandMarquee() {
     { name: "NEW BALANCE", icon: "https://cdn.simpleicons.org/newbalance/ffffff" },
     { name: "REEBOK", icon: "https://cdn.simpleicons.org/reebok/ffffff" },
     { name: "FILA", icon: "https://cdn.simpleicons.org/fila/ffffff" },
-    { name: "ON", icon: null },
+    { name: "ON", icon: "/on-running-logo.svg" },
   ]
 
   // We duplicate the array to create the seamless infinite scroll effect
