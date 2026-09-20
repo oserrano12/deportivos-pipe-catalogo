@@ -51,12 +51,16 @@ export async function POST(req: NextRequest) {
 
       if (existing) {
         // Update existing product
-        await supabaseAdmin.from('products').update({
+        const { error: updateError } = await supabaseAdmin.from('products').update({
           price: p.precio_venta,
           sizes: p.tallas,
           is_available: p.esta_disponible
         }).eq('id', existing.id)
 
+        if (updateError) {
+          console.error('Update Error:', updateError)
+          return NextResponse.json({ error: 'Database update failed', details: updateError }, { status: 500 })
+        }
         return NextResponse.json({ message: 'Product updated successfully' })
       } else {
         // Create new product
@@ -65,7 +69,7 @@ export async function POST(req: NextRequest) {
         const randomSuffix = Math.random().toString(36).substring(2, 6)
         const slug = `${baseSlug}-${randomSuffix}`
 
-        await supabaseAdmin.from('products').insert([{
+        const { error: insertError } = await supabaseAdmin.from('products').insert([{
           name: p.nombre,
           slug: slug,
           brand_id: brand_id,
@@ -78,6 +82,10 @@ export async function POST(req: NextRequest) {
           is_featured: false
         }])
 
+        if (insertError) {
+          console.error('Insert Error:', insertError)
+          return NextResponse.json({ error: 'Database insert failed', details: insertError }, { status: 500 })
+        }
         return NextResponse.json({ message: 'Product created successfully' })
       }
     }
