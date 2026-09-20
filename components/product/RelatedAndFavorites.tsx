@@ -42,20 +42,30 @@ export function RelatedAndFavorites({
     }
 
     return {
-      relatedProducts: related.slice(0, 4),
-      favoriteProducts: favorites.slice(0, 4)
+      relatedProducts: related.slice(0, 8),
+      favoriteProducts: favorites.slice(0, 8)
     }
   }, [allProducts, currentProductId, categoryId, favoriteIds])
 
   if (relatedProducts.length === 0 && favoriteProducts.length === 0) return null
 
+  // Ensure we have enough items to fill a wide screen before duplicating for the -50% loop.
+  // We need at least ~10 items to comfortably fill a 1920px screen before the 2x duplication.
+  let baseProducts = [...relatedProducts]
+  while (baseProducts.length < 10) {
+    baseProducts = [...baseProducts, ...relatedProducts]
+  }
+  
+  // Now duplicate exactly twice for the -50% translateX animation to seamlessly loop
+  const marqueeProducts = [...baseProducts, ...baseProducts]
+
   return (
-    <div className="container max-w-7xl mx-auto px-4 pb-32 space-y-20">
+    <div className="pb-32 space-y-20 overflow-hidden">
       
       {/* Sección 1: Recomendados / Similares */}
       {relatedProducts.length > 0 && (
         <div className="border-t-2 border-border pt-12 space-y-8">
-          <div className="flex flex-col gap-2">
+          <div className="container max-w-7xl mx-auto px-4 flex flex-col gap-2">
             <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">
               TAMBIÉN TE PODRÍA INTERESAR
             </h2>
@@ -63,29 +73,37 @@ export function RelatedAndFavorites({
               Productos similares recomendados
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {relatedProducts.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
+          
+          {/* Infinite Marquee Container */}
+          <div className="w-full flex group">
+            <div className="flex animate-marquee hover:[animation-play-state:paused] w-max gap-4 md:gap-8 px-4 md:px-8">
+              {marqueeProducts.map((product, index) => (
+                <div key={`${product.id}-${index}`} className="w-[260px] md:w-[320px] shrink-0">
+                  <ProductCard product={product} index={index} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
 
       {/* Sección 2: Tus Favoritos */}
       {favoriteProducts.length > 0 && (
-        <div className="border-t-2 border-border pt-12 space-y-8">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">
-              TUS FAVORITOS
-            </h2>
-            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
-              Zapatillas que te han gustado
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {favoriteProducts.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="border-t-2 border-border pt-12 space-y-8">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">
+                TUS FAVORITOS
+              </h2>
+              <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                Zapatillas que te han gustado
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+              {favoriteProducts.map((product, index) => (
+                <ProductCard key={product.id} product={product} index={index} />
+              ))}
+            </div>
           </div>
         </div>
       )}
