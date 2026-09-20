@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 
 export function SplashScreen() {
   const [isVisible, setIsVisible] = useState(true)
+  const [isFading, setIsFading] = useState(false)
 
   useEffect(() => {
     // Only show once per session
@@ -14,49 +14,55 @@ export function SplashScreen() {
       return
     }
 
-    const timer = setTimeout(() => {
+    const fadeTimer = setTimeout(() => {
+      setIsFading(true)
+    }, 1500)
+
+    const removeTimer = setTimeout(() => {
       setIsVisible(false)
       sessionStorage.setItem('hasSeenSplash', 'true')
     }, 2000)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(fadeTimer)
+      clearTimeout(removeTimer)
+    }
   }, [])
 
+  if (!isVisible) return null
+
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background"
+    <div
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-background transition-opacity duration-500 ease-in-out ${
+        isFading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}
+    >
+      <div className="flex flex-col items-center justify-center gap-4 animate-fade-in-up" style={{ animationDuration: '0.8s' }}>
+        <span 
+          className="font-bold text-3xl md:text-5xl tracking-tight uppercase animate-fade-in-up"
+          style={{ animationDelay: '300ms', animationFillMode: 'both' }}
         >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col items-center justify-center gap-4"
-          >
-            <motion.span 
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="font-bold text-3xl md:text-5xl tracking-tight uppercase"
-            >
-              Deportivos Pipe
-            </motion.span>
-            
-            {/* Pequeña barra de carga estilizada (opcional pero le da buen toque) */}
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: "100%" }}
-              transition={{ delay: 0.5, duration: 1.2, ease: "easeInOut" }}
-              className="h-1 bg-primary rounded-full mt-2"
-              style={{ maxWidth: '100px' }}
-            />
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          Deportivos Pipe
+        </span>
+        
+        {/* Pequeña barra de carga estilizada */}
+        <div className="w-full max-w-[100px] h-1 bg-secondary rounded-full mt-2 overflow-hidden">
+          <div 
+            className="h-full bg-primary"
+            style={{ 
+              animation: 'fill-width 1.2s ease-in-out forwards',
+              animationDelay: '500ms'
+            }}
+          />
+        </div>
+      </div>
+      
+      <style jsx>{`
+        @keyframes fill-width {
+          from { width: 0; }
+          to { width: 100%; }
+        }
+      `}</style>
+    </div>
   )
 }

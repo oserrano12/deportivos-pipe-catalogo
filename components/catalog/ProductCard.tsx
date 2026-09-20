@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { ProductWithRelations } from '@/lib/data/products'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import { Heart } from 'lucide-react'
 import { useFavorites } from '@/components/context/FavoritesContext'
 
@@ -23,11 +22,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     : '/placeholder-sneaker.webp'
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
-      whileHover={{ y: -4 }}
+    <div
+      className="animate-fade-in-up hover:-translate-y-1 transition-transform duration-300"
+      style={{ 
+        animationDelay: `${index * 50}ms`,
+        animationFillMode: 'both'
+      }}
     >
       <Link href={`/producto/${product.slug}`} className="group block">
         <div className="relative w-full overflow-hidden rounded-2xl bg-secondary/10 mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(0,127,255,0.2)]">
@@ -77,6 +77,6 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           </h3>
         </div>
       </Link>
-    </motion.div>
+    </div>
   )
 }
