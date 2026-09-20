@@ -1,4 +1,5 @@
-<svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
-  <path d="M10,20 L25,45 L40,20 L95,20 L95,12 L35,12 L25,29 L15,12 Z" fill="white" />
-  <text x="42" y="45" fill="white" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="28" letter-spacing="-1">ANS</text>
+<svg viewBox="0 0 130 50" xmlns="http://www.w3.org/2000/svg">
+  <!-- V/Square root -->
+  <path d="M 5,20 L 15,20 L 25,40 L 38,12 L 125,12 L 125,18 L 42,18 L 27,48 L 23,48 L 10,20 Z" fill="white" />
+  <text x="40" y="47" fill="white" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="38" letter-spacing="-2">ANS</text>
 </svg>
