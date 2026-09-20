@@ -23,6 +23,7 @@ export async function saveProduct(formData: FormData) {
   const brand_id = formData.get('brand_id') as string || null
   const is_available = formData.get('is_available') === 'on'
   const is_featured = formData.get('is_featured') === 'on'
+  const base_sku = formData.get('base_sku') as string || null
   
   const sizesRaw = formData.get('sizes') as string
   const sizes = sizesRaw ? sizesRaw.split(',').map(s => s.trim()).filter(Boolean) : []
@@ -64,6 +65,7 @@ export async function saveProduct(formData: FormData) {
     brand_id,
     is_available,
     is_featured,
+    base_sku,
     sizes,
     images: uploadedUrls
   }

@@ -184,18 +184,25 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="price_display">Precio (COP)</Label>
-        <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">$</span>
-          <Input 
-            id="price_display" 
-            type="text" 
-            className="pl-8 font-bold"
-            value={formatPrice(priceStr)} 
-            onChange={handlePriceChange} 
-            placeholder="Opcional"
-          />
+      <div className="grid md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="base_sku">SKU Base (Código de Referencia) *Opcional*</Label>
+          <Input id="base_sku" name="base_sku" defaultValue={product?.base_sku || ''} placeholder="Ej: SNE-M-BLA-AZU-000" />
+          <p className="text-[10px] text-muted-foreground">Si tu sistema POS usa códigos, colócalo aquí para conectarlos.</p>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="price_display">Precio (COP) <span className="text-muted-foreground font-normal text-xs">(0 para ocultar precio)</span></Label>
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-bold">$</span>
+            <Input 
+              id="price_display" 
+              type="text" 
+              className="pl-8 font-bold"
+              value={formatPrice(priceStr)} 
+              onChange={handlePriceChange} 
+              placeholder="Opcional"
+            />
+          </div>
         </div>
       </div>
 

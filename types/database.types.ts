@@ -68,6 +68,7 @@ export interface Database {
           images: string[] | null
           sizes: string[] | null
           is_featured: boolean
+          base_sku: string | null
         }
         Insert: {
           id?: string
@@ -82,6 +83,7 @@ export interface Database {
           images?: string[] | null
           sizes?: string[] | null
           is_featured?: boolean
+          base_sku?: string | null
         }
         Update: {
           id?: string
@@ -96,6 +98,7 @@ export interface Database {
           images?: string[] | null
           sizes?: string[] | null
           is_featured?: boolean
+          base_sku?: string | null
         }
         Relationships: [
           {
