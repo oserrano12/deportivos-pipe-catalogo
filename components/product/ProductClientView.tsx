@@ -207,8 +207,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
             
             <div className="pt-8 border-t-2 border-border hidden md:block">
               <FloatingWhatsAppButton 
-                productName={product.name}
-                price={product.price}
+                product={product}
                 selectedSize={displaySize}
                 selectedGender={selectedGender}
                 isAvailable={product.is_available}
@@ -222,8 +221,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
       </div>
 
       <FloatingWhatsAppButton 
-        productName={product.name}
-        price={product.price}
+        product={product}
         selectedSize={displaySize}
         selectedGender={selectedGender}
         isAvailable={product.is_available}

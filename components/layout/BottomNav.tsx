@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Home, Grid, MessageCircle } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { CartDrawer } from '@/components/cart/CartDrawer'
 
 export function BottomNav() {
   const pathname = usePathname()
@@ -46,6 +47,7 @@ export function BottomNav() {
           Catálogo
         </Link>
 
+
         <Link 
           href="/favoritos"
           className={cn(
@@ -59,15 +61,9 @@ export function BottomNav() {
           Favoritos
         </Link>
 
-        <a 
-          href={whatsappUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="flex flex-col items-center justify-center w-16 h-full text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <MessageCircle className="h-5 w-5 mb-1" />
-          Contacto
-        </a>
+        <div className="flex flex-col items-center justify-center w-16 h-full mt-2">
+          <CartDrawer />
+        </div>
       </div>
     </div>
   )

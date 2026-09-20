@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { CartDrawer } from '@/components/cart/CartDrawer'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import * as React from 'react'
@@ -74,6 +75,7 @@ export function MobileHeader() {
             </svg>
           </Link>
           <ThemeToggle />
+          <CartDrawer />
           <a
             href={`https://instagram.com/${instagramUser}`}
             target="_blank"

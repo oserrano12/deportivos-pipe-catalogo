@@ -3,7 +3,7 @@
 import { useFavorites } from '@/components/context/FavoritesContext'
 import { ProductCard } from '@/components/catalog/ProductCard'
 import { ProductWithRelations } from '@/lib/data/products'
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 
 export function RelatedAndFavorites({ 
   currentProductId, 
@@ -15,8 +15,28 @@ export function RelatedAndFavorites({
   allProducts: ProductWithRelations[] 
 }) {
   const { favoriteIds } = useFavorites()
+  const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>([])
 
-  const { relatedProducts, favoriteProducts } = useMemo(() => {
+  useEffect(() => {
+    // Leer historial (excluyendo el actual)
+    const stored = localStorage.getItem('recentlyViewed')
+    let items: string[] = []
+    if (stored) {
+      try {
+        items = JSON.parse(stored)
+        setRecentlyViewedIds(items.filter((id: string) => id !== currentProductId))
+      } catch (e) {}
+    }
+    
+    // Guardar el actual al principio
+    items = items.filter((id: string) => id !== currentProductId)
+    items.unshift(currentProductId)
+    items = items.slice(0, 10) // Guardar solo los últimos 10
+    
+    localStorage.setItem('recentlyViewed', JSON.stringify(items))
+  }, [currentProductId])
+
+  const { relatedProducts, favoriteProducts, recentProducts } = useMemo(() => {
     // 1. Favoritos relacionados (excluyendo el actual)
     const favorites = allProducts.filter(p => 
       favoriteIds.includes(p.id) && p.id !== currentProductId && p.is_available
@@ -41,13 +61,19 @@ export function RelatedAndFavorites({
       related = [...related, ...fallbacks]
     }
 
+    // 3. Vistos recientemente
+    const recent = recentlyViewedIds
+      .map(id => allProducts.find(p => p.id === id))
+      .filter((p): p is ProductWithRelations => p !== undefined && p.is_available)
+
     return {
       relatedProducts: related.slice(0, 8),
-      favoriteProducts: favorites.slice(0, 8)
+      favoriteProducts: favorites.slice(0, 8),
+      recentProducts: recent.slice(0, 8)
     }
-  }, [allProducts, currentProductId, categoryId, favoriteIds])
+  }, [allProducts, currentProductId, categoryId, favoriteIds, recentlyViewedIds])
 
-  if (relatedProducts.length === 0 && favoriteProducts.length === 0) return null
+  if (relatedProducts.length === 0 && favoriteProducts.length === 0 && recentProducts.length === 0) return null
 
   // Ensure we have enough items to fill a wide screen before duplicating for the -50% loop.
   // We need at least ~10 items to comfortably fill a 1920px screen before the 2x duplication.
@@ -102,6 +128,27 @@ export function RelatedAndFavorites({
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
               {favoriteProducts.map((product, index) => (
                 <ProductCard key={product.id} product={product} index={index} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sección 3: Vistos Recientemente */}
+      {recentProducts.length > 0 && (
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="border-t-2 border-border pt-12 space-y-8">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-muted-foreground">
+                VISTOS RECIENTEMENTE
+              </h2>
+              <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                Para que no les pierdas la pista
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+              {recentProducts.map((product, index) => (
+                <ProductCard key={`recent-${product.id}`} product={product} index={index} />
               ))}
             </div>
           </div>

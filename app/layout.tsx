@@ -41,6 +41,7 @@ export const metadata: Metadata = {
 
 import { GoogleTagManager } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/next'
+import { CartProvider } from "@/components/context/CartContext"
 
 export default function RootLayout({
   children,
@@ -54,7 +55,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || "https://efwskbukxvioennmvxep.supabase.co"} />
       </head>
       <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 font-sans antialiased">
-        <FavoritesProvider>
+        <CartProvider>
+          <FavoritesProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -70,7 +72,8 @@ export default function RootLayout({
             <BottomNav />
             <Toaster position="top-center" richColors />
           </ThemeProvider>
-        </FavoritesProvider>
+          </FavoritesProvider>
+        </CartProvider>
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || 'GTM-TGKPL943'} />
         <Analytics />
       </body>
