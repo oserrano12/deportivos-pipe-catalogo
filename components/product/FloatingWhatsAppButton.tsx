@@ -67,15 +67,6 @@ export function FloatingWhatsAppButton({
     </button>
   ) : (
     <div className="relative w-full h-full group">
-      {/* CSS Particles */}
-      <div className="absolute inset-0 pointer-events-none overflow-visible">
-        {/* We use global animations defined in globals.css for the particles */}
-        <div className="absolute top-1/2 left-1/4 w-2 h-2 bg-[#25D366] rounded-full animate-particle-1 opacity-0"></div>
-        <div className="absolute top-1/4 left-3/4 w-1.5 h-1.5 bg-[#60F59C] rounded-full animate-particle-2 opacity-0"></div>
-        <div className="absolute top-3/4 left-1/2 w-2.5 h-2.5 bg-[#25D366] rounded-full animate-particle-3 opacity-0"></div>
-        <div className="absolute top-0 right-1/4 w-1 h-1 bg-[#ffffff] rounded-full animate-particle-4 opacity-0"></div>
-      </div>
-
       <a 
         href={whatsappUrl} 
         target="_blank" 
