@@ -63,7 +63,7 @@ export function ProductGallery({ images }: { images: string[] | null }) {
       
       {/* Thumbnails Navigation */}
       {validImages.length > 1 && (
-        <div className="flex justify-center md:justify-start gap-3 overflow-x-auto px-4 sm:px-0 scrollbar-hide py-1">
+        <div className="flex justify-center md:justify-start gap-3 overflow-x-auto px-4 pb-4 md:pb-0 sm:px-0 scrollbar-hide pt-1">
           {validImages.map((src, idx) => (
             <button
               key={idx}
