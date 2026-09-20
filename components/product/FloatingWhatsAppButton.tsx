@@ -1,3 +1,4 @@
+// C:\Users\serra\OneDrive\Documentos\deportivos-pipe-catalogo\components\product\FloatingWhatsAppButton.tsx
 'use client'
 
 import { Button } from "@/components/ui/button"
@@ -34,10 +35,7 @@ export function FloatingWhatsAppButton({
 }: FloatingWhatsAppButtonProps) {
   const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
   
-  // Handle URL creation (client side)
   const productUrl = typeof window !== 'undefined' ? window.location.href : ''
-  
-  // Build message: "quiero estos [modelo del zapato], seguido de para y el genero caballero o dama y en la talla que se introduzca el valor de la talla que se seleccionó"
   const genderText = selectedGender ? `para ${selectedGender}` : ''
   const sizeText = selectedSize ? `en la talla ${selectedSize}` : ''
   const spaceOrEmpty = genderText || sizeText ? ' ' : ''
@@ -57,7 +55,7 @@ export function FloatingWhatsAppButton({
   else if (needsGender) buttonText = "Elige el Género"
   else if (needsSize) buttonText = "Elige tu Talla"
 
-  const kineticStyles = "w-full h-16 flex items-center justify-center gap-3 text-sm md:text-base font-black uppercase tracking-widest transition-all rounded-none border-2 shadow-[8px_8px_0_0_oklch(var(--color-border))] hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
+  const kineticStyles = "w-full h-16 flex items-center justify-center gap-3 text-sm md:text-base font-black uppercase tracking-widest transition-all rounded-none border-2 shadow-[8px_8px_0_0_oklch(var(--color-border))] hover:translate-x-1 hover:translate-y-1 hover:shadow-none relative z-10"
   
   const content = isDisabled ? (
     <button 
@@ -68,22 +66,32 @@ export function FloatingWhatsAppButton({
       {buttonText}
     </button>
   ) : (
-    <a 
-      href={whatsappUrl} 
-      target="_blank" 
-      rel="noreferrer"
-      className={`${kineticStyles} animate-shimmer bg-[linear-gradient(110deg,#25D366,45%,#7df5a9,55%,#25D366)] bg-[length:200%_100%] border-[#25D366] text-white shadow-[8px_8px_0_0_oklch(var(--color-foreground))] hover:shadow-[0_0_0_0_oklch(var(--color-foreground))]`}
-    >
-      <WhatsAppIcon className="w-6 h-6" />
-      <span className="relative">
-        {buttonText}
-        {/* Subtle dot ping to catch the eye */}
-        <span className="absolute -top-1 -right-4 flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+    <div className="relative w-full h-full group">
+      {/* CSS Particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-visible">
+        {/* We use global animations defined in globals.css for the particles */}
+        <div className="absolute top-1/2 left-1/4 w-2 h-2 bg-[#25D366] rounded-full animate-particle-1 opacity-0"></div>
+        <div className="absolute top-1/4 left-3/4 w-1.5 h-1.5 bg-[#60F59C] rounded-full animate-particle-2 opacity-0"></div>
+        <div className="absolute top-3/4 left-1/2 w-2.5 h-2.5 bg-[#25D366] rounded-full animate-particle-3 opacity-0"></div>
+        <div className="absolute top-0 right-1/4 w-1 h-1 bg-[#ffffff] rounded-full animate-particle-4 opacity-0"></div>
+      </div>
+
+      <a 
+        href={whatsappUrl} 
+        target="_blank" 
+        rel="noreferrer"
+        className={`${kineticStyles} animate-soft-vibrate bg-[linear-gradient(110deg,#25D366,45%,#7df5a9,55%,#25D366)] bg-[length:200%_100%] border-[#25D366] text-white shadow-[8px_8px_0_0_oklch(var(--color-foreground))] hover:shadow-[0_0_0_0_oklch(var(--color-foreground))] overflow-hidden`}
+      >
+        <WhatsAppIcon className="w-6 h-6 z-10" />
+        <span className="relative z-10">
+          {buttonText}
+          <span className="absolute -top-1 -right-4 flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+          </span>
         </span>
-      </span>
-    </a>
+      </a>
+    </div>
   )
 
   if (inline) {
