@@ -2,13 +2,14 @@
 
 import { Search, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useState, FormEvent, useEffect, useTransition } from 'react'
+import { useState, FormEvent, useEffect, useTransition, useRef } from 'react'
 
 export function SearchBar() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('q') || '')
   const [isPending, startTransition] = useTransition()
+  const inputRef = useRef<HTMLInputElement>(null)
 
   // Efecto para aplicar búsqueda en vivo con debounce
   useEffect(() => {
@@ -33,7 +34,8 @@ export function SearchBar() {
   // Sincronizar estado si la URL cambia por fuera (ej. botones atrás/adelante)
   useEffect(() => {
     const urlQuery = searchParams.get('q') || ''
-    if (urlQuery !== query) {
+    // Solo actualizamos el input si el usuario NO está escribiendo en él (no tiene el foco)
+    if (urlQuery !== query && document.activeElement !== inputRef.current) {
       setQuery(urlQuery)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,6 +70,7 @@ export function SearchBar() {
       <div className="relative w-full">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
