@@ -24,6 +24,13 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
     return null
   }
 
+  const phrases = [
+    { line1: "PAGO", line2: "CONTRA", line3: "ENTREGA." },
+    { line1: "ENVÍOS", line2: "A TODA", line3: "COLOMBIA." },
+    { line1: "COMPRA", line2: "100%", line3: "SEGURA." },
+    { line1: "CALIDAD", line2: "PREMIUM", line3: "GARANTIZADA." }
+  ]
+
   return (
     <div className="w-full relative bg-secondary/20 border-b group/carousel">
       <Carousel
@@ -38,6 +45,8 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
             const imageUrl = product.images && product.images.length > 0 
               ? product.images[0] 
               : '/placeholder-sneaker.webp'
+              
+            const phrase = phrases[index % phrases.length]
 
             return (
               <CarouselItem key={product.id}>
@@ -59,9 +68,9 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                       Destacado
                     </span>
                     <h1 className="text-[2.75rem] sm:text-5xl md:text-6xl lg:text-8xl font-black italic uppercase tracking-tighter text-foreground mb-2 md:mb-4 leading-[0.85] flex flex-col">
-                      <span className="translate-x-0 group-hover:translate-x-4 transition-transform duration-500">MAXIMIZE</span> 
-                      <span className="text-transparent" style={{ WebkitTextStroke: '2px var(--color-foreground)' }}>YOUR</span>
-                      <span className="text-primary -translate-x-2 group-hover:translate-x-2 transition-transform duration-700">POTENTIAL.</span>
+                      <span className="translate-x-0 group-hover:translate-x-4 transition-transform duration-500">{phrase.line1}</span> 
+                      <span className="text-transparent" style={{ WebkitTextStroke: '2px var(--color-foreground)' }}>{phrase.line2}</span>
+                      <span className="text-primary -translate-x-2 group-hover:translate-x-2 transition-transform duration-700">{phrase.line3}</span>
                     </h1>
                     <p className="text-muted-foreground font-medium text-xs md:text-base max-w-sm mb-4 md:mb-8 mt-2 md:mt-4 border-l-2 border-primary pl-3">
                       <strong className="text-foreground">{product.name}</strong> <br/>
