@@ -18,7 +18,7 @@ export function FavoritesGrid({ allProducts }: { allProducts: ProductWithRelatio
           <span className="text-3xl grayscale opacity-50">🤍</span>
         </div>
         <div className="space-y-2 max-w-sm mx-auto">
-          <h3 className="text-xl font-bold text-foreground">Aún no tienes favoritos</h3>
+          <h2 className="text-xl font-bold text-foreground">Aún no tienes favoritos</h2>
           <p className="text-muted-foreground">Explora el catálogo y toca el corazón en los productos que más te gusten para guardarlos aquí.</p>
         </div>
         <Link href="/#catalogo" className={buttonVariants({ variant: 'default' })}>

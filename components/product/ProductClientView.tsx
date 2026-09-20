@@ -158,7 +158,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
 
           {product.description && (
             <div className="space-y-4 border-l-4 border-primary pl-4 py-2">
-              <h3 className="font-black text-sm uppercase tracking-widest text-foreground">Descripción</h3>
+              <h2 className="font-black text-sm uppercase tracking-widest text-foreground">Descripción</h2>
               <p className="text-base text-muted-foreground font-medium leading-relaxed whitespace-pre-wrap">
                 {product.description}
               </p>
@@ -169,7 +169,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
             {availableGenders.length > 0 && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-black text-sm uppercase tracking-widest">Género / Tipo</h3>
+                  <h2 className="font-black text-sm uppercase tracking-widest">Género / Tipo</h2>
                   {!hasRopa && <SizeGuideModal />}
                 </div>
                 <div className="flex flex-wrap gap-4">

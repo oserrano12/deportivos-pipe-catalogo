@@ -64,7 +64,7 @@ export function FilterDrawer({ availableSizes, availableGenders }: { availableSi
           <div className="p-4 pb-0 space-y-6">
             {availableGenders.length > 0 && (
               <div>
-                <h4 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Género</h4>
+                <h3 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Género</h3>
                 <div className="grid grid-cols-2 gap-3">
                   {availableGenders.map(gender => (
                     <Button
@@ -82,7 +82,7 @@ export function FilterDrawer({ availableSizes, availableGenders }: { availableSi
 
             {availableSizes.length > 0 && (
               <div>
-                <h4 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Talla (EUR)</h4>
+                <h3 className="text-sm font-bold mb-3 text-foreground uppercase tracking-wider">Talla (EUR)</h3>
                 <div className="grid grid-cols-5 gap-2">
                   {availableSizes.map(size => (
                     <Button

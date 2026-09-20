@@ -75,12 +75,14 @@ export function SearchBar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar..."
+          aria-label="Buscar productos"
           className={`w-full h-11 pl-10 pr-10 rounded-full border border-border/50 shadow-sm bg-background/50 backdrop-blur-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all ${isPending ? 'opacity-50' : 'opacity-100'}`}
         />
         {query && (
           <button
             type="button"
             onClick={handleClear}
+            aria-label="Borrar búsqueda"
             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
           >
             <X className="h-4 w-4" />

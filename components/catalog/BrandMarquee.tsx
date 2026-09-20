@@ -24,11 +24,12 @@ export function BrandMarquee() {
           <div key={i} className="flex items-center mx-10">
             {brand.icon ? (
               // Use unoptimized img tag for external SVG CDNs to bypass next/image restrictions
-              // eslint-disable-next-line @next/next/no-img-element
               <img 
                 src={brand.icon} 
                 alt={brand.name} 
-                className="h-8 md:h-10 object-contain opacity-70 dark:invert transition-all"
+                width={100}
+                height={40}
+                className="h-8 md:h-10 w-auto object-contain opacity-70 dark:invert transition-all"
               />
             ) : (
               <span className="text-2xl md:text-3xl font-black italic tracking-tighter text-background opacity-70 whitespace-nowrap">

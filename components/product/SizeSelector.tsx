@@ -17,7 +17,7 @@ export function SizeSelector({ sizes, selectedSize, onSizeChange }: SizeSelector
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-sm uppercase tracking-wider">Tallas Disponibles</h3>
+        <h2 className="font-semibold text-sm uppercase tracking-wider">Tallas Disponibles</h2>
       </div>
       <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
         {sizes.map(sizeId => {

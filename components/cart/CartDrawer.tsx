@@ -33,7 +33,10 @@ export function CartDrawer() {
 
   return (
     <Sheet>
-      <SheetTrigger className="relative p-2 text-muted-foreground hover:text-foreground transition-colors outline-none focus:ring-2 ring-primary rounded-full group cursor-pointer">
+      <SheetTrigger 
+        className="relative p-2 text-muted-foreground hover:text-foreground transition-colors outline-none focus:ring-2 ring-primary rounded-full group cursor-pointer"
+        aria-label="Abrir carrito"
+      >
         <ShoppingBag className="h-5 w-5" />
         {totalItems > 0 && (
           <span className="absolute 0 right-0 top-0 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center animate-in zoom-in">
@@ -68,7 +71,7 @@ export function CartDrawer() {
                     />
                   </div>
                   <div className="flex flex-col justify-center flex-1">
-                    <h4 className="font-bold text-sm line-clamp-1">{item.product.name}</h4>
+                    <h3 className="font-bold text-sm line-clamp-1">{item.product.name}</h3>
                     <span className="text-primary font-black text-sm">${item.product.price.toLocaleString('es-CO')}</span>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="outline" className="text-[10px] uppercase font-bold">Talla: {item.size}</Badge>

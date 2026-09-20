@@ -16,7 +16,7 @@ export async function ProductGrid({ search, categoryId, brandId, size, gender, s
   if (allProducts.length === 0) {
     return (
       <div className="py-20 text-center space-y-4 rounded-xl border-2 border-dashed bg-secondary/20">
-        <h3 className="text-xl font-bold text-muted-foreground">No encontramos productos</h3>
+        <h2 className="text-xl font-bold text-muted-foreground">No encontramos productos</h2>
         <p className="text-muted-foreground/80">Intenta cambiar los filtros o buscar otra cosa.</p>
       </div>
     )
