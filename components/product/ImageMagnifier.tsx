@@ -63,7 +63,7 @@ export function ImageMagnifier({ src, alt, priority, fetchPriority }: ImageMagni
   return (
     <div 
       ref={containerRef}
-      className="relative w-full aspect-square bg-secondary/10 overflow-hidden cursor-crosshair group"
+      className="relative w-full aspect-square bg-secondary/10 overflow-hidden cursor-zoom-in group"
       onMouseEnter={(e) => {
         if (window.innerWidth >= 768) setShowMagnifier(true)
       }}

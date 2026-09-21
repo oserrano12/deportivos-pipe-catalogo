@@ -6,7 +6,6 @@ import { CartDrawer } from '@/components/cart/CartDrawer'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import * as React from 'react'
-import { Magnetic } from '@/components/ui/magnetic-button'
 
 import { useFavorites } from '@/components/context/FavoritesContext'
 
@@ -88,41 +87,31 @@ export function MobileHeader() {
         </nav>
 
         <div className="flex items-center gap-2 md:gap-4">
-          <Magnetic>
-            <ThemeToggle />
-          </Magnetic>
-          <Magnetic>
-            <Link href="/favoritos" className={`relative inline-flex items-center justify-center p-2 rounded-full outline-none transition-all duration-300 group ${favBump ? 'scale-125 text-primary drop-shadow-[0_0_15px_oklch(var(--color-primary))]' : 'text-muted-foreground hover:text-foreground'}`} aria-label="Favoritos">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:scale-110">
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-              </svg>
-              {totalFavorites > 0 && (
-                <span className={`absolute right-0 top-0 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center transition-all ${favBump ? 'scale-125' : 'animate-in zoom-in'}`}>
-                  {totalFavorites}
-                </span>
-              )}
-            </Link>
-          </Magnetic>
-          <Magnetic>
-            <div>
-              <CartDrawer />
-            </div>
-          </Magnetic>
-          <Magnetic>
-            <a
-              href={`https://instagram.com/${instagramUser}`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center p-2 text-muted-foreground hover:text-foreground transition-all duration-300 rounded-full outline-none group"
-              aria-label="Instagram"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:scale-110">
-                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-              </svg>
-            </a>
-          </Magnetic>
+          <ThemeToggle />
+          <Link href="/favoritos" className={`relative inline-flex items-center justify-center p-2 rounded-full outline-none transition-all duration-300 group ${favBump ? 'scale-125 text-primary drop-shadow-[0_0_15px_oklch(var(--color-primary))]' : 'text-muted-foreground hover:text-foreground'}`} aria-label="Favoritos">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:scale-110">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+            {totalFavorites > 0 && (
+              <span className={`absolute right-0 top-0 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center transition-all ${favBump ? 'scale-125' : 'animate-in zoom-in'}`}>
+                {totalFavorites}
+              </span>
+            )}
+          </Link>
+          <CartDrawer />
+          <a
+            href={`https://instagram.com/${instagramUser}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center p-2 text-muted-foreground hover:text-foreground transition-all duration-300 rounded-full outline-none group"
+            aria-label="Instagram"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:scale-110">
+              <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+            </svg>
+          </a>
         </div>
       </div>
     </header>
