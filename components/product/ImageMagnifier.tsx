@@ -14,9 +14,9 @@ interface ImageMagnifierProps {
 export function ImageMagnifier({ src, alt, priority, fetchPriority }: ImageMagnifierProps) {
   const [showMagnifier, setShowMagnifier] = useState(false)
   const [[x, y], setXY] = useState([0, 0])
-  const [[lensW, lensH], setLensSize] = useState([0, 0])
   const [rect, setRect] = useState<DOMRect | null>(null)
   const [portalNode, setPortalNode] = useState<Element | null>(null)
+  const [rightColLeft, setRightColLeft] = useState<number>(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const zoomRatio = 2.5
@@ -32,31 +32,33 @@ export function ImageMagnifier({ src, alt, priority, fetchPriority }: ImageMagni
     const bounds = containerRef.current.getBoundingClientRect()
     setRect(bounds)
     
+    const rightCol = document.getElementById('right-column-details')
+    if (rightCol) {
+      setRightColLeft(rightCol.getBoundingClientRect().left)
+    } else {
+      setRightColLeft(bounds.right + 40) // Fallback
+    }
+    
+    // Lens is always a square based on container width
+    const lSize = bounds.width / zoomRatio
+
     // Calculate mouse position relative to container
     let mx = e.clientX - bounds.left
     let my = e.clientY - bounds.top
 
-    const lW = bounds.width / zoomRatio
-    const lH = bounds.height / zoomRatio
-
-    setLensSize([lW, lH])
-
     // Clamp the lens so it doesn't go outside the image
-    if (mx < lW / 2) mx = lW / 2
-    if (mx > bounds.width - lW / 2) mx = bounds.width - lW / 2
-    if (my < lH / 2) my = lH / 2
-    if (my > bounds.height - lH / 2) my = bounds.height - lH / 2
+    if (mx < lSize / 2) mx = lSize / 2
+    if (mx > bounds.width - lSize / 2) mx = bounds.width - lSize / 2
+    if (my < lSize / 2) my = lSize / 2
+    if (my > bounds.height - lSize / 2) my = bounds.height - lSize / 2
 
     setXY([mx, my])
   }
 
-  // Calculate percentages for background position
-  const containerW = rect?.width || 0
-  const containerH = rect?.height || 0
-  
-  // To get background percentage, we map the clamped coords to 0-100%
-  const bgX = containerW - lensW > 0 ? ((x - lensW / 2) / (containerW - lensW)) * 100 : 0
-  const bgY = containerH - lensH > 0 ? ((y - lensH / 2) / (containerH - lensH)) * 100 : 0
+  const bounds = rect
+  const lSize = bounds ? bounds.width / zoomRatio : 0
+  const bgPosX = bounds ? -(x - lSize / 2) * zoomRatio : 0
+  const bgPosY = bounds ? -(y - lSize / 2) * zoomRatio : 0
 
   return (
     <div 
@@ -80,32 +82,31 @@ export function ImageMagnifier({ src, alt, priority, fetchPriority }: ImageMagni
       />
 
       {/* Lens Overlay */}
-      {showMagnifier && (
+      {showMagnifier && bounds && (
         <div 
           className="absolute pointer-events-none z-40 bg-black/10 border border-primary/50 hidden md:block backdrop-brightness-110"
           style={{
             left: `${x}px`,
             top: `${y}px`,
-            width: `${lensW}px`,
-            height: `${lensH}px`,
+            width: `${lSize}px`,
+            height: `${lSize}px`,
             transform: 'translate(-50%, -50%)',
           }}
         />
       )}
 
       {/* Side Box for Magnified View via Portal */}
-      {showMagnifier && portalNode && rect && createPortal(
+      {showMagnifier && portalNode && bounds && createPortal(
         <div 
           className="fixed pointer-events-none z-[100] bg-white border border-border shadow-2xl rounded-2xl overflow-hidden hidden md:block"
           style={{
-            left: `${rect.right + 20}px`,
-            top: `${rect.top}px`,
-            width: `calc(100vw - ${rect.right + 40}px)`,
-            maxWidth: `${rect.width * 1.5}px`,
-            height: `${rect.height}px`,
+            left: `${rightColLeft}px`,
+            top: `${bounds.top}px`,
+            width: `${bounds.width}px`,
+            height: `${bounds.width}px`, // Square matching the container's width
             backgroundImage: `url(${src})`,
-            backgroundPosition: `${bgX}% ${bgY}%`,
-            backgroundSize: `${zoomRatio * 100}%`,
+            backgroundPosition: `${bgPosX}px ${bgPosY}px`,
+            backgroundSize: `${bounds.width * zoomRatio}px ${bounds.height * zoomRatio}px`,
             backgroundRepeat: 'no-repeat',
           }}
         />,

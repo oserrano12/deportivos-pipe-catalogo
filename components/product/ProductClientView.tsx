@@ -117,7 +117,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
           <ProductGallery images={product.images} />
         </div>
         
-        <div className="mt-6 md:mt-0 flex flex-col justify-center space-y-10">
+        <div id="right-column-details" className="mt-6 md:mt-0 flex flex-col justify-center space-y-10">
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               
