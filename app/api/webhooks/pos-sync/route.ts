@@ -35,11 +35,26 @@ export async function POST(req: NextRequest) {
 
       if (p.marca) {
         const { data: brand } = await supabaseAdmin.from('brands').select('id').ilike('name', p.marca).maybeSingle()
-        if (brand) brand_id = brand.id
+        if (brand) {
+          brand_id = brand.id
+        } else {
+          // Auto-create missing brand
+          const slug = p.marca.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+          const { data: newBrand } = await supabaseAdmin.from('brands').insert([{ name: p.marca, slug }]).select('id').maybeSingle()
+          if (newBrand) brand_id = newBrand.id
+        }
       }
+
       if (p.categoria) {
         const { data: cat } = await supabaseAdmin.from('categories').select('id').ilike('name', p.categoria).maybeSingle()
-        if (cat) category_id = cat.id
+        if (cat) {
+          category_id = cat.id
+        } else {
+          // Auto-create missing category
+          const slug = p.categoria.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+          const { data: newCat } = await supabaseAdmin.from('categories').insert([{ name: p.categoria, slug }]).select('id').maybeSingle()
+          if (newCat) category_id = newCat.id
+        }
       }
 
       // Check if product already exists
