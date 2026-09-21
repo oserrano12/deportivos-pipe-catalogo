@@ -5,6 +5,14 @@ import { ProductCard } from '@/components/catalog/ProductCard'
 import { ProductWithRelations } from '@/lib/data/products'
 import { useMemo, useEffect, useState } from 'react'
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
+import { useRef } from "react"
+
 export function RelatedAndFavorites({ 
   currentProductId, 
   categoryId, 
@@ -16,6 +24,10 @@ export function RelatedAndFavorites({
 }) {
   const { favoriteIds } = useFavorites()
   const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>([])
+  
+  const plugin = useRef(
+    Autoplay({ delay: 2500, stopOnInteraction: true })
+  )
 
   useEffect(() => {
     // Leer historial (excluyendo el actual)
@@ -75,16 +87,6 @@ export function RelatedAndFavorites({
 
   if (relatedProducts.length === 0 && favoriteProducts.length === 0 && recentProducts.length === 0) return null
 
-  // Ensure we have enough items to fill a wide screen before duplicating for the -50% loop.
-  // We need at least ~10 items to comfortably fill a 1920px screen before the 2x duplication.
-  let baseProducts = [...relatedProducts]
-  while (baseProducts.length < 10) {
-    baseProducts = [...baseProducts, ...relatedProducts]
-  }
-  
-  // Now duplicate exactly twice for the -50% translateX animation to seamlessly loop
-  const marqueeProducts = [...baseProducts, ...baseProducts]
-
   return (
     <div className="pb-32 space-y-20 overflow-hidden">
       
@@ -100,15 +102,20 @@ export function RelatedAndFavorites({
             </p>
           </div>
           
-          {/* Infinite Marquee Container */}
-          <div className="w-full flex group">
-            <div className="flex animate-marquee hover:[animation-play-state:paused] w-max gap-4 md:gap-8 px-4 md:px-8">
-              {marqueeProducts.map((product, index) => (
-                <div key={`${product.id}-${index}`} className="w-[260px] md:w-[320px] shrink-0">
-                  <ProductCard product={product} index={index} />
-                </div>
-              ))}
-            </div>
+          <div className="w-full">
+            <Carousel 
+              plugins={[plugin.current]} 
+              className="w-full"
+              opts={{ align: "start", loop: true, dragFree: true }}
+            >
+              <CarouselContent className="md:-ml-8 px-4 md:px-8">
+                {relatedProducts.map((product, index) => (
+                   <CarouselItem key={`${product.id}-${index}`} className="basis-[75%] sm:basis-[45%] md:basis-[35%] lg:basis-[28%] md:pl-8">
+                     <ProductCard product={product} index={index} />
+                   </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         </div>
       )}
