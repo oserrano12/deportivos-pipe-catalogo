@@ -23,6 +23,9 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     ? product.images[0] 
     : '/placeholder-sneaker.webp'
 
+  // Determine if this image should be preloaded for LCP
+  const isPriority = index < 4
+
   return (
     <div
       className="animate-fade-in-up hover:-translate-y-1 transition-transform duration-300"
@@ -32,14 +35,15 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       }}
     >
       <Link href={`/producto/${product.slug}`} className="group block">
-        <div className="relative w-full overflow-hidden rounded-2xl bg-secondary/10 mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(0,127,255,0.2)]">
+        <div className="relative w-full aspect-square overflow-hidden rounded-2xl bg-secondary/10 mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(0,127,255,0.2)]">
           <Image
             src={imageUrl}
             alt={product.name}
-            width={600}
-            height={600}
+            fill
+            priority={isPriority}
+            fetchPriority={isPriority ? "high" : "auto"}
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className={`w-full h-auto object-contain transition-all duration-700 group-hover:scale-105 ${isLoaded ? 'blur-0 opacity-100' : 'blur-xl opacity-0 scale-95'}`}
+            className={`object-contain transition-all duration-700 group-hover:scale-105 p-4 ${isPriority || isLoaded ? 'blur-0 opacity-100' : 'blur-xl opacity-0 scale-95'}`}
             onLoad={() => setIsLoaded(true)}
           />
           {!product.is_available && (
