@@ -28,6 +28,10 @@ export function ProductClientView({ product }: ProductClientViewProps) {
     try {
       const stored = localStorage.getItem('recentlyViewed')
       let parsed: MinimalProduct[] = stored ? JSON.parse(stored) : []
+      
+      // Clear invalid elements
+      parsed = parsed.filter(p => typeof p === 'object' && p !== null && p.id)
+      
       // Remove existing to put it at the front
       parsed = parsed.filter(p => p.id !== product.id)
       parsed.unshift({

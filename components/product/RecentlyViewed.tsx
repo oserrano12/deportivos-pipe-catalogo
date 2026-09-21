@@ -21,7 +21,9 @@ export function RecentlyViewed({ currentProductId }: { currentProductId: string 
     try {
       const stored = localStorage.getItem('recentlyViewed')
       if (stored) {
-        const parsed: MinimalProduct[] = JSON.parse(stored)
+        let parsed: MinimalProduct[] = JSON.parse(stored)
+        // Filter out corrupted data from previous versions or other apps
+        parsed = parsed.filter(p => typeof p === 'object' && p !== null && p.id)
         setRecent(parsed.filter(p => p.id !== currentProductId))
       }
     } catch (e) {}
@@ -52,7 +54,7 @@ export function RecentlyViewed({ currentProductId }: { currentProductId: string 
               </span>
               <h4 className="text-xs font-bold leading-tight line-clamp-1">{product.name}</h4>
               <span className="text-xs font-black text-primary mt-0.5">
-                ${product.price.toLocaleString('es-CO')}
+                {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar'}
               </span>
             </div>
           </Link>
