@@ -22,10 +22,16 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
     let message = `¡Hola! Me interesan estos pares:\n\n`
     items.forEach(item => {
       const url = `${window.location.origin}/producto/${item.product.slug}`
-      const status = item.product.is_available ? '' : ' 🔴 (AGOTADO - Consultar Restock)'
-      message += `- ${item.product.name}${status} (Talla: ${item.size}) x${item.quantity}\n  Enlace: ${url}\n\n`
+      
+      let sizeLabel = item.size
+      if (sizeLabel.startsWith('C-')) sizeLabel = `para Caballero en talla ${sizeLabel.substring(2)}`
+      else if (sizeLabel.startsWith('D-')) sizeLabel = `para Dama en talla ${sizeLabel.substring(2)}`
+      else if (sizeLabel.startsWith('R-')) sizeLabel = `(Unisex) en talla ${sizeLabel.substring(2)}`
+      else sizeLabel = `en talla ${sizeLabel}`
+
+      const status = item.product.is_available ? '' : ' 🔴 (AGOTADO)'
+      message += `- ${item.product.name}${status}\n  ${sizeLabel} x${item.quantity}\n  Enlace: ${url}\n\n`
     })
-    message += `Total estimado: $${totalPrice.toLocaleString('es-CO')}`
 
     const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
     const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`
