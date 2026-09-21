@@ -22,7 +22,8 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
     let message = `¡Hola! Me interesan estos pares:\n\n`
     items.forEach(item => {
       const url = `${window.location.origin}/producto/${item.product.slug}`
-      message += `- ${item.product.name} (Talla: ${item.size}) x${item.quantity}\n  Enlace: ${url}\n\n`
+      const status = item.product.is_available ? '' : ' 🔴 (AGOTADO - Consultar Restock)'
+      message += `- ${item.product.name}${status} (Talla: ${item.size}) x${item.quantity}\n  Enlace: ${url}\n\n`
     })
     message += `Total estimado: $${totalPrice.toLocaleString('es-CO')}`
 
@@ -80,7 +81,7 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
           ) : (
             <div className="space-y-4">
               {items.map((item, i) => (
-                <div key={`${item.product.id}-${item.size}-${i}`} className="flex gap-4 p-4 rounded-2xl bg-secondary/10 border-2 border-border/50 relative group">
+                <div key={`${item.product.id}-${item.size}-${i}`} className={`flex gap-4 p-4 rounded-2xl bg-secondary/10 border-2 border-border/50 relative group ${!item.product.is_available ? 'opacity-60 grayscale' : ''}`}>
                   <div className="w-20 h-20 rounded-xl bg-background overflow-hidden relative shrink-0">
                     <Image
                       src={item.product.images?.[0] || '/placeholder-sneaker.webp'}
@@ -88,10 +89,17 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
                       fill
                       className="object-contain p-2"
                     />
+                    {!item.product.is_available && (
+                      <div className="absolute inset-0 bg-background/80 flex items-center justify-center backdrop-blur-sm z-10">
+                        <span className="text-[10px] font-black uppercase text-foreground">Agotado</span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-col justify-center flex-1">
                     <h3 className="font-bold text-sm line-clamp-1">{item.product.name}</h3>
-                    <span className="text-primary font-black text-sm">${item.product.price.toLocaleString('es-CO')}</span>
+                    <span className="text-primary font-black text-sm">
+                      {item.product.is_available ? `$${item.product.price.toLocaleString('es-CO')}` : 'Agotado'}
+                    </span>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="outline" className="text-[10px] uppercase font-bold">Talla: {item.size}</Badge>
                       <span className="text-[10px] text-muted-foreground font-bold">Cant: {item.quantity}</span>
@@ -99,7 +107,7 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
                   </div>
                   <button
                     onClick={() => removeItem(item.product.id, item.size)}
-                    className="absolute -top-2 -right-2 p-2 bg-destructive text-destructive-foreground rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100 md:translate-x-2"
+                    className="absolute -top-2 -right-2 p-2 bg-destructive text-destructive-foreground rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100 md:translate-x-2 z-20"
                     aria-label="Eliminar"
                   >
                     <Trash2 className="w-3 h-3" />

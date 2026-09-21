@@ -27,7 +27,31 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem('cart')
     if (saved) {
       try {
-        setItems(JSON.parse(saved))
+        const parsed = JSON.parse(saved)
+        setItems(parsed)
+        
+        // Refresh product data from Supabase to ensure is_available is up to date
+        const fetchLatest = async () => {
+          try {
+            const { supabasePublic } = await import('@/lib/supabase/public');
+            const ids = parsed.map((i: any) => i.product.id);
+            if (ids.length === 0) return;
+            const { data } = await supabasePublic.from('products').select('*').in('id', ids);
+            
+            if (data && data.length > 0) {
+              setItems(current => current.map(item => {
+                const latestProduct = data.find(p => p.id === item.product.id);
+                if (latestProduct) {
+                  return { ...item, product: { ...item.product, ...latestProduct } };
+                }
+                return item;
+              }));
+            }
+          } catch (err) {
+            console.error('Failed to refresh cart stock', err);
+          }
+        };
+        fetchLatest();
       } catch (e) {}
     }
   }, [])
@@ -57,7 +81,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const clearCart = () => setItems([])
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
-  const totalPrice = items.reduce((acc, item) => acc + (item.product.price * item.quantity), 0)
+  const totalPrice = items.reduce((acc, item) => acc + (item.product.is_available ? (item.product.price * item.quantity) : 0), 0)
 
   return (
     <CartContext.Provider value={{ items, addItem, removeItem, clearCart, totalItems, totalPrice }}>
