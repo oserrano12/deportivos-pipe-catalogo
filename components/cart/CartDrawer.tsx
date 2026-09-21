@@ -12,9 +12,22 @@ import {
 } from '@/components/ui/sheet'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
+import { useState, useEffect, useRef } from 'react'
 
 export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bottom-nav' } = {}) {
   const { items, removeItem, totalItems, totalPrice, isOpen, setIsOpen } = useCart()
+  const [bump, setBump] = useState(false)
+  const prevItemsRef = useRef(totalItems)
+
+  useEffect(() => {
+    if (totalItems > prevItemsRef.current) {
+      setBump(true)
+      const t = setTimeout(() => setBump(false), 300)
+      prevItemsRef.current = totalItems
+      return () => clearTimeout(t)
+    }
+    prevItemsRef.current = totalItems
+  }, [totalItems])
 
   const handleCheckout = () => {
     if (items.length === 0) return
@@ -42,17 +55,17 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger 
         className={variant === 'bottom-nav' 
-          ? "flex flex-col items-center justify-center w-16 h-full text-xs font-medium transition-colors text-muted-foreground hover:text-foreground relative cursor-pointer"
-          : "relative p-2 text-muted-foreground hover:text-foreground transition-colors outline-none focus:ring-2 ring-primary rounded-full group cursor-pointer"
+          ? `flex flex-col items-center justify-center w-16 h-full text-xs font-medium transition-colors cursor-pointer ${bump ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`
+          : `relative p-2 transition-all outline-none focus:ring-2 ring-primary rounded-full group cursor-pointer ${bump ? 'text-primary scale-125' : 'text-muted-foreground hover:text-foreground'}`
         }
         aria-label="Abrir carrito"
       >
         {variant === 'bottom-nav' ? (
           <>
             <div className="relative flex justify-center">
-              <ShoppingBag className="h-5 w-5 mb-1" />
+              <ShoppingBag className={`h-5 w-5 mb-1 transition-all duration-300 ${bump ? 'scale-150 drop-shadow-[0_0_15px_oklch(var(--color-primary))]' : ''}`} />
               {totalItems > 0 && (
-                <span className="absolute -right-2 -top-1 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center animate-in zoom-in">
+                <span className={`absolute -right-2 -top-1 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center transition-all ${bump ? 'scale-125' : 'animate-in zoom-in'}`}>
                   {totalItems}
                 </span>
               )}
@@ -61,9 +74,9 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
           </>
         ) : (
           <>
-            <ShoppingBag className="h-5 w-5" />
+            <ShoppingBag className={`h-5 w-5 transition-all duration-300 ${bump ? 'scale-125 drop-shadow-[0_0_15px_oklch(var(--color-primary))]' : ''}`} />
             {totalItems > 0 && (
-              <span className="absolute 0 right-0 top-0 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center animate-in zoom-in">
+              <span className={`absolute 0 right-0 top-0 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center transition-all ${bump ? 'scale-125' : 'animate-in zoom-in'}`}>
                 {totalItems}
               </span>
             )}
@@ -143,6 +156,16 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
               <MessageCircle className="w-5 h-5" />
               Pedir por WhatsApp
             </button>
+            
+            {/* Ticker Tape */}
+            <div className="w-[calc(100%+3rem)] -ml-6 -mb-6 mt-4 bg-foreground text-background py-2 overflow-hidden rotate-1 scale-105 border-y-4 border-border relative z-10">
+              <div className="flex animate-marquee whitespace-nowrap text-[10px] font-black tracking-[0.3em]">
+                <span className="mx-4">/// ENVÍO INCLUIDO /// PAGO CONTRA ENTREGA /// COMPRA SEGURA</span>
+                <span className="mx-4">/// ENVÍO INCLUIDO /// PAGO CONTRA ENTREGA /// COMPRA SEGURA</span>
+                <span className="mx-4">/// ENVÍO INCLUIDO /// PAGO CONTRA ENTREGA /// COMPRA SEGURA</span>
+                <span className="mx-4">/// ENVÍO INCLUIDO /// PAGO CONTRA ENTREGA /// COMPRA SEGURA</span>
+              </div>
+            </div>
           </div>
         )}
       </SheetContent>

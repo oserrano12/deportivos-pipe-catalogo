@@ -34,7 +34,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         animationFillMode: 'both'
       }}
     >
-      <Link href={`/producto/${product.slug}`} className="group block">
+      <Link href={`/producto/${product.slug}`} className="group block cursor-crosshair">
         <div className="relative w-full aspect-square overflow-hidden rounded-2xl bg-secondary/10 mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(0,127,255,0.2)]">
           <Image
             src={imageUrl}
