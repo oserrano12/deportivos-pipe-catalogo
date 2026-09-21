@@ -43,6 +43,7 @@ export const metadata: Metadata = {
 import { GoogleTagManager } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/next'
 import { CartProvider } from "@/components/context/CartContext"
+import NextTopLoader from 'nextjs-toploader'
 
 export default function RootLayout({
   children,
@@ -56,6 +57,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || "https://efwskbukxvioennmvxep.supabase.co"} />
       </head>
       <body className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300 font-sans antialiased">
+        <NextTopLoader color="#007FFF" height={3} showSpinner={false} shadow="0 0 10px #007FFF,0 0 5px #007FFF" />
         <CartProvider>
           <FavoritesProvider>
           <ThemeProvider

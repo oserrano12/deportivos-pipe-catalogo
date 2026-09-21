@@ -80,9 +80,15 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
 
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {items.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-muted-foreground space-y-4">
-              <ShoppingBag className="h-16 w-16 opacity-20" />
-              <p className="font-bold tracking-widest uppercase text-sm">Tu bolsa está vacía</p>
+            <div className="h-full flex flex-col items-center justify-center text-muted-foreground space-y-6 text-center">
+              <ShoppingBag className="h-20 w-20 opacity-20" />
+              <div className="space-y-2">
+                <p className="font-black tracking-widest uppercase text-lg text-foreground">Tu bolsa está vacía</p>
+                <p className="text-sm font-medium">Aún no has agregado ningún par a tu selección.</p>
+              </div>
+              <SheetClose 
+                render={<a href="/#catalogo" className="mt-4 px-8 py-4 bg-primary text-primary-foreground font-black uppercase tracking-widest text-sm rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-primary/25">Descubrir Pares</a>}
+              />
             </div>
           ) : (
             <div className="space-y-4">
