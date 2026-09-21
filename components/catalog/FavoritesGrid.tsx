@@ -5,11 +5,40 @@ import { ProductCard } from './ProductCard'
 import { ProductWithRelations } from '@/lib/data/products'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { useEffect, useState } from 'react'
 
 export function FavoritesGrid({ allProducts }: { allProducts: ProductWithRelations[] }) {
   const { favoriteIds } = useFavorites()
+  const [liveProducts, setLiveProducts] = useState<ProductWithRelations[]>(allProducts)
 
-  const favoriteProducts = allProducts.filter(p => favoriteIds.includes(p.id))
+  // Fetch the latest stock data for favorites on mount
+  useEffect(() => {
+    if (favoriteIds.length === 0) return;
+    
+    const fetchLatest = async () => {
+      try {
+        const { supabasePublic } = await import('@/lib/supabase/public');
+        const { data } = await supabasePublic.from('products').select('*').in('id', favoriteIds);
+        
+        if (data && data.length > 0) {
+          setLiveProducts(current => current.map(product => {
+            const latest = data.find(p => p.id === product.id);
+            if (latest) {
+              return { ...product, ...latest };
+            }
+            return product;
+          }));
+        }
+      } catch (err) {
+        console.error('Failed to refresh favorites stock', err);
+      }
+    };
+    
+    fetchLatest();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const favoriteProducts = liveProducts.filter(p => favoriteIds.includes(p.id))
 
   if (favoriteProducts.length === 0) {
     return (
