@@ -19,13 +19,32 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
   const handleCheckout = () => {
     if (items.length === 0) return
 
-    let message = `¡Hola! Me interesan estos pares:\n\n`
-    items.forEach(item => {
+    let message = `¡Hola, equipo de Deportivos Pipe! 👟\n\nVengo del catálogo y quiero hacer el pedido de los siguientes pares:\n\n🛒 *Mi Selección:*\n`
+    
+    const numberEmojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
+    
+    items.forEach((item, index) => {
       const url = `${window.location.origin}/producto/${item.product.slug}`
-      const status = item.product.is_available ? '' : ' 🔴 (AGOTADO - Consultar Restock)'
-      message += `- ${item.product.name}${status} (Talla: ${item.size}) x${item.quantity}\n  Enlace: ${url}\n\n`
+      const numEmoji = numberEmojis[index] || `*${index + 1}.*`
+      
+      if (item.product.is_available) {
+        message += `${numEmoji} *${item.product.name}*\n`
+        message += `   - Talla: ${item.size}\n`
+        message += `   - Cantidad: ${item.quantity} | Precio: $${(item.product.price * item.quantity).toLocaleString('es-CO')}\n`
+        message += `   🔗 ${url}\n\n`
+      } else {
+        message += `${numEmoji} *${item.product.name}* 🔴 *[AGOTADO]*\n`
+        message += `   - Talla: ${item.size}\n`
+        message += `   - _Me interesa saber cuándo hay restock_\n`
+        message += `   🔗 ${url}\n\n`
+      }
     })
-    message += `Total estimado: $${totalPrice.toLocaleString('es-CO')}`
+    
+    if (totalPrice > 0) {
+      message += `💰 *Total estimado:* $${totalPrice.toLocaleString('es-CO')}\n\n`
+    }
+    
+    message += `¿Me confirman disponibilidad y métodos de pago, por favor?`
 
     const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
     const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`

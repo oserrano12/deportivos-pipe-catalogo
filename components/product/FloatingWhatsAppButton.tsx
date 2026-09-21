@@ -51,8 +51,8 @@ export function FloatingWhatsAppButton({
   const comboText = [genderText, sizeText].filter(Boolean).join(' y ')
 
   const waMessage = isAvailable
-    ? `¡Hola! Quiero estos ${product.name}${spaceOrEmpty}${comboText}.\nEnlace: ${productUrl}`
-    : `¡Hola! Vi que los ${product.name}${spaceOrEmpty}${comboText} están agotados. ¿Cuándo volverán a tener stock? ${productUrl}`
+    ? `¡Hola, equipo de Deportivos Pipe! 👟\n\nVengo del catálogo y me interesa hacer el pedido de este par:\n\n🛒 *${product.name}*\n- ${[genderText, sizeText].filter(Boolean).join(' | ').replace('para ', 'Género: ').replace('en la talla ', 'Talla: ')}\n- Precio: $${product.price.toLocaleString('es-CO')}\n🔗 ${productUrl}\n\n¿Me confirman disponibilidad para envío, por favor?`
+    : `¡Hola, equipo de Deportivos Pipe! 👟\n\nVi en el catálogo este par pero sale como 🔴 *AGOTADO*:\n\n👟 *${product.name}*\n🔗 ${productUrl}\n\n¿Podrían avisarme si van a tener restock pronto?`;
 
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(waMessage)}`
 
