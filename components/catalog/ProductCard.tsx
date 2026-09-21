@@ -6,6 +6,7 @@ import { ProductWithRelations } from '@/lib/data/products'
 import Image from 'next/image'
 import { Heart } from 'lucide-react'
 import { useFavorites } from '@/components/context/FavoritesContext'
+import { useState } from 'react'
 
 interface ProductCardProps {
   product: ProductWithRelations
@@ -14,6 +15,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
+  const [isLoaded, setIsLoaded] = useState(false)
   const favorite = isFavorite(product.id)
 
   // Use a fallback image if array is empty or null
@@ -37,7 +39,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             width={600}
             height={600}
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105"
+            className={`w-full h-auto object-contain transition-all duration-700 group-hover:scale-105 ${isLoaded ? 'blur-0 opacity-100' : 'blur-xl opacity-0 scale-95'}`}
+            onLoad={() => setIsLoaded(true)}
           />
           {!product.is_available && (
             <div className="absolute inset-0 bg-background/60 flex items-center justify-center backdrop-blur-md transition-all duration-300 z-10">

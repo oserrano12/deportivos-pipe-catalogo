@@ -4,6 +4,7 @@ import { MobileHeader } from "@/components/layout/MobileHeader"
 import { SplashScreen } from "@/components/layout/SplashScreen"
 import { BottomNav } from "@/components/layout/BottomNav"
 import { Footer } from "@/components/layout/Footer"
+import { ScrollToTop } from "@/components/ui/ScrollToTop"
 import { FavoritesProvider } from "@/components/context/FavoritesContext"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { Toaster } from "@/components/ui/sonner"
@@ -70,6 +71,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <BottomNav />
+            <ScrollToTop />
             <Toaster position="top-center" richColors />
           </ThemeProvider>
           </FavoritesProvider>

@@ -37,7 +37,7 @@ export function FloatingWhatsAppButton({
   inline = false,
   className = ''
 }: FloatingWhatsAppButtonProps) {
-  const { addItem } = useCart()
+  const { addItem, setIsOpen } = useCart()
   const [added, setAdded] = useState(false)
 
   const isCartDisabled = needsSize || needsGender || !isAvailable
@@ -75,7 +75,12 @@ export function FloatingWhatsAppButton({
     if (isCartDisabled || !selectedSize) return
     addItem(product, selectedSize)
     setAdded(true)
-    toast.success(`${product.name} añadido a tu selección`)
+    toast.success(`${product.name} añadido a tu selección`, {
+      action: {
+        label: 'Ver bolsa',
+        onClick: () => setIsOpen(true)
+      }
+    })
     setTimeout(() => setAdded(false), 2000)
   }
 

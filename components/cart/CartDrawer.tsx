@@ -14,7 +14,7 @@ import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 
 export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bottom-nav' } = {}) {
-  const { items, removeItem, totalItems, totalPrice } = useCart()
+  const { items, removeItem, totalItems, totalPrice, isOpen, setIsOpen } = useCart()
 
   const handleCheckout = () => {
     if (items.length === 0) return
@@ -39,7 +39,7 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
   }
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger 
         className={variant === 'bottom-nav' 
           ? "flex flex-col items-center justify-center w-16 h-full text-xs font-medium transition-colors text-muted-foreground hover:text-foreground relative cursor-pointer"

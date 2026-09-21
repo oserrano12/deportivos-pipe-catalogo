@@ -48,11 +48,18 @@ export function FilterDrawer({ availableSizes, availableGenders }: { availableSi
     return null
   }
 
+  const activeParamsCount = (searchParams.get('talla') ? 1 : 0) + (searchParams.get('genero') ? 1 : 0)
+
   return (
     <Drawer>
       <DrawerTrigger className="inline-flex items-center justify-center h-11 md:h-11 gap-2 px-6 rounded-full border-2 border-border bg-background text-sm font-bold hover:bg-muted hover:text-foreground outline-none transition-colors shrink-0">
         <SlidersHorizontal className="h-4 w-4" />
-        Filtros {(selectedSize || selectedGender) && <span className="w-2 h-2 rounded-full bg-primary ml-1" />}
+        Filtros
+        {activeParamsCount > 0 && (
+          <span className="w-5 h-5 rounded-full bg-primary text-[10px] font-black text-primary-foreground flex items-center justify-center ml-1">
+            {activeParamsCount}
+          </span>
+        )}
       </DrawerTrigger>
       <DrawerContent>
         <div className="mx-auto w-full max-w-md">
