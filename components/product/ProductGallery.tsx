@@ -10,8 +10,7 @@ import {
   type CarouselApi
 } from "@/components/ui/carousel"
 
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
+import { ImageMagnifier } from './ImageMagnifier'
 import Image from 'next/image'
 
 export function ProductGallery({ images }: { images: string[] | null }) {
@@ -41,19 +40,13 @@ export function ProductGallery({ images }: { images: string[] | null }) {
         <CarouselContent>
           {validImages.map((src, index) => (
             <CarouselItem key={index}>
-              <div className="relative w-full overflow-hidden flex items-center justify-center">
-                <Zoom zoomMargin={20}>
-                  <Image
-                    src={src}
-                    alt={`Product Image ${index + 1}`}
-                    width={1200}
-                    height={1200}
-                    priority={index === 0}
-                    fetchPriority={index === 0 ? "high" : "auto"}
-                    sizes="(max-width: 640px) 100vw, 50vw"
-                    className="w-full h-auto object-contain cursor-zoom-in"
-                  />
-                </Zoom>
+              <div className="relative w-full aspect-square md:aspect-auto flex items-center justify-center">
+                <ImageMagnifier 
+                  src={src}
+                  alt={`Product Image ${index + 1}`}
+                  priority={index === 0}
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                />
               </div>
             </CarouselItem>
           ))}
