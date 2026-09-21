@@ -47,9 +47,12 @@ export function FloatingWhatsAppButton({
   const productUrl = typeof window !== 'undefined' ? window.location.href : ''
   const genderText = selectedGender ? `para ${selectedGender}` : ''
   const sizeText = selectedSize ? `en la talla ${selectedSize}` : ''
+  const spaceOrEmpty = genderText || sizeText ? ' ' : ''
+  const comboText = [genderText, sizeText].filter(Boolean).join(' y ')
+
   const waMessage = isAvailable
-    ? `¡Hola! Vengo del catálogo y me interesa este par:\n\n*${product.name}*\nPara ${selectedGender || 'Unisex'} en talla ${selectedSize ? selectedSize.replace(/^[CD]-/, '') : ''}\n🔗 ${productUrl}\n\n¿Me confirman disponibilidad por favor?`
-    : `¡Hola! Vi en el catálogo este par pero sale agotado:\n\n*${product.name}*\n🔗 ${productUrl}\n\n¿Me avisan cuando tengan restock?`;
+    ? `¡Hola! Quiero estos ${product.name}${spaceOrEmpty}${comboText}.\nEnlace: ${productUrl}`
+    : `¡Hola! Vi que los ${product.name}${spaceOrEmpty}${comboText} están agotados. ¿Cuándo volverán a tener stock? ${productUrl}`
 
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(waMessage)}`
 

@@ -45,7 +45,7 @@ export function MobileHeader() {
 
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
   const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
-  const whatsappMessage = encodeURIComponent('¡Hola! Vengo del catálogo y quiero hacer una consulta:')
+  const whatsappMessage = encodeURIComponent('¡Hola! Quiero hacer una consulta sobre el catálogo.')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${whatsappMessage}`
   
   return (

@@ -19,29 +19,13 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
   const handleCheckout = () => {
     if (items.length === 0) return
 
-    let message = `¡Hola! Vengo del catálogo y me interesan los siguientes pares:\n\n`
-    
-    items.forEach((item) => {
+    let message = `¡Hola! Me interesan estos pares:\n\n`
+    items.forEach(item => {
       const url = `${window.location.origin}/producto/${item.product.slug}`
-      let sizeLabel = item.size
-      if (sizeLabel.startsWith('C-')) sizeLabel = `Caballero en talla ${sizeLabel.substring(2)}`
-      else if (sizeLabel.startsWith('D-')) sizeLabel = `Dama en talla ${sizeLabel.substring(2)}`
-      else if (sizeLabel.startsWith('R-')) sizeLabel = `Unisex en talla ${sizeLabel.substring(2)}`
-      else sizeLabel = `talla ${sizeLabel}`
-      
-      if (item.product.is_available) {
-        message += `- ${item.product.name}\n`
-        message += `  Para ${sizeLabel} (Cantidad: ${item.quantity})\n`
-        message += `  🔗 ${url}\n\n`
-      } else {
-        message += `- ${item.product.name} 🔴 [AGOTADO]\n`
-        message += `  Para ${sizeLabel}\n`
-        message += `  ¿Me avisan cuando tengan restock?\n`
-        message += `  🔗 ${url}\n\n`
-      }
+      const status = item.product.is_available ? '' : ' 🔴 (AGOTADO - Consultar Restock)'
+      message += `- ${item.product.name}${status} (Talla: ${item.size}) x${item.quantity}\n  Enlace: ${url}\n\n`
     })
-    
-    message += `¿Me confirman disponibilidad por favor?`
+    message += `Total estimado: $${totalPrice.toLocaleString('es-CO')}`
 
     const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
     const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`
