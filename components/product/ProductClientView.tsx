@@ -176,14 +176,16 @@ export function ProductClientView({ product }: ProductClientViewProps) {
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] text-foreground">
               {product.name}
             </h1>
-            <p className="text-4xl md:text-5xl font-black italic tracking-tighter text-primary flex items-baseline gap-3 flex-wrap">
-              {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
+            <div className="flex flex-col items-start gap-3 mt-2">
+              <p className="text-4xl md:text-5xl font-black italic tracking-tighter text-primary">
+                {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
+              </p>
               {product.price > 0 && (
-                <span className="text-sm md:text-base font-black uppercase tracking-widest bg-primary text-primary-foreground px-3 py-1 shadow-[4px_4px_0_0_oklch(var(--color-foreground))] -translate-y-1">
-                  ENVÍO INCLUIDO
+                <span className="text-sm md:text-base font-black uppercase tracking-widest bg-primary text-primary-foreground px-3 py-1 shadow-[4px_4px_0_0_oklch(var(--color-foreground))]">
+                  + ENVÍO
                 </span>
               )}
-            </p>
+            </div>
           </div>
 
           {product.description && (
