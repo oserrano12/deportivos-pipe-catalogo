@@ -5,7 +5,7 @@ export function Footer() {
   const instagramUser = process.env.NEXT_PUBLIC_INSTAGRAM_USER || 'deportivospipe24'
   const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
   
-  const whatsappMessage = encodeURIComponent('¡Hola, equipo de Deportivos Pipe! 👋\n\nVengo del catálogo web y quiero hacerles una consulta general:')
+  const whatsappMessage = encodeURIComponent('¡Hola! Vengo del catálogo y quiero hacer una consulta:')
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${whatsappMessage}`
 
   return (

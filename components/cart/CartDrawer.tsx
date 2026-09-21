@@ -19,32 +19,29 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
   const handleCheckout = () => {
     if (items.length === 0) return
 
-    let message = `¡Hola, equipo de Deportivos Pipe! 👟\n\nVengo del catálogo y quiero hacer el pedido de los siguientes pares:\n\n🛒 *Mi Selección:*\n`
+    let message = `¡Hola! Vengo del catálogo y me interesan los siguientes pares:\n\n`
     
-    const numberEmojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
-    
-    items.forEach((item, index) => {
+    items.forEach((item) => {
       const url = `${window.location.origin}/producto/${item.product.slug}`
-      const numEmoji = numberEmojis[index] || `*${index + 1}.*`
+      let sizeLabel = item.size
+      if (sizeLabel.startsWith('C-')) sizeLabel = `Caballero en talla ${sizeLabel.substring(2)}`
+      else if (sizeLabel.startsWith('D-')) sizeLabel = `Dama en talla ${sizeLabel.substring(2)}`
+      else if (sizeLabel.startsWith('R-')) sizeLabel = `Unisex en talla ${sizeLabel.substring(2)}`
+      else sizeLabel = `talla ${sizeLabel}`
       
       if (item.product.is_available) {
-        message += `${numEmoji} *${item.product.name}*\n`
-        message += `   - Talla: ${item.size}\n`
-        message += `   - Cantidad: ${item.quantity} | Precio: $${(item.product.price * item.quantity).toLocaleString('es-CO')}\n`
-        message += `   🔗 ${url}\n\n`
+        message += `- ${item.product.name}\n`
+        message += `  Para ${sizeLabel} (Cantidad: ${item.quantity})\n`
+        message += `  🔗 ${url}\n\n`
       } else {
-        message += `${numEmoji} *${item.product.name}* 🔴 *[AGOTADO]*\n`
-        message += `   - Talla: ${item.size}\n`
-        message += `   - _Me interesa saber cuándo hay restock_\n`
-        message += `   🔗 ${url}\n\n`
+        message += `- ${item.product.name} 🔴 [AGOTADO]\n`
+        message += `  Para ${sizeLabel}\n`
+        message += `  ¿Me avisan cuando tengan restock?\n`
+        message += `  🔗 ${url}\n\n`
       }
     })
     
-    if (totalPrice > 0) {
-      message += `💰 *Total estimado:* $${totalPrice.toLocaleString('es-CO')}\n\n`
-    }
-    
-    message += `¿Me confirman disponibilidad y métodos de pago, por favor?`
+    message += `¿Me confirman disponibilidad por favor?`
 
     const whatsappPhone = process.env.NEXT_PUBLIC_WHATSAPP_PHONE || '573170552425'
     const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`

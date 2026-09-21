@@ -47,12 +47,9 @@ export function FloatingWhatsAppButton({
   const productUrl = typeof window !== 'undefined' ? window.location.href : ''
   const genderText = selectedGender ? `para ${selectedGender}` : ''
   const sizeText = selectedSize ? `en la talla ${selectedSize}` : ''
-  const spaceOrEmpty = genderText || sizeText ? ' ' : ''
-  const comboText = [genderText, sizeText].filter(Boolean).join(' y ')
-
   const waMessage = isAvailable
-    ? `¡Hola, equipo de Deportivos Pipe! 👟\n\nVengo del catálogo y me interesa hacer el pedido de este par:\n\n🛒 *${product.name}*\n- ${[genderText, sizeText].filter(Boolean).join(' | ').replace('para ', 'Género: ').replace('en la talla ', 'Talla: ')}\n- Precio: $${product.price.toLocaleString('es-CO')}\n🔗 ${productUrl}\n\n¿Me confirman disponibilidad para envío, por favor?`
-    : `¡Hola, equipo de Deportivos Pipe! 👟\n\nVi en el catálogo este par pero sale como 🔴 *AGOTADO*:\n\n👟 *${product.name}*\n🔗 ${productUrl}\n\n¿Podrían avisarme si van a tener restock pronto?`;
+    ? `¡Hola! Vengo del catálogo y me interesa este par:\n\n*${product.name}*\nPara ${selectedGender || 'Unisex'} en talla ${selectedSize ? selectedSize.replace(/^[CD]-/, '') : ''}\n🔗 ${productUrl}\n\n¿Me confirman disponibilidad por favor?`
+    : `¡Hola! Vi en el catálogo este par pero sale agotado:\n\n*${product.name}*\n🔗 ${productUrl}\n\n¿Me avisan cuando tengan restock?`;
 
   const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(waMessage)}`
 
