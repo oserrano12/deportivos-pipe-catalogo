@@ -180,7 +180,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
               {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
               {product.price > 0 && (
                 <span className="text-sm md:text-base font-black uppercase tracking-widest bg-primary text-primary-foreground px-3 py-1 shadow-[4px_4px_0_0_oklch(var(--color-foreground))] -translate-y-1">
-                  + ENVÍO
+                  ENVÍO INCLUIDO
                 </span>
               )}
             </p>
