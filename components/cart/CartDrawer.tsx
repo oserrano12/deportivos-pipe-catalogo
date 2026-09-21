@@ -143,9 +143,6 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
               <MessageCircle className="w-5 h-5" />
               Pedir por WhatsApp
             </button>
-            <p className="text-center text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
-              Lleva + pares, paga menos en el chat
-            </p>
           </div>
         )}
       </SheetContent>
