@@ -176,8 +176,9 @@ export function ProductClientView({ product }: ProductClientViewProps) {
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] text-foreground">
               {product.name}
             </h1>
-            <p className="text-4xl md:text-5xl font-black italic tracking-tighter text-primary">
+            <p className="text-4xl md:text-5xl font-black italic tracking-tighter text-primary flex items-baseline gap-2">
               {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
+              {product.price > 0 && <span className="text-xl md:text-2xl text-muted-foreground uppercase">+ envío</span>}
             </p>
           </div>
 
@@ -219,11 +220,23 @@ export function ProductClientView({ product }: ProductClientViewProps) {
             )}
 
             {selectedGender && (
-              <SizeSelector 
-                sizes={sizesForGender || []} 
-                selectedSize={selectedSizeId} 
-                onSizeChange={setSelectedSizeId} 
-              />
+              <div className="space-y-4">
+                {!hasRopa && (
+                  <div className="flex gap-3 p-4 bg-orange-500/10 border-l-4 border-orange-500 rounded-r-xl text-orange-600 dark:text-orange-400">
+                    <div className="mt-0.5 shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    </div>
+                    <p className="text-sm font-bold leading-tight">
+                      Atención: Nuestras tallas están en <span className="font-black uppercase underline decoration-2 underline-offset-2">formato EUR (Europeo)</span>. Por favor revisa la <span className="font-black uppercase">guía de equivalencias</span> (US, CM, COL) para asegurar tu talla ideal.
+                    </p>
+                  </div>
+                )}
+                <SizeSelector 
+                  sizes={sizesForGender || []} 
+                  selectedSize={selectedSizeId} 
+                  onSizeChange={setSelectedSizeId} 
+                />
+              </div>
             )}
             
             <div className="pt-4">
