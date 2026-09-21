@@ -8,9 +8,10 @@ import { useMemo, useEffect, useState } from 'react'
 import {
   Carousel,
   CarouselContent,
-  CarouselItem
+  CarouselItem,
+  type CarouselApi
 } from "@/components/ui/carousel"
-import Autoplay from "embla-carousel-autoplay"
+import AutoScroll from "embla-carousel-auto-scroll"
 import { useRef } from "react"
 
 export function RelatedAndFavorites({ 
@@ -24,10 +25,40 @@ export function RelatedAndFavorites({
 }) {
   const { favoriteIds } = useFavorites()
   const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>([])
+  const [api, setApi] = useState<CarouselApi>()
   
   const plugin = useRef(
-    Autoplay({ delay: 2500, stopOnInteraction: true })
+    AutoScroll({ speed: 1.5, stopOnInteraction: true, stopOnMouseEnter: true })
   )
+
+  useEffect(() => {
+    if (!api) return
+
+    const restartAutoScroll = () => {
+      const autoScroll = api.plugins().autoScroll
+      if (!autoScroll) return
+      
+      // Clear any existing timeouts to prevent multiple timers
+      if ((window as any).autoScrollTimeout) {
+        clearTimeout((window as any).autoScrollTimeout)
+      }
+      
+      (window as any).autoScrollTimeout = setTimeout(() => {
+        if (!autoScroll.isPlaying()) {
+          autoScroll.play()
+        }
+      }, 3000)
+    }
+
+    api.on('pointerUp', restartAutoScroll)
+
+    return () => {
+      api.off('pointerUp', restartAutoScroll)
+      if ((window as any).autoScrollTimeout) {
+        clearTimeout((window as any).autoScrollTimeout)
+      }
+    }
+  }, [api])
 
   useEffect(() => {
     // Leer historial (excluyendo el actual)
@@ -104,6 +135,7 @@ export function RelatedAndFavorites({
           
           <div className="w-full">
             <Carousel 
+              setApi={setApi}
               plugins={[plugin.current]} 
               className="w-full"
               opts={{ align: "start", loop: true, dragFree: true }}
