@@ -151,21 +151,11 @@ export function CartDrawer({ variant = 'default' }: { variant?: 'default' | 'bot
             </div>
             <button
               onClick={handleCheckout}
-              className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-[#20bd5a] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg"
+              className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white p-4 rounded-2xl font-black uppercase tracking-widest hover:bg-[#20bd5a] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg text-sm sm:text-base whitespace-nowrap"
             >
-              <MessageCircle className="w-5 h-5" />
-              Pedir por WhatsApp
+              <MessageCircle className="w-5 h-5 shrink-0" />
+              <span>Pedir por WhatsApp</span>
             </button>
-            
-            {/* Ticker Tape */}
-            <div className="w-[calc(100%+3rem)] -ml-6 -mb-6 mt-4 bg-foreground text-background py-2 overflow-hidden rotate-1 scale-105 border-y-4 border-border relative z-10">
-              <div className="flex animate-marquee whitespace-nowrap text-[10px] font-black tracking-[0.3em]">
-                <span className="mx-4">/// ENVÍO INCLUIDO /// PAGO CONTRA ENTREGA /// COMPRA SEGURA</span>
-                <span className="mx-4">/// ENVÍO INCLUIDO /// PAGO CONTRA ENTREGA /// COMPRA SEGURA</span>
-                <span className="mx-4">/// ENVÍO INCLUIDO /// PAGO CONTRA ENTREGA /// COMPRA SEGURA</span>
-                <span className="mx-4">/// ENVÍO INCLUIDO /// PAGO CONTRA ENTREGA /// COMPRA SEGURA</span>
-              </div>
-            </div>
           </div>
         )}
       </SheetContent>
