@@ -166,6 +166,39 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
     })
   }
 
+  const moveImage = (id: string, direction: 'left' | 'right') => {
+    setImages(prev => {
+      const idx = prev.findIndex(img => img.id === id)
+      if (idx < 0) return prev
+      if (direction === 'left' && idx === 0) return prev
+      if (direction === 'right' && idx === prev.length - 1) return prev
+      
+      const newImages = [...prev]
+      const targetIdx = direction === 'left' ? idx - 1 : idx + 1
+      const temp = newImages[idx]
+      newImages[idx] = newImages[targetIdx]
+      newImages[targetIdx] = temp
+      return newImages
+    })
+  }
+
+  const [draggedId, setDraggedId] = useState<string | null>(null)
+
+  const handleDrop = (e: React.DragEvent, targetId: string) => {
+    e.preventDefault()
+    if (!draggedId || draggedId === targetId) return
+    setImages(prev => {
+      const oldIdx = prev.findIndex(img => img.id === draggedId)
+      const newIdx = prev.findIndex(img => img.id === targetId)
+      if (oldIdx < 0 || newIdx < 0) return prev
+      const newImages = [...prev]
+      const [draggedItem] = newImages.splice(oldIdx, 1)
+      newImages.splice(newIdx, 0, draggedItem)
+      return newImages
+    })
+    setDraggedId(null)
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
@@ -367,31 +400,51 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
               </p>
               <div className="flex gap-3 flex-wrap">
                 {images.map((img, idx) => (
-                  <div key={img.id} className={`relative group rounded-xl overflow-hidden border-2 shadow-sm transition-colors block ${idx === 0 ? 'border-primary' : 'border-border hover:border-primary/50'}`}>
+                  <div 
+                    key={img.id} 
+                    draggable
+                    onDragStart={() => setDraggedId(img.id)}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => handleDrop(e, img.id)}
+                    className={`relative group rounded-xl overflow-hidden border-2 shadow-sm transition-all block cursor-grab active:cursor-grabbing ${idx === 0 ? 'border-primary' : 'border-border hover:border-primary/50'} ${draggedId === img.id ? 'opacity-50' : 'opacity-100'}`}
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={img.url} alt={`Preview ${idx}`} className="w-28 h-28 object-cover transition-transform group-hover:scale-105" />
+                    <img src={img.url} alt={`Preview ${idx}`} className="w-28 h-28 object-cover transition-transform group-hover:scale-105 pointer-events-none" />
                     
                     {idx === 0 && (
-                      <div className="absolute top-1 left-1 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded shadow">
+                      <div className="absolute top-1 left-1 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded shadow z-10">
                         Portada
                       </div>
                     )}
 
                     {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 gap-2">
-                      {idx !== 0 && (
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 gap-1.5 z-20">
+                      {/* Quick Reorder Arrows */}
+                      <div className="flex gap-2">
                         <button
                           type="button"
-                          onClick={(e) => { e.preventDefault(); setAsCover(img.id); }}
-                          className="text-xs font-bold bg-white text-black px-2 py-1 rounded shadow hover:bg-gray-200 transition-colors"
+                          disabled={idx === 0}
+                          onClick={(e) => { e.preventDefault(); moveImage(img.id, 'left'); }}
+                          className="bg-white/90 text-black rounded-full p-1 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow"
+                          title="Mover Izquierda"
                         >
-                          Hacer Portada
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                         </button>
-                      )}
+                        <button
+                          type="button"
+                          disabled={idx === images.length - 1}
+                          onClick={(e) => { e.preventDefault(); moveImage(img.id, 'right'); }}
+                          className="bg-white/90 text-black rounded-full p-1 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow"
+                          title="Mover Derecha"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                      </div>
+                      
                       <button 
                         type="button" 
                         onClick={(e) => { e.preventDefault(); removeImage(img.id); }}
-                        className="bg-destructive text-destructive-foreground rounded-full p-1.5 hover:scale-110 shadow-lg cursor-pointer transition-transform"
+                        className="bg-destructive text-destructive-foreground rounded-full p-1.5 hover:scale-110 shadow-lg cursor-pointer transition-transform mt-1"
                         aria-label="Cancelar/Eliminar imagen"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -400,7 +453,7 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
                     
                     {/* Type Indicator */}
                     {img.type === 'new' && (
-                      <div className="absolute bottom-1 right-1 bg-blue-500 text-white text-[9px] font-bold px-1 rounded shadow">
+                      <div className="absolute bottom-1 right-1 bg-blue-500 text-white text-[9px] font-bold px-1 rounded shadow z-10">
                         NUEVA
                       </div>
                     )}
