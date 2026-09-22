@@ -123,31 +123,33 @@ export function RelatedAndFavorites({
       
       {/* Sección 1: Recomendados / Similares */}
       {relatedProducts.length > 0 && (
-        <div className="border-t-2 border-border pt-12 space-y-8">
-          <div className="container max-w-7xl mx-auto px-4 flex flex-col gap-2">
-            <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">
-              TAMBIÉN TE PODRÍA INTERESAR
-            </h2>
-            <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
-              Productos similares recomendados
-            </p>
-          </div>
-          
-          <div className="w-full">
-            <Carousel 
-              setApi={setApi}
-              plugins={[plugin.current]} 
-              className="w-full"
-              opts={{ align: "start", loop: true, dragFree: true }}
-            >
-              <CarouselContent className="md:-ml-8 px-4 md:px-8">
-                {relatedProducts.map((product, index) => (
-                   <CarouselItem key={`${product.id}-${index}`} className="basis-[75%] sm:basis-[45%] md:basis-[35%] lg:basis-[28%] md:pl-8">
-                     <ProductCard product={product} index={index} />
-                   </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="border-t-2 border-border pt-12 space-y-8">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter">
+                TAMBIÉN TE PODRÍA INTERESAR
+              </h2>
+              <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
+                Productos similares recomendados
+              </p>
+            </div>
+            
+            <div className="w-full">
+              <Carousel 
+                setApi={setApi}
+                plugins={[plugin.current]} 
+                className="w-full"
+                opts={{ align: "start", loop: true, dragFree: true }}
+              >
+                <CarouselContent className="-ml-4 md:-ml-8">
+                  {relatedProducts.map((product, index) => (
+                     <CarouselItem key={`${product.id}-${index}`} className="pl-4 md:pl-8 basis-[75%] sm:basis-[50%] md:basis-[33.33%] lg:basis-[25%]">
+                       <ProductCard product={product} index={index} />
+                     </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
           </div>
         </div>
       )}
