@@ -238,7 +238,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
                       ¡Apóyanos en Instagram!
                     </DialogTitle>
                     <DialogDescription className="font-bold text-foreground/80 text-base mt-2">
-                      Subimos videos reales de todos nuestros tenis, mostramos la calidad al detalle y lanzamos descuentos exclusivos. <span className="text-primary font-black">¡Síguenos para no perderte de nada! 🚀</span>
+                      Subimos videos reales de todos nuestros tenis y mostramos la calidad al detalle. <span className="text-primary font-black">¡Síguenos para no perderte de nada! 🚀</span>
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col gap-3 mt-4">
