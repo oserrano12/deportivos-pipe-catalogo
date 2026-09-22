@@ -39,6 +39,13 @@ const CLOTHING_SIZES = [
   { id: 'R-XXL', eur: 'XXL' },
 ]
 
+type FormImage = {
+  id: string;
+  type: 'existing' | 'new';
+  url: string;
+  file?: File;
+}
+
 export function ProductForm({ product, categories, brands }: { product?: any, categories: any[], brands: any[] }) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -46,12 +53,17 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
   const [slug, setSlug] = useState(product?.slug || '')
   const [selectedSizes, setSelectedSizes] = useState<string[]>(product?.sizes || [])
   const [priceStr, setPriceStr] = useState<string>(product?.price?.toString() || '')
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([])
-  const [previewImages, setPreviewImages] = useState<string[]>([])
-  const [existingImages, setExistingImages] = useState<string[]>(product?.images || [])
+  
+  const [images, setImages] = useState<FormImage[]>(() => {
+    return (product?.images || []).map((url: string) => ({
+      id: Math.random().toString(),
+      type: 'existing',
+      url
+    }))
+  })
+  
   const [selectedCategory, setSelectedCategory] = useState(product?.category_id || '')
   const isClothing = categories.find(c => c.id === selectedCategory)?.slug === 'ropa'
-  const [compressedFiles, setCompressedFiles] = useState<File[]>([])
 
   const generateSlug = (val: string) => {
     setName(val)
@@ -112,26 +124,46 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const filesArray = Array.from(e.target.files)
-      const urls = filesArray.map(file => URL.createObjectURL(file))
-      setPreviewImages(urls)
       
       toast.info('Comprimiendo imágenes...')
       try {
         const converted = await Promise.all(filesArray.map(f => convertToWebP(f)))
-        setCompressedFiles(converted)
+        const newImages: FormImage[] = converted.map(f => ({
+          id: Math.random().toString(36).substring(7),
+          type: 'new',
+          url: URL.createObjectURL(f),
+          file: f
+        }))
+        setImages(prev => [...prev, ...newImages])
         toast.success('Imágenes optimizadas a WebP')
       } catch (error) {
         toast.error('Error al comprimir imágenes')
-        setCompressedFiles(filesArray) // fallback to originals
+        const rawImages: FormImage[] = filesArray.map(f => ({
+          id: Math.random().toString(36).substring(7),
+          type: 'new',
+          url: URL.createObjectURL(f),
+          file: f
+        }))
+        setImages(prev => [...prev, ...rawImages])
       }
-    } else {
-      setPreviewImages([])
-      setCompressedFiles([])
+      
+      e.target.value = '' // Clear so same files can be selected again
     }
   }
 
-  const handleRemoveExistingImage = (idxToRemove: number) => {
-    setExistingImages(prev => prev.filter((_, idx) => idx !== idxToRemove))
+  const removeImage = (idToRemove: string) => {
+    setImages(prev => prev.filter(img => img.id !== idToRemove))
+  }
+
+  const setAsCover = (idToCover: string) => {
+    setImages(prev => {
+      const idx = prev.findIndex(img => img.id === idToCover)
+      if (idx <= 0) return prev
+      const newImages = [...prev]
+      const [item] = newImages.splice(idx, 1)
+      newImages.unshift(item)
+      return newImages
+    })
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -139,11 +171,20 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
     setLoading(true)
     const formData = new FormData(e.currentTarget)
     
-    // Override the raw files from the input with our compressed ones
     formData.delete('images')
-    compressedFiles.forEach(file => {
-      formData.append('images', file)
+    formData.delete('existing_images')
+
+    const layout = images.map((img, index) => {
+      if (img.type === 'existing') {
+        return { type: 'existing', url: img.url }
+      } else {
+        const key = `new_image_${index}`
+        formData.append(key, img.file as Blob)
+        return { type: 'new', key }
+      }
     })
+    
+    formData.append('image_layout', JSON.stringify(layout))
     
     try {
       const result = await saveProduct(formData)
@@ -164,7 +205,6 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl bg-card p-6 rounded-xl border shadow-sm">
       {product && <input type="hidden" name="id" value={product.id} />}
-      <input type="hidden" name="existing_images" value={JSON.stringify(existingImages)} />
       <input type="hidden" name="sizes" value={selectedSizes.join(',')} />
       <input type="hidden" name="price" value={priceStr} />
 
@@ -319,53 +359,52 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
         
         {/* Gallery Preview Area */}
         <div className="space-y-4 pt-2">
-          {/* Existing Images */}
-          {existingImages.length > 0 && (
+          {images.length > 0 && (
             <div className="space-y-2">
               <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                Imágenes Actualmente Publicadas
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                {existingImages.map((img: string, idx: number) => (
-                  <div key={`exist-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-border shadow-sm hover:border-primary transition-colors block">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={img} alt="Current" className="w-28 h-28 object-cover transition-transform" />
-                    
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center pointer-events-none"></div>
-
-                    {/* Delete Button */}
-                    <button 
-                      type="button" 
-                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleRemoveExistingImage(idx); }}
-                      className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110 shadow-lg cursor-pointer pointer-events-auto"
-                      aria-label="Eliminar imagen"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* New Images Preview */}
-          {previewImages.length > 0 && (
-            <div className="space-y-2 pt-2">
-              <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                Nuevas Imágenes por Subir
+                Galería del Producto (La primera será la portada)
               </p>
               <div className="flex gap-3 flex-wrap">
-                {previewImages.map((img, idx) => (
-                  <a href={img} target="_blank" rel="noopener noreferrer" key={`new-${idx}`} className="relative group rounded-xl overflow-hidden border-2 border-primary shadow-md hover:border-primary/80 transition-colors cursor-pointer block">
+                {images.map((img, idx) => (
+                  <div key={img.id} className={`relative group rounded-xl overflow-hidden border-2 shadow-sm transition-colors block ${idx === 0 ? 'border-primary' : 'border-border hover:border-primary/50'}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={img} alt="Preview" className="w-28 h-28 object-cover group-hover:scale-105 transition-transform" />
-                    <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded shadow transition-opacity">Ver</span>
+                    <img src={img.url} alt={`Preview ${idx}`} className="w-28 h-28 object-cover transition-transform group-hover:scale-105" />
+                    
+                    {idx === 0 && (
+                      <div className="absolute top-1 left-1 bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded shadow">
+                        Portada
+                      </div>
+                    )}
+
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 gap-2">
+                      {idx !== 0 && (
+                        <button
+                          type="button"
+                          onClick={(e) => { e.preventDefault(); setAsCover(img.id); }}
+                          className="text-xs font-bold bg-white text-black px-2 py-1 rounded shadow hover:bg-gray-200 transition-colors"
+                        >
+                          Hacer Portada
+                        </button>
+                      )}
+                      <button 
+                        type="button" 
+                        onClick={(e) => { e.preventDefault(); removeImage(img.id); }}
+                        className="bg-destructive text-destructive-foreground rounded-full p-1.5 hover:scale-110 shadow-lg cursor-pointer transition-transform"
+                        aria-label="Cancelar/Eliminar imagen"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                      </button>
                     </div>
-                  </a>
+                    
+                    {/* Type Indicator */}
+                    {img.type === 'new' && (
+                      <div className="absolute bottom-1 right-1 bg-blue-500 text-white text-[9px] font-bold px-1 rounded shadow">
+                        NUEVA
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>

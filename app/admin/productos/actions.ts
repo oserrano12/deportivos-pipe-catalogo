@@ -28,30 +28,57 @@ export async function saveProduct(formData: FormData) {
   const sizesRaw = formData.get('sizes') as string
   const sizes = sizesRaw ? sizesRaw.split(',').map(s => s.trim()).filter(Boolean) : []
 
-  const existingImages = JSON.parse(formData.get('existing_images') as string || '[]')
+  const imageLayoutStr = formData.get('image_layout') as string
+  let finalImages: string[] = []
 
-  // Handle image uploads
-  const imageFiles = formData.getAll('images') as File[]
-  const uploadedUrls: string[] = [...existingImages]
+  if (imageLayoutStr) {
+    // New layout logic
+    const layout = JSON.parse(imageLayoutStr)
+    for (const item of layout) {
+      if (item.type === 'existing') {
+        finalImages.push(item.url)
+      } else if (item.type === 'new') {
+        const file = formData.get(item.key) as File
+        if (file && file.size > 0) {
+          const fileExt = file.name.split('.').pop()
+          const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
+          
+          const { error: uploadError } = await supabase.storage
+            .from('product-images')
+            .upload(fileName, file)
 
-  for (const file of imageFiles) {
-    if (file.size > 0) {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
-      const filePath = `${fileName}`
+          if (!uploadError) {
+            const { data: { publicUrl } } = supabase.storage
+              .from('product-images')
+              .getPublicUrl(fileName)
+            finalImages.push(publicUrl)
+          } else {
+            console.error('Storage error:', uploadError)
+          }
+        }
+      }
+    }
+  } else {
+    // Fallback to old logic
+    const existingImages = JSON.parse(formData.get('existing_images') as string || '[]')
+    const imageFiles = formData.getAll('images') as File[]
+    finalImages = [...existingImages]
 
-      const { error: uploadError } = await supabase.storage
-        .from('product-images')
-        .upload(filePath, file)
-
-      if (!uploadError) {
-        const { data: { publicUrl } } = supabase.storage
-          .from('product-images')
-          .getPublicUrl(filePath)
+    for (const file of imageFiles) {
+      if (file.size > 0) {
+        const fileExt = file.name.split('.').pop()
+        const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`
         
-        uploadedUrls.push(publicUrl)
-      } else {
-        console.error('Storage error:', uploadError)
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(fileName, file)
+
+        if (!uploadError) {
+          const { data: { publicUrl } } = supabase.storage
+            .from('product-images')
+            .getPublicUrl(fileName)
+          finalImages.push(publicUrl)
+        }
       }
     }
   }
@@ -67,7 +94,7 @@ export async function saveProduct(formData: FormData) {
     is_featured,
     base_sku,
     sizes,
-    images: uploadedUrls
+    images: finalImages
   }
 
   if (id) {
