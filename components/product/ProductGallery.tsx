@@ -61,15 +61,15 @@ export function ProductGallery({ images }: { images: string[] | null }) {
       
       {/* Thumbnails Navigation */}
       {validImages.length > 1 && (
-        <div className="flex justify-center md:justify-start gap-3 overflow-x-auto px-4 pb-4 md:pb-0 sm:px-0 scrollbar-hide pt-1">
+        <div className="flex justify-center gap-3 overflow-x-auto py-2 px-4 sm:px-0 scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {validImages.map((src, idx) => (
             <button
               key={idx}
               onClick={() => api?.scrollTo(idx)}
               className={`relative w-16 h-16 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
                 idx === current 
-                  ? "border-primary opacity-100 scale-105" 
-                  : "border-border opacity-60 hover:opacity-100"
+                  ? "border-primary opacity-100 scale-110 shadow-md" 
+                  : "border-border opacity-60 hover:opacity-100 hover:scale-105"
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             >
