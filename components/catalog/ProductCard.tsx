@@ -16,7 +16,17 @@ interface ProductCardProps {
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
   const [isLoaded, setIsLoaded] = useState(false)
+  const [animateHeart, setAnimateHeart] = useState(false)
   const favorite = isFavorite(product.id)
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (!favorite) {
+      setAnimateHeart(true)
+      setTimeout(() => setAnimateHeart(false), 600)
+    }
+    toggleFavorite(product.id)
+  }
 
   // Use a fallback image if array is empty or null
   const imageUrl = product.images && product.images.length > 0 
@@ -51,15 +61,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
           {/* Favoritos Button */}
           <button
-            onClick={(e) => {
-              e.preventDefault()
-              toggleFavorite(product.id)
-            }}
-            className="absolute top-3 left-3 z-20 p-2 rounded-full bg-background/80 backdrop-blur-md shadow-sm hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
+            onClick={handleFavoriteClick}
+            className={`absolute top-3 left-3 z-20 p-2 rounded-full bg-background/80 backdrop-blur-md shadow-sm outline-none focus:ring-2 ring-primary transition-all duration-300 heart-particles-container ${animateHeart ? 'active scale-110' : 'hover:scale-110'}`}
             aria-label="Agregar a favoritos"
           >
             <Heart 
-              className={`w-4 h-4 transition-colors ${favorite ? 'fill-primary text-primary' : 'text-foreground/70 group-hover:text-foreground'}`} 
+              className={`w-4 h-4 transition-colors ${favorite ? 'fill-primary text-primary' : 'text-foreground/70 group-hover:text-foreground'} ${animateHeart ? 'animate-heart-burst' : ''}`} 
             />
           </button>
         </div>

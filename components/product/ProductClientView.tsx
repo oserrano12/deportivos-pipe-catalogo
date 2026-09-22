@@ -31,6 +31,16 @@ import {
 export function ProductClientView({ product }: ProductClientViewProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
   const favorite = isFavorite(product.id)
+  const [animateHeart, setAnimateHeart] = useState(false)
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (!favorite) {
+      setAnimateHeart(true)
+      setTimeout(() => setAnimateHeart(false), 600)
+    }
+    toggleFavorite(product.id)
+  }
 
   useEffect(() => {
     try {
@@ -166,15 +176,12 @@ export function ProductClientView({ product }: ProductClientViewProps) {
                     <Share2 className="w-5 h-5 text-foreground" />
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.preventDefault()
-                      toggleFavorite(product.id)
-                    }}
-                    className="p-2.5 rounded-full bg-background border-2 border-border shadow-sm hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
+                    onClick={handleFavoriteClick}
+                    className={`p-2.5 rounded-full bg-background border-2 border-border shadow-sm outline-none focus:ring-2 ring-primary transition-all duration-300 heart-particles-container ${animateHeart ? 'active scale-110' : 'hover:scale-110'}`}
                     aria-label="Agregar a favoritos"
                   >
                     <Heart 
-                      className={`w-5 h-5 transition-colors ${favorite ? 'fill-primary text-primary' : 'text-foreground'}`} 
+                      className={`w-5 h-5 transition-colors ${favorite ? 'fill-primary text-primary' : 'text-foreground'} ${animateHeart ? 'animate-heart-burst' : ''}`} 
                     />
                   </button>
                 </div>
