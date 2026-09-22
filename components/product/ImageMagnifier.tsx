@@ -78,7 +78,7 @@ export function ImageMagnifier({ src, alt, priority, fetchPriority }: ImageMagni
         priority={priority}
         fetchPriority={fetchPriority}
         sizes="(max-width: 640px) 100vw, 50vw"
-        className="w-full h-auto object-contain"
+        className="w-full h-auto object-cover"
       />
 
       {/* Lens Overlay */}
