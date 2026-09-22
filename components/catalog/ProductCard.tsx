@@ -28,14 +28,14 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
   return (
     <div
-      className="animate-fade-in-up transition-transform duration-300 h-full"
+      className="animate-fade-in-up hover:-translate-y-1 transition-transform duration-300"
       style={{ 
         animationDelay: `${index * 50}ms`,
         animationFillMode: 'both'
       }}
     >
-      <Link href={`/producto/${product.slug}`} className="group flex flex-col h-full bg-card rounded-[1.25rem] border border-border/40 overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/20">
-        <div className="relative w-full aspect-square overflow-hidden bg-secondary/30 transition-colors duration-500 group-hover:bg-secondary/40">
+      <Link href={`/producto/${product.slug}`} className="group block">
+        <div className="relative w-full aspect-square overflow-hidden rounded-2xl bg-secondary/10 mb-4 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_-15px_rgba(0,127,255,0.2)]">
           <Image
             src={imageUrl}
             alt={product.name}
@@ -61,7 +61,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
               e.preventDefault()
               toggleFavorite(product.id)
             }}
-            className="absolute top-3 left-3 z-20 p-2 rounded-full bg-background/80 backdrop-blur-md shadow-sm hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
+            className="absolute top-3 left-3 z-20 p-2.5 rounded-full bg-background/80 backdrop-blur-md shadow-sm hover:scale-110 transition-transform outline-none focus:ring-2 ring-primary"
             aria-label="Agregar a favoritos"
           >
             <Heart 
@@ -70,16 +70,16 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           </button>
         </div>
         
-        <div className="flex flex-col gap-1.5 p-4 flex-grow">
+        <div className="flex flex-col gap-1 px-1">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-foreground/70 uppercase tracking-widest">
               {product.brand?.name || 'Marca'}
             </span>
             <span className="text-sm font-black text-primary">
               {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar'}
             </span>
           </div>
-          <h2 className="text-sm font-bold leading-snug text-foreground line-clamp-2">
+          <h2 className="text-sm font-bold leading-tight text-foreground line-clamp-2">
             {product.name}
           </h2>
         </div>
