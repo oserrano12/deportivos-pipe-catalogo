@@ -19,6 +19,14 @@ import { getSizeInfo } from '@/lib/sizing'
 import { Heart, Share2 } from 'lucide-react'
 import { useFavorites } from '@/components/context/FavoritesContext'
 import { toast } from 'sonner'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 export function ProductClientView({ product }: ProductClientViewProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
@@ -199,17 +207,41 @@ export function ProductClientView({ product }: ProductClientViewProps) {
 
           {product.instagram_url && (
             <div className="pt-2">
-              <a 
-                href={product.instagram_url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="group flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white px-4 py-3 border-2 border-transparent hover:border-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_oklch(var(--color-foreground))]"
-              >
-                <div className="group-hover:scale-110 transition-transform duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                </div>
-                <span className="font-black text-sm uppercase tracking-widest mt-0.5">Ver Videos Reales</span>
-              </a>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button 
+                    className="group flex items-center justify-center gap-2.5 w-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white px-4 py-3 border-2 border-transparent hover:border-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_oklch(var(--color-foreground))]"
+                  >
+                    <div className="group-hover:scale-110 transition-transform duration-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                    </div>
+                    <span className="font-black text-sm uppercase tracking-widest mt-0.5">Ver Videos Reales</span>
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md border-4 border-foreground rounded-none shadow-[8px_8px_0_0_oklch(var(--color-foreground))] bg-background">
+                  <DialogHeader>
+                    <DialogTitle className="font-black text-2xl uppercase italic tracking-tighter flex items-center gap-2">
+                      <div className="text-[#E1306C]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                      </div>
+                      ¡Apóyanos en Instagram!
+                    </DialogTitle>
+                    <DialogDescription className="font-bold text-foreground/80 text-base mt-2">
+                      Subimos videos reales de todos nuestros tenis, mostramos la calidad al detalle y lanzamos descuentos exclusivos. <span className="text-primary font-black">¡Síguenos para no perderte de nada! 🚀</span>
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex flex-col gap-3 mt-4">
+                    <a 
+                      href={product.instagram_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="w-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white px-4 py-4 font-black text-center text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-transform"
+                    >
+                      Ir a Instagram y Ver Video
+                    </a>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           )}
 
