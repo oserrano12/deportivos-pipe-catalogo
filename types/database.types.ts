@@ -69,6 +69,7 @@ export interface Database {
           sizes: string[] | null
           is_featured: boolean
           base_sku: string | null
+          instagram_url: string | null
         }
         Insert: {
           id?: string
@@ -84,6 +85,7 @@ export interface Database {
           sizes?: string[] | null
           is_featured?: boolean
           base_sku?: string | null
+          instagram_url?: string | null
         }
         Update: {
           id?: string
@@ -99,6 +101,7 @@ export interface Database {
           sizes?: string[] | null
           is_featured?: boolean
           base_sku?: string | null
+          instagram_url?: string | null
         }
         Relationships: [
           {

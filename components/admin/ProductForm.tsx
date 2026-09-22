@@ -262,6 +262,17 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
         />
       </div>
 
+      <div className="space-y-2">
+        <Label htmlFor="instagram_url">Enlace de video en Instagram <span className="text-muted-foreground font-normal text-xs">(Opcional)</span></Label>
+        <Input 
+          id="instagram_url" 
+          name="instagram_url" 
+          defaultValue={product?.instagram_url || ''} 
+          placeholder="Ej: https://www.instagram.com/reel/..." 
+        />
+        <p className="text-[10px] text-muted-foreground">Si pegas el link aquí, aparecerá un botón en la vista del producto para ver el video real.</p>
+      </div>
+
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="base_sku">SKU Base (Código de Referencia) *Opcional*</Label>

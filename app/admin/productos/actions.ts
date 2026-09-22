@@ -27,6 +27,8 @@ export async function saveProduct(formData: FormData) {
   
   const sizesRaw = formData.get('sizes') as string
   const sizes = sizesRaw ? sizesRaw.split(',').map(s => s.trim()).filter(Boolean) : []
+  
+  const instagram_url = formData.get('instagram_url') as string || null
 
   const imageLayoutStr = formData.get('image_layout') as string
   let finalImages: string[] = []
@@ -94,6 +96,7 @@ export async function saveProduct(formData: FormData) {
     is_featured,
     base_sku,
     sizes,
+    instagram_url,
     images: finalImages
   }
 
