@@ -27,13 +27,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const isPriority = index < 4
 
   return (
-    <div
-      className="animate-fade-in-up transition-transform duration-300 h-full"
-      style={{ 
-        animationDelay: `${index * 50}ms`,
-        animationFillMode: 'both'
-      }}
-    >
+    <div className="transition-transform duration-300 h-full">
       <Link href={`/producto/${product.slug}`} className="group flex flex-col h-full bg-card rounded-2xl border border-border/50 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-1">
         <div className="relative w-full aspect-square overflow-hidden bg-secondary/10">
           <Image
@@ -43,7 +37,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             priority={isPriority}
             fetchPriority={isPriority ? "high" : "auto"}
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className={`object-cover transition-all duration-700 group-hover:scale-105 ${isPriority || isLoaded ? 'blur-0 opacity-100' : 'blur-xl opacity-0 scale-95'}`}
+            className={`object-cover transition-opacity duration-500 group-hover:scale-105 ${isPriority || isLoaded ? 'opacity-100' : 'opacity-0'}`}
             onLoad={() => setIsLoaded(true)}
           />
           {!product.is_available && (
