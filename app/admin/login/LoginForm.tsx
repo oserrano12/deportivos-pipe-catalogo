@@ -11,14 +11,14 @@ export function LoginForm() {
   const [state, formAction, pending] = useActionState(login, { error: '' })
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
+    <div className="flex-1 w-full flex items-center justify-center p-4 relative overflow-hidden bg-background py-12 md:py-0">
       {/* Sneakerhead abstract background element */}
       <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-5%] w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
       
       <div className="w-full max-w-sm relative z-10 space-y-6">
-        <div className="text-center space-y-2">
-          <img src="/ISOTIPO.svg" alt="Deportivos Pipe" className="w-16 h-16 mx-auto mb-4" />
+        <div className="text-center space-y-3">
+          <img src="/ISOTIPO.svg" alt="Deportivos Pipe" className="w-32 h-32 md:w-40 md:h-40 mx-auto" />
           <h1 className="text-4xl font-black tracking-tighter uppercase text-foreground">
             Deportivos <span className="text-primary">Pipe</span>
           </h1>

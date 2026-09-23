@@ -6,7 +6,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <div className="min-h-screen flex flex-col bg-muted/20">
+    <div className="flex-1 w-full flex flex-col bg-muted/20">
       {user && (
         <header className="sticky top-0 z-40 w-full border-b bg-background shadow-sm">
           <div className="container flex h-14 items-center justify-between px-4 max-w-5xl mx-auto">
