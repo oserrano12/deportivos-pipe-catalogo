@@ -28,7 +28,7 @@ export function BottomNav() {
             pathname === '/' ? "text-primary" : "text-muted-foreground hover:text-foreground"
           )}
         >
-          <Home className="h-5 w-5 mb-1" />
+          <img src="/ISOTIPO.svg" alt="Inicio" className="h-5 w-5 mb-1 dark:invert" style={{ opacity: pathname === '/' ? 1 : 0.7 }} />
           Inicio
         </Link>
 
