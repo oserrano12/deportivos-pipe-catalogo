@@ -18,7 +18,7 @@ export function LoginForm() {
       
       <div className="w-full max-w-sm relative z-10 space-y-6">
         <div className="text-center space-y-3">
-          <img src="/ISOTIPO.svg" alt="Deportivos Pipe" className="w-32 h-32 md:w-40 md:h-40 mx-auto" />
+          <img src="/ISOTIPO.svg" alt="Deportivos Pipe" width={160} height={160} className="w-32 h-32 md:w-40 md:h-40 mx-auto" />
           <h1 className="text-4xl font-black tracking-tighter uppercase text-foreground">
             Deportivos <span className="text-primary">Pipe</span>
           </h1>

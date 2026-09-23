@@ -15,7 +15,7 @@ export function Footer() {
           
           {/* Brand Info */}
           <div className="space-y-4">
-            <img src="/IMAGOTIPO.svg" alt="Deportivos Pipe" className="h-16 md:h-24 w-auto object-contain mb-2" />
+            <img src="/IMAGOTIPO.svg" alt="Deportivos Pipe" width={240} height={96} className="h-16 md:h-24 w-auto object-contain mb-2" />
             <p className="text-sm text-muted-foreground font-medium max-w-xs">
               Tu catálogo digital de confianza para calzado deportivo y streetwear. Encuentra tu estilo con nosotros.
             </p>
