@@ -63,9 +63,9 @@ export function MobileHeader() {
   
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container max-w-6xl mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" onClick={handleLogoClick} className="flex items-center gap-2 select-none">
-          <img src="/IMAGOTIPO.svg" alt="Deportivos Pipe" className="h-8 md:h-10 w-auto object-contain dark:invert" />
+      <div className="container max-w-6xl mx-auto flex h-16 md:h-24 items-center justify-between px-4">
+        <Link href="/" onClick={handleLogoClick} className="flex items-center gap-2 select-none py-2">
+          <img src="/IMAGOTIPO.svg" alt="Deportivos Pipe" className="h-12 md:h-20 w-auto object-contain" />
         </Link>
 
         {/* Desktop Navigation */}
