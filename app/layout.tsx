@@ -63,8 +63,8 @@ export default function RootLayout({
           <FavoritesProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            defaultTheme="dark"
+            enableSystem={false}
             disableTransitionOnChange
           >
             <MobileHeader />
