@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { Geist, Geist_Mono } from "next/font/google"
 import { MobileHeader } from "@/components/layout/MobileHeader"
 import { BottomNav } from "@/components/layout/BottomNav"
@@ -78,7 +79,9 @@ export default function RootLayout({
           </FavoritesProvider>
         </CartProvider>
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || 'GTM-TGKPL943'} />
-        <FacebookPixel />
+        <Suspense fallback={null}>
+          <FacebookPixel />
+        </Suspense>
         <Analytics />
       </body>
     </html>
