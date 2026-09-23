@@ -43,6 +43,7 @@ import { GoogleTagManager } from '@next/third-parties/google'
 import { Analytics } from '@vercel/analytics/next'
 import { CartProvider } from "@/components/context/CartContext"
 import NextTopLoader from 'nextjs-toploader'
+import FacebookPixel from '@/components/FacebookPixel'
 
 export default function RootLayout({
   children,
@@ -77,6 +78,7 @@ export default function RootLayout({
           </FavoritesProvider>
         </CartProvider>
         <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || 'GTM-TGKPL943'} />
+        <FacebookPixel />
         <Analytics />
       </body>
     </html>

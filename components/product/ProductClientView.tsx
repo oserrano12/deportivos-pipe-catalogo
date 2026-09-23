@@ -28,6 +28,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import { trackEvent } from '@/components/FacebookPixel'
+
 export function ProductClientView({ product }: ProductClientViewProps) {
   const { isFavorite, toggleFavorite } = useFavorites()
   const favorite = isFavorite(product.id)
@@ -44,6 +46,15 @@ export function ProductClientView({ product }: ProductClientViewProps) {
 
   useEffect(() => {
     try {
+      // Track ViewContent for Meta Pixel
+      trackEvent('ViewContent', {
+        content_name: product.name,
+        content_ids: [product.id],
+        content_type: 'product',
+        value: product.price,
+        currency: 'COP'
+      })
+
       const stored = localStorage.getItem('recentlyViewed')
       let parsed: MinimalProduct[] = stored ? JSON.parse(stored) : []
       

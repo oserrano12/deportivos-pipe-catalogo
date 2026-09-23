@@ -74,6 +74,18 @@ export function FloatingWhatsAppButton({
   const handleAdd = () => {
     if (isCartDisabled || !selectedSize) return
     addItem(product, selectedSize)
+    
+    // Meta Pixel Tracking
+    import('@/components/FacebookPixel').then(({ trackEvent }) => {
+      trackEvent('AddToCart', {
+        content_name: product.name,
+        content_ids: [product.id],
+        content_type: 'product',
+        value: product.price,
+        currency: 'COP'
+      })
+    })
+
     setAdded(true)
     toast.success(`${product.name} añadido a tu selección`, {
       action: {
@@ -82,6 +94,22 @@ export function FloatingWhatsAppButton({
       }
     })
     setTimeout(() => setAdded(false), 2000)
+  }
+
+  const handleWaClick = () => {
+    if (isWaDisabled) return
+    
+    // Meta Pixel Tracking
+    import('@/components/FacebookPixel').then(({ trackEvent }) => {
+      trackEvent('InitiateCheckout', {
+        content_name: product.name,
+        content_ids: [product.id],
+        value: product.price,
+        currency: 'COP'
+      })
+    })
+    
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
   }
 
   let content: React.ReactNode
@@ -118,15 +146,13 @@ export function FloatingWhatsAppButton({
         )}
         
         {/* Pedir por WhatsApp / Consultar Restock */}
-        <a 
-          href={whatsappUrl} 
-          target="_blank" 
-          rel="noreferrer"
+        <button 
+          onClick={handleWaClick}
           className={`flex-1 ${kineticStyles} animate-soft-vibrate bg-[linear-gradient(110deg,#25D366,45%,#7df5a9,55%,#25D366)] bg-[length:200%_100%] border-[#25D366] text-white shadow-[6px_6px_0_0_oklch(var(--color-foreground))] md:shadow-[8px_8px_0_0_oklch(var(--color-foreground))] hover:shadow-[0_0_0_0_oklch(var(--color-foreground))] overflow-hidden`}
         >
           <WhatsAppIcon className="w-4 h-4 md:w-5 md:h-5 z-10 shrink-0" />
           <span className="relative z-10 leading-none">{buttonTextWa}</span>
-        </a>
+        </button>
       </div>
     )
   }
