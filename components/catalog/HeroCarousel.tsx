@@ -54,13 +54,13 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   
                   {/* MASSIVE BACKGROUND TEXT */}
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
-                    <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-transform duration-1000">
+                    <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-transform duration-1000 transform-gpu will-change-transform">
                       {product.brand?.name?.toUpperCase() || 'KINETIC'}
                     </span>
                   </div>
 
-                  {/* KINETIC LIGHT STREAK */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-48 bg-primary/40 dark:bg-primary/30 blur-[80px] md:blur-[120px] -rotate-12 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                  {/* KINETIC LIGHT STREAK - Optimized with radial gradient instead of heavy GPU blur */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-64 bg-[radial-gradient(ellipse_at_center,_oklch(var(--color-primary)/0.4)_0%,_transparent_60%)] -rotate-12 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 transform-gpu" />
 
                   {/* Left: Text Section */}
                   <div className="relative z-20 w-full md:w-1/2 flex flex-col items-start justify-center text-left">
@@ -84,9 +84,9 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
                   {/* Center/Right: Product Image */}
                   <div className="relative z-10 w-full md:w-2/3 flex flex-1 items-center justify-center md:mt-0">
-                    <div className="relative w-full aspect-square max-w-[360px] md:max-w-[550px] transition-transform duration-1000 ease-out group-hover:scale-105 group-hover:rotate-2">
-                      <div className="absolute inset-0 bg-primary/10 rounded-2xl md:rounded-[3rem] rotate-3 group-hover:rotate-6 transition-transform duration-700" />
-                      <div className="relative w-full h-full rounded-2xl md:rounded-[3rem] overflow-hidden border-2 border-border bg-background shadow-2xl">
+                    <div className="relative w-full aspect-square max-w-[360px] md:max-w-[550px] transition-transform duration-1000 ease-out group-hover:scale-105 group-hover:rotate-2 transform-gpu will-change-transform">
+                      <div className="absolute inset-0 bg-primary/10 rounded-2xl md:rounded-[3rem] rotate-3 group-hover:rotate-6 transition-transform duration-700 transform-gpu" />
+                      <div className="relative w-full h-full rounded-2xl md:rounded-[3rem] overflow-hidden border-2 border-border bg-background shadow-2xl transform-gpu">
                         <Image
                           src={imageUrl}
                           alt={product.name}
