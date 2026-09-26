@@ -7,7 +7,6 @@ import { SizeSelector } from './SizeSelector'
 import { FloatingWhatsAppButton } from '@/components/product/FloatingWhatsAppButton'
 import { SizeGuideModal } from '@/components/product/SizeGuideModal'
 import { TrustBadges } from '@/components/product/TrustBadges'
-import { RecentlyViewed, MinimalProduct } from './RecentlyViewed'
 import { Badge } from '@/components/ui/badge'
 import { ProductWithRelations } from '@/lib/data/products'
 
@@ -54,26 +53,6 @@ export function ProductClientView({ product }: ProductClientViewProps) {
         value: product.price,
         currency: 'COP'
       })
-
-      const stored = localStorage.getItem('recentlyViewed')
-      let parsed: MinimalProduct[] = stored ? JSON.parse(stored) : []
-      
-      // Clear invalid elements
-      parsed = parsed.filter(p => typeof p === 'object' && p !== null && p.id)
-      
-      // Remove existing to put it at the front
-      parsed = parsed.filter(p => p.id !== product.id)
-      parsed.unshift({
-        id: product.id,
-        slug: product.slug,
-        name: product.name,
-        price: product.price,
-        imageUrl: product.images?.[0] || '/placeholder-sneaker.webp',
-        brandName: product.brand?.name || 'Marca'
-      })
-      // Keep only last 8
-      if (parsed.length > 8) parsed = parsed.slice(0, 8)
-      localStorage.setItem('recentlyViewed', JSON.stringify(parsed))
     } catch (e) {}
   }, [product])
   
@@ -349,8 +328,6 @@ export function ProductClientView({ product }: ProductClientViewProps) {
         needsSize={!!(sizesForGender && sizesForGender.length > 0 && !selectedSizeId)}
         needsGender={!!(availableGenders.length > 0 && !selectedGender)}
       />
-
-      <RecentlyViewed currentProductId={product.id} />
     </div>
   )
 }

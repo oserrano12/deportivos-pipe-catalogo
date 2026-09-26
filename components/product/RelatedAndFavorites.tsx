@@ -66,7 +66,7 @@ export function RelatedAndFavorites({
     let items: string[] = []
     if (stored) {
       try {
-        items = JSON.parse(stored)
+        const parsed = JSON.parse(stored); if (Array.isArray(parsed)) { items = parsed.map((item) => typeof item === 'string' ? item : item?.id).filter(Boolean); }
         setRecentlyViewedIds(items.filter((id: string) => id !== currentProductId))
       } catch (e) {}
     }
