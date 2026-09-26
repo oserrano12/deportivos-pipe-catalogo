@@ -19,7 +19,40 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem('pipe_favorites')
     if (saved) {
       try {
-        setFavoriteIds(JSON.parse(saved))
+        const parsedIds = JSON.parse(saved)
+        if (Array.isArray(parsedIds) && parsedIds.length > 0) {
+          
+          const verifyFavorites = async () => {
+            try {
+              const { supabasePublic } = await import('@/lib/supabase/public');
+              const { data, error } = await supabasePublic.from('products').select('id, is_available').in('id', parsedIds);
+              
+              if (error) throw error;
+
+              if (data) {
+                const validIds = data.filter(p => p.is_available).map(p => p.id);
+                
+                if (validIds.length < parsedIds.length) {
+                  import('sonner').then(({ toast }) => {
+                    toast.error("Algunas zapatillas de tus favoritos ya no están disponibles y fueron removidas automáticamente.");
+                  });
+                }
+                
+                setFavoriteIds(validIds);
+              }
+            } catch (err) {
+              console.error('Failed to verify favorites', err);
+              setFavoriteIds(parsedIds); // Fallback if network fails
+            } finally {
+              setIsLoaded(true);
+            }
+          };
+
+          verifyFavorites();
+          return; // Skip immediate setIsLoaded
+        } else {
+          setFavoriteIds(parsedIds);
+        }
       } catch (e) {}
     }
     setIsLoaded(true)

@@ -39,19 +39,35 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             const { supabasePublic } = await import('@/lib/supabase/public');
             const ids = parsed.map((i: any) => i.product.id);
             if (ids.length === 0) return;
-            const { data } = await supabasePublic.from('products').select('*').in('id', ids);
+            const { data, error } = await supabasePublic.from('products').select('*').in('id', ids);
             
-            if (data && data.length > 0) {
-              setItems(current => current.map(item => {
+            if (error) throw error;
+
+            if (data) {
+              let removedSome = false;
+              const validItems = parsed.map((item: any) => {
                 const latestProduct = data.find(p => p.id === item.product.id);
-                if (latestProduct) {
+                // Si existe y est disponible, lo mantenemos actualizado
+                if (latestProduct && latestProduct.is_available) {
                   return { ...item, product: { ...item.product, ...latestProduct } };
                 }
-                return item;
-              }));
+                // Si no existe o no est disponible, lo eliminamos
+                removedSome = true;
+                return null;
+              }).filter(Boolean);
+
+              if (removedSome) {
+                import('sonner').then(({ toast }) => {
+                  toast.error("Algunos productos de tu carrito ya no están disponibles en el catálogo y fueron eliminados automáticamente.");
+                });
+              }
+
+              setItems(validItems);
             }
           } catch (err) {
             console.error('Failed to refresh cart stock', err);
+            // Si hay error de red, mantenemos el carrito como estaba
+            setItems(parsed);
           }
         };
         fetchLatest();
