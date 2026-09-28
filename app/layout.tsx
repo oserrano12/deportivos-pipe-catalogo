@@ -41,11 +41,11 @@ export const metadata: Metadata = {
   }
 }
 
-import { GoogleTagManager } from '@next/third-parties/google'
+import { Analytics as ConsentAnalytics } from '@/components/Analytics'
 import { Analytics } from '@vercel/analytics/next'
 import { CartProvider } from "@/components/context/CartContext"
 import NextTopLoader from 'nextjs-toploader'
-import FacebookPixel from '@/components/FacebookPixel'
+
 
 export default function RootLayout({
   children,
@@ -76,12 +76,13 @@ export default function RootLayout({
             <BottomNav />
             <ScrollToTop />
             <Toaster position="top-center" richColors />
+            <CookieConsent />
           </ThemeProvider>
           </FavoritesProvider>
         </CartProvider>
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || 'GTM-TGKPL943'} />
+        
         <Suspense fallback={null}>
-          <FacebookPixel />
+          <ConsentAnalytics />
         </Suspense>
         <Analytics />
       </body>

@@ -52,6 +52,11 @@ export function LoginForm() {
               </Button>
             </form>
           </CardContent>
+          <div className="text-center px-6 pb-6">
+            <p className="text-xs text-muted-foreground">
+              Al continuar, aceptas nuestros <Link href="/terminos" className="underline hover:text-primary">Términos</Link> y <Link href="/politica-privacidad" className="underline hover:text-primary">Política de Privacidad</Link>.
+            </p>
+          </div>
         </Card>
       </div>
     </div>

@@ -30,9 +30,25 @@ export function Footer() {
             </nav>
           </div>
 
+          {/* Legal Links */}
+          <div className="space-y-4 md:mx-auto">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Legales</h3>
+            <nav className="flex flex-col gap-3 text-sm font-medium text-muted-foreground">
+              <Link href="/terminos" className="hover:text-primary transition-colors w-fit">Términos y Condiciones</Link>
+              <Link href="/politica-privacidad" className="hover:text-primary transition-colors w-fit">Política de Privacidad</Link>
+              <Link href="/politica-cookies" className="hover:text-primary transition-colors w-fit">Política de Cookies</Link>
+              <Link href="/politica-reembolsos" className="hover:text-primary transition-colors w-fit">Devoluciones</Link>
+            </nav>
+          </div>
+
           {/* Contact & Social */}
           <div className="space-y-4 md:ml-auto">
             <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Contáctanos</h3>
+            <div className="text-sm text-muted-foreground font-medium mb-4 space-y-1">
+              <p>📍 Colombia</p>
+              <p>📧 contacto@deportivospipe.com</p>
+              <p>📱 +{whatsappPhone}</p>
+            </div>
             <div className="flex gap-4">
               <a 
                 href={`https://instagram.com/${instagramUser}`}
