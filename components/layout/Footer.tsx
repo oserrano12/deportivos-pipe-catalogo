@@ -37,7 +37,7 @@ export function Footer() {
               <Link href="/terminos" className="hover:text-primary transition-colors w-fit">Términos y Condiciones</Link>
               <Link href="/politica-privacidad" className="hover:text-primary transition-colors w-fit">Política de Privacidad</Link>
               <Link href="/politica-cookies" className="hover:text-primary transition-colors w-fit">Política de Cookies</Link>
-              <Link href="/politica-reembolsos" className="hover:text-primary transition-colors w-fit">Devoluciones</Link>
+              <Link href="/politica-reembolsos" className="hover:text-primary transition-colors w-fit">Cambios y Garantías</Link>
             </nav>
           </div>
 
