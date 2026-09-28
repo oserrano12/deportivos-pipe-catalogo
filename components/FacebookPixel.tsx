@@ -8,6 +8,7 @@ const FB_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '29573640865570973'
 
 export const pageview = () => {
   if (typeof window !== 'undefined' && (window as any).fbq) {
+    if (localStorage.getItem('cookieConsent') !== 'accepted') return;
     (window as any).fbq('track', 'PageView')
   }
 }
@@ -15,6 +16,7 @@ export const pageview = () => {
 // Track specific events (e.g., ViewContent, AddToCart, Purchase)
 export const trackEvent = (name: string, options = {}) => {
   if (typeof window !== 'undefined' && (window as any).fbq) {
+    if (localStorage.getItem('cookieConsent') !== 'accepted') return;
     (window as any).fbq('track', name, options)
   }
 }
@@ -23,11 +25,22 @@ export default function FacebookPixel() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [loaded, setLoaded] = useState(false)
+  const [hasConsent, setHasConsent] = useState(false)
 
   useEffect(() => {
-    if (!loaded) return
+    // Check consent on mount
+    const consent = localStorage.getItem('cookieConsent')
+    if (consent === 'accepted') {
+      setHasConsent(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!loaded || !hasConsent) return
     pageview()
-  }, [pathname, searchParams, loaded])
+  }, [pathname, searchParams, loaded, hasConsent])
+
+  if (!hasConsent) return null
 
   return (
     <Script

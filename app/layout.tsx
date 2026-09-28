@@ -8,6 +8,7 @@ import { ScrollToTop } from "@/components/ui/ScrollToTop"
 import { FavoritesProvider } from "@/components/context/FavoritesContext"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { Toaster } from "@/components/ui/sonner"
+import { CookieConsent } from "@/components/layout/CookieConsent"
 import "./globals.css"
 
 const geistSans = Geist({
