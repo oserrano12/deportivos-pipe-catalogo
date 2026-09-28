@@ -46,7 +46,7 @@ export function Footer() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">Contáctanos</h3>
             <div className="text-sm text-muted-foreground font-medium mb-4 space-y-1">
               <p>📍 Colombia</p>
-              <p>📧 contacto@deportivospipe.com</p>
+              <p>📧 deportivospipe24@gmail.com</p>
               <p>📱 +{whatsappPhone}</p>
             </div>
             <div className="flex gap-4">
