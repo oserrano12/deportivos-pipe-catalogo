@@ -9,6 +9,7 @@ import { FavoritesProvider } from "@/components/context/FavoritesContext"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { Toaster } from "@/components/ui/sonner"
 import { CookieConsent } from "@/components/layout/CookieConsent"
+import { GlobalWhatsAppButton } from "@/components/layout/GlobalWhatsAppButton"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -77,6 +78,7 @@ export default function RootLayout({
             <ScrollToTop />
             <Toaster position="top-center" richColors />
             <CookieConsent />
+            <GlobalWhatsAppButton />
           </ThemeProvider>
           </FavoritesProvider>
         </CartProvider>
