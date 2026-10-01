@@ -2,10 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import { ArrowUp } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 export function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false)
+  const pathname = usePathname()
+
+  // Determine if WhatsApp button is visible on this route
+  const hasWhatsAppBtn = !(pathname.startsWith('/producto/') || pathname.startsWith('/admin'))
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -18,7 +23,6 @@ export function ScrollToTop() {
     }
 
     window.addEventListener('scroll', toggleVisibility)
-
     return () => window.removeEventListener('scroll', toggleVisibility)
   }, [])
 
@@ -34,7 +38,8 @@ export function ScrollToTop() {
       type="button"
       onClick={scrollToTop}
       className={cn(
-        "fixed bottom-24 md:bottom-8 right-4 md:right-8 z-50 p-3 rounded-full bg-primary text-primary-foreground shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+        "fixed right-4 md:right-8 z-40 p-3 rounded-full bg-primary text-primary-foreground shadow-lg transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+        hasWhatsAppBtn ? "bottom-[210px] md:bottom-[140px]" : "bottom-24 md:bottom-8",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
       )}
       aria-label="Volver arriba"
