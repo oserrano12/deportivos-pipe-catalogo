@@ -95,7 +95,7 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 1200;
+          const MAX_WIDTH = 800;
           let width = img.width;
           let height = img.height;
           if (width > MAX_WIDTH) {
@@ -111,7 +111,7 @@ export function ProductForm({ product, categories, brands }: { product?: any, ca
             if (!blob) return reject(new Error('toBlob failed'));
             const newName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
             resolve(new File([blob], newName, { type: 'image/webp' }));
-          }, 'image/webp', 0.85); // 85% quality sweetspot
+          }, 'image/webp', 0.80); // 80% quality sweetspot
         };
         img.onerror = reject;
         img.src = e.target?.result as string;

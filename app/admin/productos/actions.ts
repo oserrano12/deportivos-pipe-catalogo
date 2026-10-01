@@ -47,7 +47,7 @@ export async function saveProduct(formData: FormData) {
           
           const { error: uploadError } = await supabase.storage
             .from('product-images')
-            .upload(fileName, file)
+            .upload(fileName, file, { cacheControl: '31536000' })
 
           if (!uploadError) {
             const { data: { publicUrl } } = supabase.storage
@@ -73,7 +73,7 @@ export async function saveProduct(formData: FormData) {
         
         const { error: uploadError } = await supabase.storage
           .from('product-images')
-          .upload(fileName, file)
+          .upload(fileName, file, { cacheControl: '31536000' })
 
         if (!uploadError) {
           const { data: { publicUrl } } = supabase.storage
