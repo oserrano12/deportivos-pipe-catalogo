@@ -185,11 +185,6 @@ export function ProductClientView({ product }: ProductClientViewProps) {
               <p className="text-4xl md:text-5xl font-black italic tracking-tighter text-primary">
                 {product.price > 0 ? `$${product.price.toLocaleString('es-CO')}` : 'Consultar precio'}
               </p>
-              {product.price > 0 && (
-                <span className="text-sm md:text-base font-black uppercase tracking-widest bg-primary text-primary-foreground px-3 py-1 shadow-[4px_4px_0_0_oklch(var(--color-foreground))]">
-                  + ENVÍO
-                </span>
-              )}
             </div>
           </div>
 
