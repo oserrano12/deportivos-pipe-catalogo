@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/ThemeProvider"
 import { Toaster } from "@/components/ui/sonner"
 import { CookieConsent } from "@/components/layout/CookieConsent"
 import { GlobalWhatsAppButton } from "@/components/layout/GlobalWhatsAppButton"
+import { Marquee } from "@/components/ui/Marquee"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -69,6 +70,7 @@ export default function RootLayout({
             enableSystem={false}
             disableTransitionOnChange
           >
+            <Marquee />
             <MobileHeader />
             <main className="flex-1 flex flex-col">
               {children}
