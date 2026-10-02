@@ -103,11 +103,16 @@ export function ProductClientView({ product }: ProductClientViewProps) {
   return (
     <div className="pb-32 md:pb-16 container max-w-7xl mx-auto px-4 md:py-8 pt-4 relative">
       
-      {/* MASSIVE WATERMARK BACKGROUND */}
-      <div className="fixed inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-[-1]" aria-hidden="true">
-        <span className="text-[20vw] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6">
-          {product.brand?.name?.toUpperCase() || 'KINETIC'}
-        </span>
+      {/* MONOGRAM WATERMARK BACKGROUND */}
+      <div className="fixed inset-[-50%] md:inset-[-20%] flex items-center justify-center overflow-hidden pointer-events-none select-none z-[-1] opacity-[0.04] dark:opacity-[0.1] -rotate-[10deg] transform-gpu" aria-hidden="true">
+        <div className="flex flex-wrap gap-x-12 gap-y-8 w-[200vw] justify-center items-center">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <span key={i} className="text-4xl md:text-6xl font-black italic uppercase tracking-[0.2em] whitespace-nowrap">
+              {product.brand?.name?.toUpperCase() || 'KINETIC'}
+              <span className="mx-12 text-primary opacity-50">✦</span>
+            </span>
+          ))}
+        </div>
       </div>
 
       <div className="sticky top-[4.5rem] md:top-24 z-30 mb-8 -mx-2 px-2 py-2 pointer-events-none">

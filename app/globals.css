@@ -129,8 +129,8 @@
 }
 
 .dark {
-  /* Kinetic Dark Theme: Pure black */
-  --background: oklch(0.02 0 0); /* Almost pure black */
+  /* Kinetic Dark Theme: Deep Blue */
+  --background: #010B1C; /* Very dark brand blue instead of black */
   --foreground: oklch(0.98 0 0); /* Crisp white */
   
   --card: oklch(0.08 0 0);

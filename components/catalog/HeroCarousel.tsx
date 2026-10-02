@@ -52,11 +52,16 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
               <CarouselItem key={product.id}>
                 <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-6rem)] md:min-h-[85vh] overflow-hidden group bg-background border-b border-border py-4 md:py-8 px-4 md:p-12 lg:p-24 gap-6 md:gap-8">
                   
-                  {/* MASSIVE BACKGROUND TEXT */}
-                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
-                    <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-transform duration-1000 transform-gpu will-change-transform">
-                      {product.brand?.name?.toUpperCase() || 'KINETIC'}
-                    </span>
+                  {/* MONOGRAM BACKGROUND TEXT */}
+                  <div className="absolute inset-[-50%] md:inset-[-20%] flex items-center justify-center overflow-hidden pointer-events-none select-none z-0 opacity-[0.04] dark:opacity-[0.1] -rotate-[10deg] transition-transform duration-1000 group-hover:scale-105 transform-gpu" aria-hidden="true">
+                    <div className="flex flex-wrap gap-x-12 gap-y-8 w-[200vw] justify-center items-center">
+                      {Array.from({ length: 40 }).map((_, i) => (
+                        <span key={i} className="text-4xl md:text-6xl font-black italic uppercase tracking-[0.2em] whitespace-nowrap">
+                          {product.brand?.name?.toUpperCase() || 'KINETIC'}
+                          <span className="mx-12 text-primary opacity-50">✦</span>
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
                   {/* KINETIC LIGHT STREAK - Optimized with radial gradient instead of heavy GPU blur */}
