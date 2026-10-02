@@ -54,11 +54,11 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   
                   {/* MONOGRAM BACKGROUND TEXT */}
                   <div className="absolute inset-[-50%] md:inset-[-20%] flex items-center justify-center overflow-hidden pointer-events-none select-none z-0 opacity-[0.04] dark:opacity-[0.1] -rotate-[10deg] transition-transform duration-1000 group-hover:scale-105 transform-gpu" aria-hidden="true">
-                    <div className="flex flex-wrap gap-x-12 gap-y-8 w-[200vw] justify-center items-center">
-                      {Array.from({ length: 40 }).map((_, i) => (
-                        <span key={i} className="text-4xl md:text-6xl font-black italic uppercase tracking-[0.2em] whitespace-nowrap">
+                    <div className="flex flex-wrap gap-x-24 gap-y-16 w-[200vw] justify-center items-center">
+                      {Array.from({ length: 24 }).map((_, i) => (
+                        <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap">
                           {product.brand?.name?.toUpperCase() || 'KINETIC'}
-                          <span className="mx-12 text-primary opacity-50">✦</span>
+                          <span className="mx-24 text-primary opacity-50">✦</span>
                         </span>
                       ))}
                     </div>
