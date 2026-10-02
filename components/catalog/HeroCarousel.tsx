@@ -58,7 +58,6 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                       {Array.from({ length: 24 }).map((_, i) => (
                         <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap transition-colors duration-1000">
                           {product.brand?.name?.toUpperCase() || 'KINETIC'}
-                          <span className="mx-24 text-primary opacity-50 group-hover:opacity-100 group-hover:animate-pulse">✦</span>
                         </span>
                       ))}
                     </div>

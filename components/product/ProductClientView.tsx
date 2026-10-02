@@ -109,7 +109,6 @@ export function ProductClientView({ product }: ProductClientViewProps) {
           {Array.from({ length: 24 }).map((_, i) => (
             <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap">
               {product.brand?.name?.toUpperCase() || 'KINETIC'}
-              <span className="mx-24 text-primary opacity-50">✦</span>
             </span>
           ))}
         </div>
