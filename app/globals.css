@@ -96,8 +96,8 @@
 }
 
 :root {
-  /* Kinetic Light Theme: Premium Off-White */
-  --background: #F3F4F6; /* Softer, slightly cool off-white */
+  /* Kinetic Light Theme: Muted Gray */
+  --background: #E4E7EB; /* A more muted, dimmer gray */
   --foreground: oklch(0.05 0 0); /* Almost pure black */
   
   --card: #FFFFFF; /* Pure white for cards to create subtle contrast with background */
