@@ -29,7 +29,7 @@ export function CookieConsent() {
   if (!showConsent) return null
 
   return (
-    <div className="fixed bottom-16 md:bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-[400px] bg-background border shadow-2xl p-6 rounded-2xl z-50 animate-in slide-in-from-bottom-5">
+    <div className="fixed bottom-20 md:bottom-6 left-4 right-4 md:right-auto md:w-[400px] bg-background border shadow-2xl p-6 rounded-2xl z-[100] animate-in slide-in-from-bottom-5">
       <div className="space-y-4">
         <h3 className="font-black italic uppercase tracking-tighter text-xl">Uso de Cookies</h3>
         <p className="text-sm text-muted-foreground font-medium">
