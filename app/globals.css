@@ -96,11 +96,11 @@
 }
 
 :root {
-  /* Kinetic Light Theme: Stark contrast */
-  --background: oklch(0.98 0 0); /* Very light gray */
+  /* Kinetic Light Theme: Premium Off-White */
+  --background: #F3F4F6; /* Softer, slightly cool off-white */
   --foreground: oklch(0.05 0 0); /* Almost pure black */
   
-  --card: oklch(1 0 0);
+  --card: #FFFFFF; /* Pure white for cards to create subtle contrast with background */
   --card-foreground: oklch(0.05 0 0);
   
   --popover: oklch(1 0 0);
