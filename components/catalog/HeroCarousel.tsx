@@ -32,7 +32,18 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
   ]
 
   return (
-    <div className="w-full relative bg-secondary/20 border-b group/carousel">
+    <div className="w-full relative bg-background border-b group/carousel overflow-hidden">
+      {/* STATIC MONOGRAM BACKGROUND TEXT */}
+      <div className="absolute inset-[-50%] md:inset-[-20%] flex items-center justify-center pointer-events-none select-none z-0 opacity-[0.04] dark:opacity-[0.1] group-hover/carousel:opacity-[0.15] dark:group-hover/carousel:opacity-[0.3] group-hover/carousel:text-primary -rotate-[10deg] transition-all duration-1000 group-hover/carousel:scale-105 transform-gpu" aria-hidden="true">
+        <div className="flex flex-wrap gap-x-24 gap-y-16 w-[200vw] justify-center items-center">
+          {Array.from({ length: 24 }).map((_, i) => (
+            <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap transition-colors duration-1000">
+              {featuredProducts[0]?.brand?.name?.toUpperCase() || 'KINETIC'}
+            </span>
+          ))}
+        </div>
+      </div>
+
       <Carousel
         plugins={[plugin.current]}
         className="w-full"
@@ -50,19 +61,8 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-6rem)] md:min-h-[85vh] overflow-hidden group bg-background border-b border-border py-4 md:py-8 px-4 md:p-12 lg:p-24 gap-6 md:gap-8">
+                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-6rem)] md:min-h-[85vh] overflow-hidden group bg-transparent py-4 md:py-8 px-4 md:p-12 lg:p-24 gap-6 md:gap-8">
                   
-                  {/* MONOGRAM BACKGROUND TEXT */}
-                  <div className="absolute inset-[-50%] md:inset-[-20%] flex items-center justify-center overflow-hidden pointer-events-none select-none z-0 opacity-[0.04] dark:opacity-[0.1] group-hover:opacity-[0.25] dark:group-hover:opacity-[0.5] group-hover:text-primary group-hover:drop-shadow-[0_0_25px_rgba(0,127,255,1)] -rotate-[10deg] transition-all duration-1000 group-hover:scale-105 transform-gpu" aria-hidden="true">
-                    <div className="flex flex-wrap gap-x-24 gap-y-16 w-[200vw] justify-center items-center">
-                      {Array.from({ length: 24 }).map((_, i) => (
-                        <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap transition-colors duration-1000">
-                          {product.brand?.name?.toUpperCase() || 'KINETIC'}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
                   {/* KINETIC LIGHT STREAK - Optimized with radial gradient instead of heavy GPU blur */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-64 bg-[radial-gradient(ellipse_at_center,_oklch(var(--color-primary)/0.4)_0%,_transparent_60%)] -rotate-12 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 transform-gpu" />
 
