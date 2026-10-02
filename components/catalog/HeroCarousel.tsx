@@ -19,16 +19,6 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false })
   )
-  const [api, setApi] = React.useState<CarouselApi>()
-  const [current, setCurrent] = React.useState(0)
-
-  React.useEffect(() => {
-    if (!api) return
-    setCurrent(api.selectedScrollSnap())
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap())
-    })
-  }, [api])
 
   if (!featuredProducts || featuredProducts.length === 0) {
     return null
@@ -41,23 +31,9 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
     { line1: "CALIDAD", line2: "PREMIUM", line3: "GARANTIZADA." }
   ]
 
-  const activeBrandName = featuredProducts[current]?.brand?.name?.toUpperCase() || 'KINETIC'
-
   return (
-    <div className="w-full relative bg-background border-b group/carousel overflow-hidden">
-      {/* DYNAMIC MONOGRAM BACKGROUND TEXT */}
-      <div className="absolute inset-[-50%] md:inset-[-20%] flex items-center justify-center pointer-events-none select-none z-0 opacity-[0.04] dark:opacity-[0.1] group-hover/carousel:opacity-[0.15] dark:group-hover/carousel:opacity-[0.3] group-hover/carousel:text-primary -rotate-[10deg] transition-all duration-1000 group-hover/carousel:scale-105 transform-gpu" aria-hidden="true">
-        <div className="flex flex-wrap gap-x-24 gap-y-16 w-[200vw] justify-center items-center">
-          {Array.from({ length: 24 }).map((_, i) => (
-            <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap transition-colors duration-1000">
-              {activeBrandName}
-            </span>
-          ))}
-        </div>
-      </div>
-
+    <div className="w-full relative bg-secondary/20 border-b group/carousel">
       <Carousel
-        setApi={setApi}
         plugins={[plugin.current]}
         className="w-full"
         opts={{
@@ -74,8 +50,15 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
 
             return (
               <CarouselItem key={product.id}>
-                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-6rem)] md:min-h-[85vh] overflow-hidden group bg-transparent py-4 md:py-8 px-4 md:p-12 lg:p-24 gap-6 md:gap-8">
+                <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-6rem)] md:min-h-[85vh] overflow-hidden group bg-background border-b border-border py-4 md:py-8 px-4 md:p-12 lg:p-24 gap-6 md:gap-8">
                   
+                  {/* MASSIVE BACKGROUND TEXT */}
+                  <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
+                    <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-transform duration-1000 transform-gpu will-change-transform">
+                      {product.brand?.name?.toUpperCase() || 'KINETIC'}
+                    </span>
+                  </div>
+
                   {/* KINETIC LIGHT STREAK - Optimized with radial gradient instead of heavy GPU blur */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-64 bg-[radial-gradient(ellipse_at_center,_oklch(var(--color-primary)/0.4)_0%,_transparent_60%)] -rotate-12 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 transform-gpu" />
 
