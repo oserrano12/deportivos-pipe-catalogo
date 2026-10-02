@@ -53,12 +53,12 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                 <Link href={`/producto/${product.slug}`} className="relative flex flex-col md:flex-row items-center justify-center md:justify-between w-full min-h-[calc(100vh-6rem)] md:min-h-[85vh] overflow-hidden group bg-background border-b border-border py-4 md:py-8 px-4 md:p-12 lg:p-24 gap-6 md:gap-8">
                   
                   {/* MONOGRAM BACKGROUND TEXT */}
-                  <div className="absolute inset-[-50%] md:inset-[-20%] flex items-center justify-center overflow-hidden pointer-events-none select-none z-0 opacity-[0.04] dark:opacity-[0.1] -rotate-[10deg] transition-transform duration-1000 group-hover:scale-105 transform-gpu" aria-hidden="true">
+                  <div className="absolute inset-[-50%] md:inset-[-20%] flex items-center justify-center overflow-hidden pointer-events-none select-none z-0 opacity-[0.04] dark:opacity-[0.1] group-hover:opacity-[0.25] dark:group-hover:opacity-[0.5] group-hover:text-primary group-hover:drop-shadow-[0_0_25px_rgba(0,127,255,1)] -rotate-[10deg] transition-all duration-1000 group-hover:scale-105 transform-gpu" aria-hidden="true">
                     <div className="flex flex-wrap gap-x-24 gap-y-16 w-[200vw] justify-center items-center">
                       {Array.from({ length: 24 }).map((_, i) => (
-                        <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap">
+                        <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap transition-colors duration-1000">
                           {product.brand?.name?.toUpperCase() || 'KINETIC'}
-                          <span className="mx-24 text-primary opacity-50">✦</span>
+                          <span className="mx-24 text-primary opacity-50 group-hover:opacity-100 group-hover:animate-pulse">✦</span>
                         </span>
                       ))}
                     </div>
