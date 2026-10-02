@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { Heart } from 'lucide-react'
 import { useFavorites } from '@/components/context/FavoritesContext'
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 interface ProductCardProps {
   product: ProductWithRelations
@@ -37,8 +38,14 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const isPriority = index < 4
 
   return (
-    <div className="transition-transform duration-300 h-full">
-      <Link href={`/producto/${product.slug}`} className="group flex flex-col h-full bg-card rounded-2xl border border-border/50 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-1">
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, ease: "easeOut", delay: (index % 12) * 0.05 }}
+      className="transition-transform duration-300 h-full"
+    >
+      <Link href={`/producto/${product.slug}`} className="group flex flex-col h-full bg-card rounded-2xl border border-border/50 overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:hover:shadow-[0_8px_30px_rgba(0,127,255,0.15)] hover:border-primary/50 transition-all duration-500 hover:-translate-y-2">
         <div className="relative w-full aspect-square overflow-hidden bg-secondary/10">
           <Image
             src={imageUrl}
@@ -85,6 +92,6 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           </h2>
         </div>
       </Link>
-    </div>
+    </motion.div>
   )
 }

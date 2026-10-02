@@ -10,6 +10,8 @@ import { SortSelect } from '@/components/catalog/SortSelect'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getBrands, getProducts, getCategories } from '@/lib/data/products'
 
+import { Marquee } from '@/components/ui/Marquee'
+
 export const revalidate = 60 // 1 minute ISR caching for extreme performance
 
 export default async function Home({
@@ -86,6 +88,7 @@ export default async function Home({
     <div className="w-full">
       {/* Hero Section */}
       <HeroCarousel featuredProducts={featuredProducts} />
+      <Marquee />
 
       {/* Brand Marquee Infinite Scroll */}
       <BrandMarquee />

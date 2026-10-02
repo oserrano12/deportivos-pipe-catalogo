@@ -3,6 +3,7 @@
 import React, { useState, MouseEvent, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 interface ImageMagnifierProps {
   src: string
@@ -60,6 +61,10 @@ export function ImageMagnifier({ src, alt, priority, fetchPriority }: ImageMagni
   const bgPosX = bounds ? -(x - lSize / 2) * zoomRatio : 0
   const bgPosY = bounds ? -(y - lSize / 2) * zoomRatio : 0
 
+  // Parallax calculations
+  const rotateX = showMagnifier && bounds ? ((y / bounds.height) - 0.5) * -15 : 0
+  const rotateY = showMagnifier && bounds ? ((x / bounds.width) - 0.5) * 15 : 0
+
   return (
     <div 
       ref={containerRef}
@@ -69,17 +74,24 @@ export function ImageMagnifier({ src, alt, priority, fetchPriority }: ImageMagni
       }}
       onMouseLeave={() => setShowMagnifier(false)}
       onMouseMove={handleMouseMove}
+      style={{ perspective: 1000 }}
     >
-      <Image
-        src={src}
-        alt={alt}
-        width={1200}
-        height={1200}
-        priority={priority}
-        fetchPriority={fetchPriority}
-        sizes="(max-width: 640px) 100vw, 50vw"
-        className="w-full h-auto object-cover"
-      />
+      <motion.div
+        animate={{ rotateX, rotateY, scale: showMagnifier ? 1.02 : 1 }}
+        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        className="w-full h-full"
+      >
+        <Image
+          src={src}
+          alt={alt}
+          width={1200}
+          height={1200}
+          priority={priority}
+          fetchPriority={fetchPriority}
+          sizes="(max-width: 640px) 100vw, 50vw"
+          className="w-full h-auto object-cover"
+        />
+      </motion.div>
 
       {/* Lens Overlay */}
       {showMagnifier && bounds && (
