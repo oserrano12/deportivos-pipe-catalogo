@@ -19,6 +19,16 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
   const plugin = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false })
   )
+  const [api, setApi] = React.useState<CarouselApi>()
+  const [current, setCurrent] = React.useState(0)
+
+  React.useEffect(() => {
+    if (!api) return
+    setCurrent(api.selectedScrollSnap())
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap())
+    })
+  }, [api])
 
   if (!featuredProducts || featuredProducts.length === 0) {
     return null
@@ -31,20 +41,23 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
     { line1: "CALIDAD", line2: "PREMIUM", line3: "GARANTIZADA." }
   ]
 
+  const activeBrandName = featuredProducts[current]?.brand?.name?.toUpperCase() || 'KINETIC'
+
   return (
     <div className="w-full relative bg-background border-b group/carousel overflow-hidden">
-      {/* STATIC MONOGRAM BACKGROUND TEXT */}
+      {/* DYNAMIC MONOGRAM BACKGROUND TEXT */}
       <div className="absolute inset-[-50%] md:inset-[-20%] flex items-center justify-center pointer-events-none select-none z-0 opacity-[0.04] dark:opacity-[0.1] group-hover/carousel:opacity-[0.15] dark:group-hover/carousel:opacity-[0.3] group-hover/carousel:text-primary -rotate-[10deg] transition-all duration-1000 group-hover/carousel:scale-105 transform-gpu" aria-hidden="true">
         <div className="flex flex-wrap gap-x-24 gap-y-16 w-[200vw] justify-center items-center">
           {Array.from({ length: 24 }).map((_, i) => (
             <span key={i} className="text-6xl md:text-[8rem] font-black italic uppercase tracking-[0.2em] whitespace-nowrap transition-colors duration-1000">
-              {featuredProducts[0]?.brand?.name?.toUpperCase() || 'KINETIC'}
+              {activeBrandName}
             </span>
           ))}
         </div>
       </div>
 
       <Carousel
+        setApi={setApi}
         plugins={[plugin.current]}
         className="w-full"
         opts={{
