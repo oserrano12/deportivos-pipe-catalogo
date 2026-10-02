@@ -54,7 +54,7 @@ export function HeroCarousel({ featuredProducts }: { featuredProducts: ProductWi
                   
                   {/* MASSIVE BACKGROUND TEXT */}
                   <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0" aria-hidden="true">
-                    <span className="text-[15rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] group-hover:text-primary/[0.4] dark:group-hover:text-primary/[0.6] group-hover:drop-shadow-[0_0_35px_rgba(0,127,255,0.8)] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-all duration-1000 transform-gpu will-change-transform">
+                    <span className="text-[7rem] sm:text-[10rem] md:text-[25rem] font-black italic tracking-tighter text-foreground/[0.04] dark:text-foreground/[0.15] group-hover:text-primary/[0.4] dark:group-hover:text-primary/[0.6] group-hover:drop-shadow-[0_0_35px_rgba(0,127,255,0.8)] whitespace-nowrap -rotate-6 scale-125 md:scale-110 group-hover:scale-105 transition-all duration-1000 transform-gpu will-change-transform">
                       {product.brand?.name?.toUpperCase() || 'KINETIC'}
                     </span>
                   </div>
