@@ -253,53 +253,7 @@ export function ProductClientView({ product }: ProductClientViewProps) {
           )}
 
           <div className="space-y-8">
-            {availableGenders.length > 0 && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h2 className="font-black text-sm uppercase tracking-widest">Género / Tipo</h2>
-                  {!hasRopa && <SizeGuideModal />}
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {availableGenders.map(gender => (
-                    <button
-                      key={gender}
-                      onClick={() => {
-                        setSelectedGender(gender as any)
-                        setSelectedSizeId(null)
-                      }}
-                      className={`flex-1 h-14 border-2 text-sm font-black uppercase tracking-widest transition-all shadow-[4px_4px_0_0_oklch(var(--color-border))] hover:translate-x-1 hover:translate-y-1 hover:shadow-none ${
-                        selectedGender === gender
-                          ? 'border-primary bg-primary text-primary-foreground shadow-[4px_4px_0_0_oklch(var(--color-primary))]'
-                          : 'border-border bg-secondary/50 hover:bg-foreground hover:border-foreground hover:text-background'
-                      }`}
-                    >
-                      {gender}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {selectedGender && (
-              <div className="space-y-4">
-                {!hasRopa && (
-                  <div className="flex gap-3 p-4 bg-orange-500/10 border-l-4 border-orange-500 rounded-r-xl text-orange-600 dark:text-orange-400">
-                    <div className="mt-0.5 shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-                    </div>
-                    <p className="text-sm font-bold leading-tight">
-                      Atención: Nuestras tallas están en <span className="font-black uppercase underline decoration-2 underline-offset-2">formato EUR (Europeo)</span>. Por favor revisa la <span className="font-black uppercase">guía de tallas</span> (US, CM, COL) para asegurar tu talla ideal.
-                    </p>
-                  </div>
-                )}
-                <SizeSelector 
-                  sizes={sizesForGender || []} 
-                  selectedSize={selectedSizeId} 
-                  onSizeChange={setSelectedSizeId} 
-                />
-              </div>
-            )}
-            
+            {/* Size and Gender selectors disabled temporarily */}
             <div className="pt-4">
               <TrustBadges />
             </div>
